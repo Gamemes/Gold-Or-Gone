@@ -10,6 +10,7 @@ public class PlayerControler : MonoBehaviour
     [Range(1, 100)]
     public float jumpSpeed = 5f;
     public float walkSpeed = 5f;
+    public float maxFallSpeed = 25f;
     Rigidbody2D rb;
     private void Awake()
     {
@@ -26,7 +27,6 @@ public class PlayerControler : MonoBehaviour
         {
             speed.y = jumpSpeed;
         }
-        rb.velocity = speed;
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
@@ -35,5 +35,8 @@ public class PlayerControler : MonoBehaviour
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
+        speed.y = Mathf.Max(speed.y, -maxFallSpeed);
+        rb.velocity = speed;
+        Debug.Log($"{rb.velocity}");
     }
 }
