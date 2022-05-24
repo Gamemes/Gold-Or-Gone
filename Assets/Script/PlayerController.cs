@@ -11,6 +11,10 @@ namespace Player
         public bool JumpingThisFrame { get; private set; }
         public bool LandingThisFrame { get; private set; }
         public bool Grounded { get; private set; }
+        public bool colDow { get; private set; }
+        public bool colUp { get; private set; }
+        public bool colRig { get; private set; }
+        public bool colLef { get; private set; }
         public float fallMultiplier = 4f;
         public float lowJumpMultiplier = 10f;
         [Range(1, 100)]
@@ -42,16 +46,22 @@ namespace Player
         }
         void updateState()
         {
+            LandingThisFrame = false;
+            JumpingThisFrame = false;
             bool t = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - playerSize.size.y / 2), Vector2.down, 0.05f, groundLayer).collider != null;
             if (t != Grounded)
             {
                 if (t)
                 {
+                    LandingThisFrame = true;
                     jumpTime = 0;
                 }
-                Debug.Log(t);
                 Grounded = t;
+                colDow = Grounded;
             }
+            colUp = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + playerSize.size.y / 2), Vector2.down, 0.05f, groundLayer).collider != null;
+            colLef = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - playerSize.size.x / 2), Vector2.down, 0.05f, groundLayer).collider != null;
+            colRig = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + playerSize.size.x / 2), Vector2.down, 0.05f, groundLayer).collider != null;
         }
         void move()
         {
@@ -60,10 +70,6 @@ namespace Player
         void jump()
         {
             speedThisFrame.y = rb.velocity.y;
-            if (Grounded)
-            {
-
-            }
             if (playerInput.Jump && jumpTime < maxJumpTime)
             {
                 Debug.Log(jumpTime);
