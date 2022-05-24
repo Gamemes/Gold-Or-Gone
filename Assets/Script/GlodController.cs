@@ -7,7 +7,7 @@ namespace Player
     public class GlodController : MonoBehaviour, IGoldController
     {
         public FrameInput playerInput { get; private set; }
-        public bool RotatingThisFrame { get; private set; }
+        public bool RotatingThisFrame { get; private set; } = false;
         public Transform player;
         public float rotateSpeed = 10f;
         private void Awake()
@@ -22,7 +22,6 @@ namespace Player
             if (playerInput.Rotate)
             {
                 StartCoroutine(rotate());
-                Debug.Log($"rotation to {transform.rotation}");
             }
         }
         IEnumerator rotate(float angle = 90f)
@@ -30,11 +29,13 @@ namespace Player
             float _ang = 0f;
             while (_ang < angle)
             {
+                RotatingThisFrame = true;
                 transform.RotateAround(player.position, Vector3.forward, rotateSpeed * Time.deltaTime);
                 _ang += rotateSpeed * Time.deltaTime;
                 yield return null;
             }
             transform.RotateAround(player.position, Vector3.forward, angle - _ang);
+            RotatingThisFrame = false;
         }
     }
 

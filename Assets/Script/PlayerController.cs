@@ -18,8 +18,11 @@ namespace Player
         public float walkSpeed = 11f;
         public float maxFallSpeed = 25f;
         public int maxJumpTime = 2;
+        public LayerMask groundLayer;
+        public Bounds playerSize;
         Rigidbody2D rb;
         Vector2 speedThisFrame = new Vector2();
+        int jumpTime = 0;
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -31,10 +34,24 @@ namespace Player
         {
             speedThisFrame.Set(0, 0);
             playerInput.update();
+            updateState();
             move();
             jump();
             rb.velocity = speedThisFrame;
             Velocity = speedThisFrame;
+        }
+        void updateState()
+        {
+            bool t = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - playerSize.size.y / 2), Vector2.down, 0.05f, groundLayer).collider != null;
+            if (t != Grounded)
+            {
+                if (t)
+                {
+                    jumpTime = 0;
+                }
+                Debug.Log(t);
+                Grounded = t;
+            }
         }
         void move()
         {
@@ -43,11 +60,19 @@ namespace Player
         void jump()
         {
             speedThisFrame.y = rb.velocity.y;
-            if (playerInput.Jump)
+            if (Grounded)
             {
+
+            }
+            if (playerInput.Jump && jumpTime < maxJumpTime)
+            {
+                Debug.Log(jumpTime);
+                Debug.Log("jump");
                 JumpingThisFrame = true;
                 speedThisFrame.y = jumpSpeed;
+                ++jumpTime;
             }
+
             // 下面两个增加手感
             if (rb.velocity.y < 0)
             {
@@ -59,6 +84,12 @@ namespace Player
             }
             // 下落最大速度
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -maxFallSpeed);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(transform.position, playerSize.size);
         }
     }
 
