@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 386723187}
   - component: {fileID: 386723188}
   - component: {fileID: 386723189}
+  - component: {fileID: 386723190}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -380,8 +381,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a4eaf34aa38e64eb27a4c67bb95382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallMultiplier: 4
-  lowJumpMultiplier: 10
+  fallMultiplier: 8
+  lowJumpMultiplier: 8
   jumpSpeed: 24
   walkSpeed: 11
   maxFallSpeed: 25
@@ -392,6 +393,19 @@ MonoBehaviour:
   playerSize:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.53, y: 0.92, z: 0}
+--- !u!114 &386723190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386723180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da2789bd5ff488d4899f98058b9bd626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBlood: 3
 --- !u!1 &393602961
 GameObject:
   m_ObjectHideFlags: 3
@@ -1082,7 +1096,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6006552, y: 1}
+    m_SensorSize: {x: 1.9460989, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
