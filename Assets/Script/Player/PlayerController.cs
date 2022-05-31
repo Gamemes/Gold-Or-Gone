@@ -27,6 +27,7 @@ namespace Player
         public Bounds playerSize;
         Rigidbody2D rb;
         Vector2 speedThisFrame = new Vector2();
+        Vector2 speedPreFrame = new Vector2();
         int jumpTime = 0;
         private void Awake()
         {
@@ -39,6 +40,8 @@ namespace Player
         }
         void Update()
         {
+            speedPreFrame = Quaternion.Euler(0, 0, -Manager.MyGameManager.instance.stageManager.gravityAngle) * rb.velocity;
+            Debug.Log(speedPreFrame);
             speedThisFrame.Set(0, 0);
             playerInput.update();
             updateState();
@@ -47,7 +50,7 @@ namespace Player
             climb();
             //rb.velocity = speedThisFrame;
 
-            rb.velocity = speedThisFrame;
+            rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
             Velocity = speedThisFrame;
         }
         void updateState()
@@ -75,7 +78,7 @@ namespace Player
         }
         void jump()
         {
-            speedThisFrame.y = rb.velocity.y;
+            speedThisFrame.y = speedPreFrame.y;
             if (playerInput.Jump && jumpTime < maxJumpTime)
             {
                 JumpingThisFrame = true;
@@ -86,11 +89,11 @@ namespace Player
             // 下面两个增加手感
             if (speedThisFrame.y < 0)
             {
-                speedThisFrame += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+                speedThisFrame += Vector2.up * -14 * (fallMultiplier - 1) * Time.deltaTime;
             }
             else if (speedThisFrame.y > 0 && !Input.GetButton("Jump"))
             {
-                speedThisFrame += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+                speedThisFrame += Vector2.up * -14 * (lowJumpMultiplier - 1) * Time.deltaTime;
             }
             // 下落最大速度
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -maxFallSpeed);

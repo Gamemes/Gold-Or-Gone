@@ -21,7 +21,8 @@ namespace Player
             playerInput.update();
             if (playerInput.Rotate)
             {
-                StartCoroutine(rotate());
+                Manager.MyGameManager.instance.stageManager.rotateGravity(90, 80);
+                //StartCoroutine(rotate());
             }
         }
         IEnumerator rotate(float angle = 90f)

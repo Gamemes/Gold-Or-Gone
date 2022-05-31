@@ -8,13 +8,13 @@ namespace Manager
     {
         // Start is called before the first frame update
         public StageManager stageManager { get; private set; } = null;
-        public static MyGameManager myGameManager = null;
+        public static MyGameManager instance = null;
         public Action onSceneChanged;
         private void Awake()
         {
-            if (myGameManager == null)
+            if (instance == null)
             {
-                myGameManager = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -29,7 +29,7 @@ namespace Manager
             this.stageManager = null;
             onSceneChanged?.Invoke();
         }
-        void setStageManager(StageManager stageManager)
+        public void setStageManager(StageManager stageManager)
         {
             this.stageManager = stageManager;
         }
