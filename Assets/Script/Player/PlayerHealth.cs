@@ -25,10 +25,11 @@ namespace Player
         private void Start()
         {
             blood = maxBlood;
+            this.gameObject.tag = "Player";
             damageAction += causeDamage;
         }
 
-        private void causeDamage(int hurtValue)
+        public void causeDamage(int hurtValue)
         {
             int preBlood = blood;
             blood -= hurtValue;
@@ -39,7 +40,8 @@ namespace Player
             }
             if (blood < preBlood)
             {
-                onPlayerHurt.Invoke(blood);
+                Debug.Log($"cause damage {hurtValue}, blood now : {blood}");
+                onPlayerHurt?.Invoke(blood);
             }
         }
 

@@ -46,7 +46,7 @@ namespace Player
             jump();
             climb();
             //rb.velocity = speedThisFrame;
-            Debug.Log($"vel : {rb.velocity} sed: {speedThisFrame}");
+
             rb.velocity = speedThisFrame;
             Velocity = speedThisFrame;
         }
