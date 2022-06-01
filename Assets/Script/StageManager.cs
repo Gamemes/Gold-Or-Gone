@@ -18,13 +18,16 @@ namespace Manager
             }
             set
             {
+                gravityDirection = value.normalized;
                 Physics2D.gravity = value;
             }
         }
         public float gravityAngle { get; private set; } = 0f;
+        public Vector2 gravityDirection { get; private set; }
         void Start()
         {
             MyGameManager.instance.setStageManager(this);
+            gravityDirection = gravity.normalized;
         }
 
         // Update is called once per frame
