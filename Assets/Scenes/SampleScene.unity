@@ -293,6 +293,7 @@ GameObject:
   - component: {fileID: 386723189}
   - component: {fileID: 386723190}
   - component: {fileID: 386723191}
+  - component: {fileID: 386723192}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -438,7 +439,7 @@ MonoBehaviour:
   playerSize:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.86, z: 0}
-  detectionLength: 0.13
+  detectionLength: 0.07
   detectionNums: 22
 --- !u!114 &386723190
 MonoBehaviour:
@@ -465,6 +466,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aafbd393cbb37a546ad0b03f084c9cf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &386723192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386723180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1c27683f5605d44a961dea996629de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraObj: {fileID: 1166837074}
 --- !u!1 &393602961
 GameObject:
   m_ObjectHideFlags: 3
@@ -1103,7 +1117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 386723184}
-  rotateSpeed: 60
+  rotateSpeed: 90
 --- !u!1 &942150266
 GameObject:
   m_ObjectHideFlags: 0
