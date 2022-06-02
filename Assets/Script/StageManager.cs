@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Manager
@@ -32,6 +31,7 @@ namespace Manager
             }
             private set
             {
+                //Debug.Log(value);
                 _gravityAngle = value;
 
             }
@@ -50,6 +50,12 @@ namespace Manager
 
         }
 
+        private void rotate_Gravity(float angle)
+        {
+            gravity = Quaternion.Euler(0, 0, angle) * gravity;
+            onGravityRotated?.Invoke(angle);
+            gravityAngle += angle;
+        }
         IEnumerator _rotateGravity(float angle, float rotateSpeed)
         {
             float _ang = 0;
@@ -58,22 +64,43 @@ namespace Manager
             {
                 dangle = rotateSpeed * Time.deltaTime;
                 //dangle = dangle * Mathf.Pow((float)_ang / angle, 2) * 3;
-                gravity = Quaternion.Euler(0, 0, dangle) * gravity;
-                onGravityRotated?.Invoke(dangle);
-                gravityAngle += dangle;
+                rotate_Gravity(dangle);
                 _ang += dangle;
                 yield return null;
             }
             dangle = angle - _ang;
-            gravity = Quaternion.Euler(0, 0, dangle) * gravity;
-            onGravityRotated?.Invoke(dangle);
-            gravityAngle += dangle;
+            rotate_Gravity(dangle);
             yield return null;
         }
-
+        /// <summary>
+        /// 线性速度旋转
+        /// </summary>
+        /// <param name="angle">旋转多少</param>
+        /// <param name="rotateSpeed">旋转速度</param>
         public void rotateGravity(float angle, float rotateSpeed = 40)
         {
             StartCoroutine(_rotateGravity(angle, rotateSpeed));
+        }
+        IEnumerator _rotateGravityDuration(float angle, float duration)
+        {
+            float _ang = 0;
+            float dangle, t = 0f, x;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                x = (float)t / duration;
+                dangle = Mathf.Pow(x, 3) * 4 * Time.deltaTime * angle;
+                dangle = Mathf.Min(dangle, angle - _ang);
+                rotate_Gravity(dangle);
+                _ang += dangle;
+                Debug.Log($"{t} {x} {dangle} {_ang}");
+                yield return null;
+            }
+            yield return null;
+        }
+        public void rotateGravityDuration(float angle, float duration = 1f)
+        {
+            StartCoroutine(_rotateGravityDuration(angle, duration));
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Player
             playerInput.update();
             if (playerInput.Rotate)
             {
-                Manager.MyGameManager.instance.stageManager.rotateGravity(90, rotateSpeed);
+                Manager.MyGameManager.instance.stageManager.rotateGravityDuration(90, (float)90 / rotateSpeed);
                 //StartCoroutine(rotate());
             }
         }
