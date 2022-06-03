@@ -49,7 +49,10 @@ namespace Manager
         {
 
         }
-
+        /// <summary>
+        /// 旋转重力, 直接旋转, 没有过程
+        /// </summary>
+        /// <param name="angle">度数</param>
         private void rotate_Gravity(float angle)
         {
             gravity = Quaternion.Euler(0, 0, angle) * gravity;

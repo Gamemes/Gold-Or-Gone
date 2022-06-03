@@ -31,6 +31,7 @@ namespace Player
 
         public void causeDamage(int hurtValue)
         {
+            Debug.Assert(hurtValue > 0);
             int preBlood = blood;
             blood -= hurtValue;
             blood = Mathf.Max(0, blood);
@@ -43,6 +44,11 @@ namespace Player
                 Debug.Log($"cause damage {hurtValue}, blood now : {blood}");
                 onPlayerHurt?.Invoke(blood);
             }
+        }
+        public void addBlood(int addValue)
+        {
+            Debug.Assert(addValue > 0);
+            blood = Mathf.Min(maxBlood, blood + addValue);
         }
 
     }

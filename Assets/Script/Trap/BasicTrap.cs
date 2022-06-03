@@ -8,8 +8,6 @@ namespace Trap
     /// </summary>
     public class BasicTrap : MonoBehaviour
     {
-        // [Tooltip("造成多少伤害")]
-        // public int causeDamage = 1;
         public virtual void Start()
         {
         }
