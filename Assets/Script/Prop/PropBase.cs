@@ -1,18 +1,16 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Trap
+namespace Prop
 {
     /// <summary>
-    /// 陷阱基类
+    /// 可拾取道具基类.
     /// </summary>
-    public class BasicTrap : MonoBehaviour
+    public class PropBase : MonoBehaviour
     {
-        public virtual void Start()
-        {
-        }
         /// <summary>
-        /// 玩家走进陷阱触发
+        /// 玩家走进触发
         /// </summary>
         /// <param name="playerAttribute">走进的玩家属性</param>
         public virtual void onPlayerEnter(Player.PlayerAttribute playerAttribute)
