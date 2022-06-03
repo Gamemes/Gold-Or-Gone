@@ -783,6 +783,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2233924450831833848, guid: 834154586c0720845bfa32ee7ae6857d, type: 3}
+      propertyPath: propName
+      value: addBlood
+      objectReference: {fileID: 0}
     - target: {fileID: 2233924450831833849, guid: 834154586c0720845bfa32ee7ae6857d, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -1409,6 +1413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aafbd393cbb37a546ad0b03f084c9cf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerName: 
 --- !u!114 &1699408279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2367,7 +2372,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6092308, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

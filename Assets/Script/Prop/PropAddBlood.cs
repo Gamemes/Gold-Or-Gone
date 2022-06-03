@@ -5,15 +5,15 @@ using UnityEngine;
 namespace Prop
 {
     /// <summary>
-    /// 加血道具
+    /// 鍔犺閬撳叿
     /// </summary>
     public class PropAddBlood : PropBase
     {
-        [SerializeField] int addBloodVal;           //要加血的数值（在外边手动输入）
+        [SerializeField] int addBloodVal;           //瑕佸姞琛�鐨勬暟鍊硷紙鍦ㄥ杈规墜鍔ㄨ緭鍏ワ級
 
         public override void onPlayerEnter(Player.PlayerAttribute playerAttribute)
         {
-            if(playerAttribute.playerHealth.blood < playerAttribute.playerHealth.MaxBlood)
+            if (playerAttribute.playerHealth.blood < playerAttribute.playerHealth.MaxBlood)
             {
                 playerAttribute.playerHealth.addBlood(addBloodVal);
                 Debug.Log("Player blood is add");
