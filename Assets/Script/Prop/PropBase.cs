@@ -10,6 +10,15 @@ namespace Prop
     public class PropBase : MonoBehaviour
     {
         /// <summary>
+        /// 道具名称
+        /// </summary>
+        public string propName;
+        public virtual void Start()
+        {
+            if (propName.Length < 1)
+                throw new UnityException($"{gameObject.name} propname is invaild");
+        }
+        /// <summary>
         /// 玩家走进触发
         /// </summary>
         /// <param name="playerAttribute">走进的玩家属性</param>
@@ -29,6 +38,10 @@ namespace Prop
                 }
                 onPlayerEnter(attribute);
             }
+        }
+        public override int GetHashCode()
+        {
+            return propName.GetHashCode();
         }
     }
 }
