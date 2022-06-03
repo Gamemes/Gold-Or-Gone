@@ -9,12 +9,14 @@ namespace Prop
     /// </summary>
     public class PropAddBlood : PropBase
     {
+        [SerializeField] int addBloodVal;           //要加血的数值（在外边手动输入）
+
         public override void onPlayerEnter(Player.PlayerAttribute playerAttribute)
         {
             if(playerAttribute.playerHealth.blood < playerAttribute.playerHealth.MaxBlood)
             {
-                playerAttribute.playerHealth.addBlood(1);
-                Debug.Log("Player blood is +1");
+                playerAttribute.playerHealth.addBlood(addBloodVal);
+                Debug.Log("Player blood is add");
                 Destroy(gameObject);
             }
         }
