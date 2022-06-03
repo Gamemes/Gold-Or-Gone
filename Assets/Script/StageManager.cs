@@ -59,31 +59,6 @@ namespace Manager
             onGravityRotated?.Invoke(angle);
             gravityAngle += angle;
         }
-        IEnumerator _rotateGravity(float angle, float rotateSpeed)
-        {
-            float _ang = 0;
-            float dangle;
-            while (_ang < angle)
-            {
-                dangle = rotateSpeed * Time.deltaTime;
-                //dangle = dangle * Mathf.Pow((float)_ang / angle, 2) * 3;
-                rotate_Gravity(dangle);
-                _ang += dangle;
-                yield return null;
-            }
-            dangle = angle - _ang;
-            rotate_Gravity(dangle);
-            yield return null;
-        }
-        /// <summary>
-        /// 线性速度旋转
-        /// </summary>
-        /// <param name="angle">旋转多少</param>
-        /// <param name="rotateSpeed">旋转速度</param>
-        public void rotateGravity(float angle, float rotateSpeed = 40)
-        {
-            StartCoroutine(_rotateGravity(angle, rotateSpeed));
-        }
         IEnumerator _rotateGravityDuration(float angle, float duration)
         {
             float _ang = 0;
