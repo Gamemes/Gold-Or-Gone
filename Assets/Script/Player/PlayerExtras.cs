@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -9,13 +10,28 @@ namespace Player
         public float Horizontal;
         public float Vertical;
         public bool Jump;
+        public bool HoldJump;
         public bool Rotate;
+        public bool Climb;
+        public PlayerInput _input;
+        public FrameInput()
+        {
+            _input = new PlayerInput();
+            _input.Player.Enable();
+        }
         public void update()
         {
-            Horizontal = Input.GetAxis("Horizontal");
-            Vertical = Input.GetAxis("Vertical");
-            Jump = Input.GetButtonDown("Jump");
-            Rotate = Input.GetKeyDown(KeyCode.Return);
+            Horizontal = _input.Player.Move.ReadValue<float>();
+            //Vertical = Input.GetAxis("Vertical");
+            Jump = _input.Player.Jump.WasPressedThisFrame();
+            HoldJump = _input.Player.Jump.IsPressed();
+            Rotate = false;//Input.GetKeyDown(KeyCode.Return);
+            Climb = _input.Player.Climb.IsPressed();
+            //Debug.Log(this.ToString());
+        }
+        public override string ToString()
+        {
+            return $"Horizontal: {Horizontal} Jump: {Jump}";
         }
     }
     public interface IController
