@@ -158,7 +158,7 @@ namespace Player
             {
                 speedThisFrame += Vector2.up * -14 * (fallMultiplier - 1) * Time.deltaTime;
             }
-            else if (speedThisFrame.y > 0 && !Input.GetButton("Jump"))
+            else if (speedThisFrame.y > 0 && !playerInput.HoldJump)
             {
                 speedThisFrame += Vector2.up * -14 * (lowJumpMultiplier - 1) * Time.deltaTime;
             }
@@ -168,7 +168,7 @@ namespace Player
 
         void climb()
         {
-            if ((colLef || colRig) && Input.GetKey(KeyCode.LeftShift))
+            if ((colLef || colRig) && playerInput.Climb)
             {
                 // todo: 跳跃过程中应该减小移动
                 if (JumpingThisFrame)
