@@ -24,6 +24,9 @@ namespace Player
 
         public readonly Vector2 Start, End, Dir;
     }
+    /// <summary>
+    /// 最基本的玩家操作, 包括移动, 跳跃(二段跳)
+    /// </summary>
     public class PlayerController : MonoBehaviour, IPlayerController
     {
         #region IPlayerController接口部分
@@ -39,8 +42,6 @@ namespace Player
         public bool colLef { get; private set; }
         public bool Climbing { get; private set; }
         #endregion
-
-
         #region 跳跃参数
         public float fallMultiplier = 4f;
 
@@ -50,19 +51,28 @@ namespace Player
         public float maxFallSpeed = 25f;
         public int maxJumpTime = 2;
         #endregion
-
+        #region 行走参数
         public float walkSpeed = 11f;
-        public LayerMask groundLayer;
-        public Bounds playerSize;
-        Rigidbody2D rb;
-        Vector2 speedThisFrame = new Vector2();
-        Vector2 speedPreFrame = new Vector2();
-        int jumpTime = 0;
+        #endregion
         #region 碰撞
+        public Bounds playerSize;
+        public LayerMask groundLayer;
         RayRange _coldown, _colLef, _colRig, _colUp;
         public float detectionLength = 0.5f;
         public int detectionNums = 10;
         #endregion
+
+        #region 冲刺
+        public bool activeSprint = true;
+        [Tooltip("玩家获得的速度加强")]
+        public float sprintVelocityGain = 20f;
+        public float sprintDurition = 0.2f;
+        #endregion
+
+        Rigidbody2D rb;
+        Vector2 speedThisFrame = new Vector2();
+        Vector2 speedPreFrame = new Vector2();
+        int jumpTime = 0;
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -70,6 +80,7 @@ namespace Player
         }
         private void FixedUpdate()
         {
+            rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
 
         }
         void Update()
@@ -83,10 +94,26 @@ namespace Player
             move();
             jump();
             climb();
+            CalculateSprint();
             //rb.velocity = speedThisFrame;
-
+            //MovePlayer();
             rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
+            //Debug.Log($"{rb.velocity}");
             Velocity = speedThisFrame;
+        }
+        void MovePlayer()
+        {
+            var pos = transform.position;
+            var rawMove = speedThisFrame * Time.deltaTime;
+            var raw = new Vector3(rawMove.x, rawMove.y);
+            var next_pos = pos + raw;
+            transform.position += raw;
+            // var hit = Physics2D.OverlapBox(next_pos, playerSize.size, 0, groundLayer);
+            // if (!hit)
+            // {
+            //     transform.position += raw;
+            //     return;
+            // }
         }
         void collisionCheck()
         {
@@ -138,7 +165,6 @@ namespace Player
                 Grounded = colDow;
             }
         }
-
         void move()
         {
             speedThisFrame.x = playerInput.Horizontal * walkSpeed;
@@ -193,6 +219,34 @@ namespace Player
             {
                 Climbing = false;
             }
+        }
+
+        void CalculateSprint()
+        {
+            if (!activeSprint)
+                return;
+            if (playerInput.Sprint)
+            {
+                StartCoroutine(_Sprint(sprintVelocityGain * speedThisFrame.x));
+                Debug.Log($"{speedThisFrame}");
+            }
+        }
+        IEnumerator _Sprint(float speed)
+        {
+            float t = 0;
+            //yield return null;
+            float p = rb.gravityScale;
+            rb.gravityScale = 0;
+            while (t < sprintDurition)
+            {
+                //rb.velocity = new Vector2(rb.velocity.x, 0);
+                speedThisFrame.y = 0;
+                speedThisFrame.x = speed;
+                t += Time.deltaTime;
+                yield return null;
+            }
+            Debug.Log($"end");
+            rb.gravityScale = p;
         }
         private void drawRayRang(RayRange rayRange)
         {

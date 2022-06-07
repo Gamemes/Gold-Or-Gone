@@ -14,6 +14,7 @@ namespace Player
         public bool HoldJump;
         public bool Rotate;
         public bool Climb;
+        public bool Sprint;
         public PlayerInput _input;
         public FrameInput()
         {
@@ -39,6 +40,9 @@ namespace Player
             HoldJump = _input.Player.Jump.IsPressed();
             Rotate = _input.Player.Rotate.WasPressedThisFrame();
             Climb = _input.Player.Climb.IsPressed();
+            Sprint = _input.Player.Sprint.WasPressedThisFrame();
+            if (Sprint)
+                Debug.Log($"sprint");
         }
         public override string ToString()
         {
