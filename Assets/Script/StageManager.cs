@@ -54,6 +54,13 @@ namespace Manager
         }
         private void Start()
         {
+            synchroPlayerAndDevice();
+        }
+        /// <summary>
+        /// 同步输入设备和玩家
+        /// </summary>
+        void synchroPlayerAndDevice()
+        {
             // 获取已经连接的设备, 根据设备数量创建对应数量的玩家.
             var devices_ = from dev in InputSystem.devices where dev is Gamepad || dev is Keyboard select dev;
             var devices = devices_.ToList();
@@ -116,7 +123,7 @@ namespace Manager
                 dangle = Mathf.Min(dangle, angle - _ang);
                 rotate_Gravity(dangle);
                 _ang += dangle;
-                Debug.Log($"{t} {x} {dangle} {_ang}");
+                //Debug.Log($"{t} {x} {dangle} {_ang}");
                 yield return null;
             }
             yield return null;

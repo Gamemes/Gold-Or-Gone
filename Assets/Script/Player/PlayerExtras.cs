@@ -32,7 +32,9 @@ namespace Player
         }
         public void update()
         {
-            Horizontal = _input.Player.Move.ReadValue<float>();
+            var vec = _input.Player.Move.ReadValue<Vector2>();
+            Horizontal = vec.x;
+            Vertical = vec.y;
             Jump = _input.Player.Jump.WasPressedThisFrame();
             HoldJump = _input.Player.Jump.IsPressed();
             Rotate = _input.Player.Rotate.WasPressedThisFrame();
