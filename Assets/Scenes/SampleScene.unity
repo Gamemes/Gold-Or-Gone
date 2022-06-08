@@ -1885,18 +1885,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 386723193, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.b
-      value: 0.6037736
-      objectReference: {fileID: 0}
-    - target: {fileID: 386723193, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.g
-      value: 0.6037736
-      objectReference: {fileID: 0}
-    - target: {fileID: 386723193, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.r
-      value: 0.6037736
-      objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906178, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1941,25 +1929,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1412787739393906182, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412787739393906182, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: m_LinearDrag
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412787739393906182, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+    - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
+      propertyPath: climbJumpSpeed
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: sprintDurition
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: sprintVelocityGain
-      value: 5
+      propertyPath: climbJumpDurition
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906186, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
       propertyPath: cameraObj

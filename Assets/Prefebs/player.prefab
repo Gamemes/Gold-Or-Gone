@@ -166,7 +166,7 @@ MonoBehaviour:
   detectionNums: 22
   activeSprint: 1
   sprintVelocityGain: 5
-  sprintDurition: 0.1
+  sprintDurition: 0.12
 --- !u!114 &1412787739393906180
 MonoBehaviour:
   m_ObjectHideFlags: 0

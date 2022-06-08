@@ -41,8 +41,6 @@ namespace Player
             Rotate = _input.Player.Rotate.WasPressedThisFrame();
             Climb = _input.Player.Climb.IsPressed();
             Sprint = _input.Player.Sprint.WasPressedThisFrame();
-            if (Sprint)
-                Debug.Log($"sprint");
         }
         public override string ToString()
         {

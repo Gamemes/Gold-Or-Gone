@@ -43,6 +43,7 @@ namespace Player
         public bool Climbing { get; private set; }
         #endregion
         #region 跳跃参数
+        [Header("跳跃参数")]
         public float fallMultiplier = 4f;
 
         public float lowJumpMultiplier = 10f;
@@ -52,9 +53,11 @@ namespace Player
         public int maxJumpTime = 2;
         #endregion
         #region 行走参数
+        [Header("行走参数")]
         public float walkSpeed = 11f;
         #endregion
         #region 碰撞
+        [Header("碰撞")]
         public Bounds playerSize;
         public LayerMask groundLayer;
         RayRange _coldown, _colLef, _colRig, _colUp;
@@ -63,12 +66,19 @@ namespace Player
         #endregion
 
         #region 冲刺
+        [Header("冲刺")]
         public bool activeSprint = true;
         [Tooltip("玩家获得的速度加强")]
         public float sprintVelocityGain = 20f;
         public float sprintDurition = 0.2f;
         #endregion
-
+        #region 爬墙
+        [Header("爬墙")]
+        public bool activeClimb = true;
+        public float climbJumpSpeed = 10f;
+        public float climbJumpDurition = 0.3f;
+        public float climbJumpWalkInfluence = 1f;
+        #endregion
         Rigidbody2D rb;
         Vector2 speedThisFrame = new Vector2();
         Vector2 speedPreFrame = new Vector2();
@@ -93,7 +103,7 @@ namespace Player
             updateState();
             move();
             jump();
-            climb();
+            CalculateClimb();
             CalculateSprint();
             //rb.velocity = speedThisFrame;
             //MovePlayer();
@@ -192,7 +202,7 @@ namespace Player
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -maxFallSpeed);
         }
 
-        void climb()
+        void CalculateClimb()
         {
             if ((colLef || colRig) && playerInput.Climb)
             {
@@ -201,11 +211,11 @@ namespace Player
                 {
                     if (colLef)
                     {
-                        speedThisFrame.x = walkSpeed * 10;
+                        StartCoroutine(_ClimbJump(climbJumpSpeed));
                     }
                     else
                     {
-                        speedThisFrame.x = -walkSpeed * 10;
+                        StartCoroutine(_ClimbJump(-climbJumpSpeed));
                     }
                 }
                 else
@@ -220,7 +230,27 @@ namespace Player
                 Climbing = false;
             }
         }
-
+        IEnumerator _ClimbJump(float speed)
+        {
+            float t = 0f;
+            speedThisFrame.y = speedThisFrame.y + Mathf.Abs(speed) * 0.4f;
+            float s;
+            while (t < climbJumpDurition)
+            {
+                if ((colLef || colRig) && t > 0.1f)
+                    break;
+                t += Time.deltaTime;
+                Debug.Log($"{speedThisFrame}");
+                s = (climbJumpDurition - t) / climbJumpDurition * speed;
+                if (speedThisFrame.x * speed < 0)
+                    s += (t / climbJumpDurition + climbJumpWalkInfluence) * speedThisFrame.x;
+                else
+                    s += (t / climbJumpDurition) * 0.6f * speedThisFrame.x;
+                speedThisFrame.x = s;
+                Debug.Log($"{speedThisFrame}");
+                yield return null;
+            }
+        }
         void CalculateSprint()
         {
             if (!activeSprint)
@@ -239,13 +269,11 @@ namespace Player
             rb.gravityScale = 0;
             while (t < sprintDurition)
             {
-                //rb.velocity = new Vector2(rb.velocity.x, 0);
                 speedThisFrame.y = 0;
                 speedThisFrame.x = speed;
                 t += Time.deltaTime;
                 yield return null;
             }
-            Debug.Log($"end");
             rb.gravityScale = p;
         }
         private void drawRayRang(RayRange rayRange)
@@ -253,7 +281,6 @@ namespace Player
             Gizmos.color = Color.red;
             foreach (var pos in lerpPoint(rayRange, detectionNums))
             {
-                //Debug.Log(pos);
                 Gizmos.DrawLine(pos, pos + rayRange.Dir * detectionLength);
             }
         }
