@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 namespace Player
 {
@@ -13,21 +14,33 @@ namespace Player
         public bool HoldJump;
         public bool Rotate;
         public bool Climb;
+        public bool Sprint;
         public PlayerInput _input;
         public FrameInput()
         {
             _input = new PlayerInput();
             _input.Player.Enable();
+            //_input.devices = new InputDevice[] { Keyboard.all[0] };
+        }
+        public void setDevice(InputDevice inputDevice)
+        {
+            _input.devices = new InputDevice[] { inputDevice };
+
+        }
+        ~FrameInput()
+        {
+            _input.Player.Disable();
         }
         public void update()
         {
-            Horizontal = _input.Player.Move.ReadValue<float>();
-            //Vertical = Input.GetAxis("Vertical");
+            var vec = _input.Player.Move.ReadValue<Vector2>();
+            Horizontal = vec.x;
+            Vertical = vec.y;
             Jump = _input.Player.Jump.WasPressedThisFrame();
             HoldJump = _input.Player.Jump.IsPressed();
-            Rotate = false;//Input.GetKeyDown(KeyCode.Return);
+            Rotate = _input.Player.Rotate.WasPressedThisFrame();
             Climb = _input.Player.Climb.IsPressed();
-            //Debug.Log(this.ToString());
+            Sprint = _input.Player.Sprint.WasPressedThisFrame();
         }
         public override string ToString()
         {

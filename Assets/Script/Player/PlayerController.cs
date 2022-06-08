@@ -24,6 +24,9 @@ namespace Player
 
         public readonly Vector2 Start, End, Dir;
     }
+    /// <summary>
+    /// 最基本的玩家操作, 包括移动, 跳跃(二段跳)
+    /// </summary>
     public class PlayerController : MonoBehaviour, IPlayerController
     {
         #region IPlayerController接口部分
@@ -39,9 +42,8 @@ namespace Player
         public bool colLef { get; private set; }
         public bool Climbing { get; private set; }
         #endregion
-
-
         #region 跳跃参数
+        [Header("跳跃参数")]
         public float fallMultiplier = 4f;
 
         public float lowJumpMultiplier = 10f;
@@ -50,19 +52,37 @@ namespace Player
         public float maxFallSpeed = 25f;
         public int maxJumpTime = 2;
         #endregion
-
+        #region 行走参数
+        [Header("行走参数")]
         public float walkSpeed = 11f;
-        public LayerMask groundLayer;
-        public Bounds playerSize;
-        Rigidbody2D rb;
-        Vector2 speedThisFrame = new Vector2();
-        Vector2 speedPreFrame = new Vector2();
-        int jumpTime = 0;
+        #endregion
         #region 碰撞
+        [Header("碰撞")]
+        public Bounds playerSize;
+        public LayerMask groundLayer;
         RayRange _coldown, _colLef, _colRig, _colUp;
         public float detectionLength = 0.5f;
         public int detectionNums = 10;
         #endregion
+
+        #region 冲刺
+        [Header("冲刺")]
+        public bool activeSprint = true;
+        [Tooltip("玩家获得的速度加强")]
+        public float sprintVelocityGain = 20f;
+        public float sprintDurition = 0.2f;
+        #endregion
+        #region 爬墙
+        [Header("爬墙")]
+        public bool activeClimb = true;
+        public float climbJumpSpeed = 10f;
+        public float climbJumpDurition = 0.3f;
+        public float climbJumpWalkInfluence = 1f;
+        #endregion
+        Rigidbody2D rb;
+        Vector2 speedThisFrame = new Vector2();
+        Vector2 speedPreFrame = new Vector2();
+        int jumpTime = 0;
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -70,6 +90,7 @@ namespace Player
         }
         private void FixedUpdate()
         {
+            rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
 
         }
         void Update()
@@ -82,11 +103,27 @@ namespace Player
             updateState();
             move();
             jump();
-            climb();
+            CalculateClimb();
+            CalculateSprint();
             //rb.velocity = speedThisFrame;
-
+            //MovePlayer();
             rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
+            //Debug.Log($"{rb.velocity}");
             Velocity = speedThisFrame;
+        }
+        void MovePlayer()
+        {
+            var pos = transform.position;
+            var rawMove = speedThisFrame * Time.deltaTime;
+            var raw = new Vector3(rawMove.x, rawMove.y);
+            var next_pos = pos + raw;
+            transform.position += raw;
+            // var hit = Physics2D.OverlapBox(next_pos, playerSize.size, 0, groundLayer);
+            // if (!hit)
+            // {
+            //     transform.position += raw;
+            //     return;
+            // }
         }
         void collisionCheck()
         {
@@ -138,7 +175,6 @@ namespace Player
                 Grounded = colDow;
             }
         }
-
         void move()
         {
             speedThisFrame.x = playerInput.Horizontal * walkSpeed;
@@ -166,7 +202,7 @@ namespace Player
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -maxFallSpeed);
         }
 
-        void climb()
+        void CalculateClimb()
         {
             if ((colLef || colRig) && playerInput.Climb)
             {
@@ -175,11 +211,11 @@ namespace Player
                 {
                     if (colLef)
                     {
-                        speedThisFrame.x = walkSpeed * 10;
+                        StartCoroutine(_ClimbJump(climbJumpSpeed));
                     }
                     else
                     {
-                        speedThisFrame.x = -walkSpeed * 10;
+                        StartCoroutine(_ClimbJump(-climbJumpSpeed));
                     }
                 }
                 else
@@ -194,12 +230,57 @@ namespace Player
                 Climbing = false;
             }
         }
+        IEnumerator _ClimbJump(float speed)
+        {
+            float t = 0f;
+            speedThisFrame.y = speedThisFrame.y + Mathf.Abs(speed) * 0.4f;
+            float s;
+            while (t < climbJumpDurition)
+            {
+                if ((colLef || colRig) && t > 0.1f)
+                    break;
+                t += Time.deltaTime;
+                Debug.Log($"{speedThisFrame}");
+                s = (climbJumpDurition - t) / climbJumpDurition * speed;
+                if (speedThisFrame.x * speed < 0)
+                    s += (t / climbJumpDurition + climbJumpWalkInfluence) * speedThisFrame.x;
+                else
+                    s += (t / climbJumpDurition) * 0.6f * speedThisFrame.x;
+                speedThisFrame.x = s;
+                Debug.Log($"{speedThisFrame}");
+                yield return null;
+            }
+        }
+        void CalculateSprint()
+        {
+            if (!activeSprint)
+                return;
+            if (playerInput.Sprint)
+            {
+                StartCoroutine(_Sprint(sprintVelocityGain * speedThisFrame.x));
+                Debug.Log($"{speedThisFrame}");
+            }
+        }
+        IEnumerator _Sprint(float speed)
+        {
+            float t = 0;
+            //yield return null;
+            float p = rb.gravityScale;
+            rb.gravityScale = 0;
+            while (t < sprintDurition)
+            {
+                speedThisFrame.y = 0;
+                speedThisFrame.x = speed;
+                t += Time.deltaTime;
+                yield return null;
+            }
+            rb.gravityScale = p;
+        }
         private void drawRayRang(RayRange rayRange)
         {
             Gizmos.color = Color.red;
             foreach (var pos in lerpPoint(rayRange, detectionNums))
             {
-                //Debug.Log(pos);
                 Gizmos.DrawLine(pos, pos + rayRange.Dir * detectionLength);
             }
         }
