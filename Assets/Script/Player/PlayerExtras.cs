@@ -30,7 +30,7 @@ namespace Player
         public bool colRig { get; }
         public bool colLef { get; }
     }
-    public interface IGoldController : IController
+    public interface IGodController : IController
     {
         public bool RotatingThisFrame { get; }
     }

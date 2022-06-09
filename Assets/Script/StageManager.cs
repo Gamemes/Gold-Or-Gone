@@ -54,16 +54,19 @@ namespace Manager
         /// 当上帝玩家切换, 传入切换后的玩家(GameObject)
         /// </summary>
         public Action<GameObject> onGlodPlayerChange;
-
+        public Cinemachine.CinemachineVirtualCamera stageCamera = null;
         void Awake()
         {
             MyGameManager.instance.setStageManager(this);
             gravityDirection = gravity.normalized;
             InputSystem.onDeviceChange += this.onDeviceChange;
+            if (stageCamera == null)
+                stageCamera = GameObject.FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
         }
         private void Start()
         {
             synchroPlayerAndDevice();
+            changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count - 1)]);
         }
         void Update()
         {
@@ -77,6 +80,7 @@ namespace Manager
         {
             if (player == this.glodPlayer)
                 return;
+            Debug.Log($"change god player to {player}");
             this.glodPlayer = player;
             onGlodPlayerChange?.Invoke(player);
         }

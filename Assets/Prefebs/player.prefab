@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1412787739393906177}
   - component: {fileID: 1412787739393906182}
   - component: {fileID: 1412787739393906183}
-  - component: {fileID: 355286210740641431}
+  - component: {fileID: 645518996}
   - component: {fileID: 1412787739393906180}
   - component: {fileID: 1412787739393906181}
   - component: {fileID: 1412787739393906186}
@@ -175,7 +175,7 @@ MonoBehaviour:
   climbJumpSpeed: 15
   climbJumpDurition: 1
   climbJumpWalkInfluence: 1.1
---- !u!114 &355286210740641431
+--- !u!114 &645518996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1412787739393906206}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c96a716f106fcd4381b3f0ae950a33b, type: 3}
+  m_Script: {fileID: 11500000, guid: dc91a6759e98b5443b0170ca93a1e78c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 90

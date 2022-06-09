@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class GlodController : MonoBehaviour, IGoldController
+    public class GodController : MonoBehaviour, IGodController
     {
         public FrameInput playerInput { get; private set; }
         public bool RotatingThisFrame { get; private set; } = false;
@@ -12,13 +12,6 @@ namespace Player
         private void Awake()
         {
             playerInput = GetComponent<FrameInput>();
-        }
-        /// <summary>
-        /// This function is called when the object becomes enabled and active.
-        /// </summary>
-        private void OnEnable()
-        {
-            Manager.MyGameManager.instance.stageManager.changeGloadPlayer(this.gameObject);
         }
         // Update is called once per frame
         void Update()
