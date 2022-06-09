@@ -6,47 +6,6 @@ using System.Linq;
 
 namespace Player
 {
-    public class FrameInput
-    {
-        public float Horizontal;
-        public float Vertical;
-        public bool Jump;
-        public bool HoldJump;
-        public bool Rotate;
-        public bool Climb;
-        public bool Sprint;
-        public PlayerInput _input;
-        public FrameInput()
-        {
-            _input = new PlayerInput();
-            _input.Player.Enable();
-            //_input.devices = new InputDevice[] { Keyboard.all[0] };
-        }
-        public void setDevice(InputDevice inputDevice)
-        {
-            _input.devices = new InputDevice[] { inputDevice };
-
-        }
-        ~FrameInput()
-        {
-            _input.Player.Disable();
-        }
-        public void update()
-        {
-            var vec = _input.Player.Move.ReadValue<Vector2>();
-            Horizontal = vec.x;
-            Vertical = vec.y;
-            Jump = _input.Player.Jump.WasPressedThisFrame();
-            HoldJump = _input.Player.Jump.IsPressed();
-            Rotate = _input.Player.Rotate.WasPressedThisFrame();
-            Climb = _input.Player.Climb.IsPressed();
-            Sprint = _input.Player.Sprint.WasPressedThisFrame();
-        }
-        public override string ToString()
-        {
-            return $"Horizontal: {Horizontal} Jump: {Jump}";
-        }
-    }
     public interface IController
     {
         public FrameInput playerInput { get; }

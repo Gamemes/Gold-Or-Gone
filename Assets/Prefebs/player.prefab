@@ -13,10 +13,12 @@ GameObject:
   - component: {fileID: 1412787739393906177}
   - component: {fileID: 1412787739393906182}
   - component: {fileID: 1412787739393906183}
+  - component: {fileID: 355286210740641431}
   - component: {fileID: 1412787739393906180}
   - component: {fileID: 1412787739393906181}
   - component: {fileID: 1412787739393906186}
   - component: {fileID: 386723193}
+  - component: {fileID: 645518995}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -167,6 +169,25 @@ MonoBehaviour:
   activeSprint: 1
   sprintVelocityGain: 5
   sprintDurition: 0.12
+  activeClimb: 1
+  maxClimbTime: 2
+  climbMoveSpeed: 10
+  climbJumpSpeed: 15
+  climbJumpDurition: 1
+  climbJumpWalkInfluence: 1.1
+--- !u!114 &355286210740641431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412787739393906206}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c96a716f106fcd4381b3f0ae950a33b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 90
 --- !u!114 &1412787739393906180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,3 +335,22 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &645518995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412787739393906206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be68e6651de9e848ac55728496092a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Horizontal: 0
+  Vertical: 0
+  Jump: 0
+  HoldJump: 0
+  Rotate: 0
+  Climb: 0
+  Sprint: 0

@@ -176,7 +176,7 @@
                 {
                     "name": "",
                     "id": "8c2bb0b8-9da4-42cd-9764-f96b598152d2",
-                    "path": "<XInputController>/buttonEast",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -191,6 +191,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Climb",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f25b1211-6a53-4fcc-bf93-68e061928cd9",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Climb",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -231,7 +242,7 @@
                 {
                     "name": "",
                     "id": "ff607d4c-1947-4ddd-994e-4d00c35d2f85",
-                    "path": "<XInputController>/buttonSouth",
+                    "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",

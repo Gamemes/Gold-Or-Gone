@@ -46,6 +46,15 @@ namespace Manager
         /// 这个场景里所有的Player
         /// </summary>
         public List<GameObject> stagePlayers { get; private set; }
+        /// <summary>
+        /// 当前的上帝玩家
+        /// </summary>
+        public GameObject glodPlayer { get; private set; }
+        /// <summary>
+        /// 当上帝玩家切换, 传入切换后的玩家(GameObject)
+        /// </summary>
+        public Action<GameObject> onGlodPlayerChange;
+
         void Awake()
         {
             MyGameManager.instance.setStageManager(this);
@@ -56,6 +65,32 @@ namespace Manager
         {
             synchroPlayerAndDevice();
         }
+        void Update()
+        {
+
+        }
+        /// <summary>
+        /// 改变当前的上帝玩家
+        /// </summary>
+        /// <param name="player">目标玩家</param>
+        public void changeGloadPlayer(GameObject player)
+        {
+            if (player == this.glodPlayer)
+                return;
+            this.glodPlayer = player;
+            onGlodPlayerChange?.Invoke(player);
+        }
+        void addPlayer(InputDevice inputDevice)
+        {
+            Debug.Log($"ADD PLAYER {inputDevice}");
+            //建立新的Player
+            GameObject newPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+            var controller = newPlayer.GetComponent<Player.FrameInput>();
+            controller.setDevice(inputDevice);
+            //添加到stagePlayers
+            stagePlayers.Add(newPlayer);
+        }
+        #region 设备控制
         /// <summary>
         /// 同步输入设备和玩家
         /// </summary>
@@ -71,26 +106,12 @@ namespace Manager
             }
             for (var i = 0; i < stagePlayers.Count; i++)
             {
-                stagePlayers[i].GetComponent<Player.IController>().playerInput.setDevice(devices[i]);
+                stagePlayers[i].GetComponent<Player.FrameInput>().setDevice(devices[i]);
             }
             for (var i = stagePlayers.Count; i < devices.Count; i++)
             {
                 addPlayer(devices[i]);
             }
-        }
-        void Update()
-        {
-
-        }
-        /// <summary>
-        /// 旋转重力, 直接旋转, 没有过程
-        /// </summary>
-        /// <param name="angle">度数</param>
-        private void rotate_Gravity(float angle)
-        {
-            gravity = Quaternion.Euler(0, 0, angle) * gravity;
-            onGravityRotated?.Invoke(angle);
-            gravityAngle += angle;
         }
         void onDeviceChange(InputDevice inputDevice, InputDeviceChange inputDeviceChange)
         {
@@ -101,16 +122,19 @@ namespace Manager
                     break;
             }
         }
-        void addPlayer(InputDevice inputDevice)
+        #endregion
+        #region 重力控制
+        /// <summary>
+        /// 旋转重力, 直接旋转, 没有过程
+        /// </summary>
+        /// <param name="angle">度数</param>
+        public void rotate_Gravity(float angle)
         {
-            Debug.Log($"ADD PLAYER {inputDevice}");
-            //建立新的Player
-            GameObject newPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-            var controller = newPlayer.GetComponent<Player.IController>();
-            controller.playerInput.setDevice(inputDevice);
-            //添加到stagePlayers
-            stagePlayers.Add(newPlayer);
+            gravity = Quaternion.Euler(0, 0, angle) * gravity;
+            onGravityRotated?.Invoke(angle);
+            gravityAngle += angle;
         }
+
         IEnumerator _rotateGravityDuration(float angle, float duration)
         {
             float _ang = 0;
@@ -128,13 +152,15 @@ namespace Manager
             }
             yield return null;
         }
-        private void OnDisable()
-        {
-
-        }
         public void rotateGravityDuration(float angle, float duration = 1f)
         {
             StartCoroutine(_rotateGravityDuration(angle, duration));
         }
+        #endregion
+        private void OnDisable()
+        {
+
+        }
+
     }
 }
