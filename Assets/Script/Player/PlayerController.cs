@@ -75,6 +75,9 @@ namespace Player
         #region 爬墙
         [Header("爬墙")]
         public bool activeClimb = true;
+        public float maxClimbTime = 4f;
+        float climbTime = 0f;
+        public float climbMoveSpeed = 4f;
         public float climbJumpSpeed = 10f;
         public float climbJumpDurition = 0.3f;
         public float climbJumpWalkInfluence = 1f;
@@ -86,12 +89,11 @@ namespace Player
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            playerInput = new FrameInput();
+            playerInput = GetComponent<FrameInput>();
         }
         private void FixedUpdate()
         {
             rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
-
         }
         void Update()
         {
@@ -110,20 +112,6 @@ namespace Player
             rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
             //Debug.Log($"{rb.velocity}");
             Velocity = speedThisFrame;
-        }
-        void MovePlayer()
-        {
-            var pos = transform.position;
-            var rawMove = speedThisFrame * Time.deltaTime;
-            var raw = new Vector3(rawMove.x, rawMove.y);
-            var next_pos = pos + raw;
-            transform.position += raw;
-            // var hit = Physics2D.OverlapBox(next_pos, playerSize.size, 0, groundLayer);
-            // if (!hit)
-            // {
-            //     transform.position += raw;
-            //     return;
-            // }
         }
         void collisionCheck()
         {
@@ -204,24 +192,33 @@ namespace Player
 
         void CalculateClimb()
         {
+            if (!activeClimb)
+                return;
             if ((colLef || colRig) && playerInput.Climb)
             {
-                // todo: 跳跃过程中应该减小移动
-                if (JumpingThisFrame)
+                climbTime += Time.deltaTime;
+                if (climbTime > maxClimbTime)
                 {
-                    if (colLef)
-                    {
-                        StartCoroutine(_ClimbJump(climbJumpSpeed));
-                    }
-                    else
-                    {
-                        StartCoroutine(_ClimbJump(-climbJumpSpeed));
-                    }
+
                 }
                 else
                 {
-                    speedThisFrame.y = Mathf.Max(1, speedThisFrame.y);
-                    speedThisFrame.x = .0f;
+                    if (JumpingThisFrame)
+                    {
+                        if (colLef)
+                        {
+                            StartCoroutine(_ClimbJump(climbJumpSpeed));
+                        }
+                        else
+                        {
+                            StartCoroutine(_ClimbJump(-climbJumpSpeed));
+                        }
+                    }
+                    else
+                    {
+                        speedThisFrame.y = Mathf.Max(playerInput.Vertical * climbMoveSpeed, speedThisFrame.y);
+                        speedThisFrame.x = .0f;
+                    }
                 }
                 Climbing = true;
             }
@@ -229,6 +226,8 @@ namespace Player
             {
                 Climbing = false;
             }
+            if (colDow)
+                climbTime = 0f;
         }
         IEnumerator _ClimbJump(float speed)
         {
@@ -240,14 +239,13 @@ namespace Player
                 if ((colLef || colRig) && t > 0.1f)
                     break;
                 t += Time.deltaTime;
-                Debug.Log($"{speedThisFrame}");
+
                 s = (climbJumpDurition - t) / climbJumpDurition * speed;
                 if (speedThisFrame.x * speed < 0)
                     s += (t / climbJumpDurition + climbJumpWalkInfluence) * speedThisFrame.x;
                 else
                     s += (t / climbJumpDurition) * 0.6f * speedThisFrame.x;
                 speedThisFrame.x = s;
-                Debug.Log($"{speedThisFrame}");
                 yield return null;
             }
         }
@@ -258,7 +256,7 @@ namespace Player
             if (playerInput.Sprint)
             {
                 StartCoroutine(_Sprint(sprintVelocityGain * speedThisFrame.x));
-                Debug.Log($"{speedThisFrame}");
+                //Debug.Log($"{speedThisFrame}");
             }
         }
         IEnumerator _Sprint(float speed)
