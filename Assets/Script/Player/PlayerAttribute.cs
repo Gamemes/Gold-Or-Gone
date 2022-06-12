@@ -13,6 +13,22 @@ namespace Player
         public PlayerHealth playerHealth { get; private set; }
         public Rigidbody2D rb { get; private set; }
         public string playerName = "";
+        /// <summary>
+        /// 能量值, 达3的时候变成上帝
+        /// </summary>
+        public int energy
+        {
+            get => _energy;
+            set
+            {
+                if (value < 0 || value > 3)
+                    return;
+                if (value == 3)
+                    Manager.MyGameManager.instance.stageManager.changeGloadPlayer(gameObject);
+                _energy = value;
+            }
+        }
+        private int _energy = 0;
         void Awake()
         {
             frameInput = GetComponent<FrameInput>();
@@ -31,6 +47,7 @@ namespace Player
             {
                 this.playerController.enabled = false;
                 this.godCntroller.enabled = true;
+                this.energy = 0;
                 rb.bodyType = RigidbodyType2D.Static;
             }
             else
@@ -44,7 +61,6 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-
         }
     }
 }

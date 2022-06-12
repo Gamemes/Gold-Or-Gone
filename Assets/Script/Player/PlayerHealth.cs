@@ -8,7 +8,6 @@ namespace Player
         [SerializeField]
         private int maxBlood = 3;
         public int MaxBlood { get => maxBlood; }
-
         public int blood { get; private set; }
         /// <summary>
         /// 对玩家造成伤害
