@@ -26,6 +26,7 @@ namespace Manager
             }
         }
         private float _gravityAngle = 0f;
+        private float initalGrivateSize;
         public GameObject playerPrefab;
         public float gravityAngle
         {
@@ -41,6 +42,7 @@ namespace Manager
             }
         }
         public Vector2 gravityDirection { get; private set; }
+        public bool isdebug = true;
         public Action<float> onGravityRotated;
         /// <summary>
         /// 这个场景里所有的Player
@@ -59,14 +61,19 @@ namespace Manager
         {
             MyGameManager.instance.setStageManager(this);
             gravityDirection = gravity.normalized;
+            initalGrivateSize = gravity.sqrMagnitude;
             InputSystem.onDeviceChange += this.onDeviceChange;
             if (stageCamera == null)
                 stageCamera = GameObject.FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
         }
         private void Start()
         {
-            synchroPlayerAndDevice();
-            changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count - 1)]);
+            stagePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
+            if (!isdebug)
+            {
+                synchroPlayerAndDevice();
+                changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+            }
         }
         void Update()
         {
@@ -101,9 +108,8 @@ namespace Manager
         void synchroPlayerAndDevice()
         {
             // 获取已经连接的设备, 根据设备数量创建对应数量的玩家.
-            var devices_ = from dev in InputSystem.devices where dev is Gamepad || dev is Keyboard select dev;
+            var devices_ = from dev in InputSystem.devices where (dev is Gamepad || dev is Keyboard) select dev;
             var devices = devices_.ToList();
-            stagePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
             if (stagePlayers.Count > devices.Count)
             {
                 throw new UnityException($"players is {stagePlayers.Count} > devices:{devices.Count}");
@@ -142,16 +148,16 @@ namespace Manager
         IEnumerator _rotateGravityDuration(float angle, float duration)
         {
             float _ang = 0;
-            float dangle, t = 0f, x;
+            float dangle, t = 0f, x, _x;
             while (t < duration)
             {
+                _x = (float)t / duration;
                 t += Time.deltaTime;
                 x = (float)t / duration;
-                dangle = Mathf.Pow(x, 3) * 4 * Time.deltaTime * angle;
+                dangle = (Mathf.Pow(x, 4) - Mathf.Pow(_x, 4)) * angle;
                 dangle = Mathf.Min(dangle, angle - _ang);
                 rotate_Gravity(dangle);
                 _ang += dangle;
-                //Debug.Log($"{t} {x} {dangle} {_ang}");
                 yield return null;
             }
             yield return null;
@@ -159,6 +165,16 @@ namespace Manager
         public void rotateGravityDuration(float angle, float duration = 1f)
         {
             StartCoroutine(_rotateGravityDuration(angle, duration));
+        }
+        public void reSetGrivateSize()
+        {
+            Vector2 griv = new Vector2(0, -initalGrivateSize);
+            gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+        }
+        public void scaleGrivate(float val = 1.0f, float duration = -1f)
+        {
+            Vector2 griv = new Vector2(0, -initalGrivateSize * val);
+            gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
         }
         #endregion
         private void OnDisable()

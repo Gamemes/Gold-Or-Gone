@@ -9,6 +9,7 @@ namespace Player
         public FrameInput playerInput { get; private set; }
         public bool RotatingThisFrame { get; private set; } = false;
         public float rotateSpeed = 10f;
+        public float rotateAdjustSpeed = 4f;
         private void Awake()
         {
             playerInput = GetComponent<FrameInput>();
@@ -24,7 +25,7 @@ namespace Player
             }
             if (playerInput.Horizontal != 0f)
             {
-                Manager.MyGameManager.instance.stageManager.rotate_Gravity(playerInput.Horizontal * Time.deltaTime);
+                Manager.MyGameManager.instance.stageManager.rotate_Gravity(playerInput.Horizontal * Time.deltaTime * rotateAdjustSpeed);
             }
         }
     }
