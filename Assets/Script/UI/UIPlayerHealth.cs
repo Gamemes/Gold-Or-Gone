@@ -6,15 +6,21 @@ using UnityEngine.UIElements;
 
 public class UIPlayerHealth : MonoBehaviour
 {
-    [SerializeField]GameObject _player;
+    [SerializeField]
+    GameObject _player;
+    Text _text;
+    Player.PlayerHealth _playerHealth;
+
 
     private void Start()
     {
         _player = GameObject.Find("player");
+        _text= gameObject.GetComponent<Text>();
+        _playerHealth = _player.GetComponent<Player.PlayerHealth>();
+
     }
     private void Update()
     {
-        gameObject.GetComponent<Text>().text = "Health:" + _player.GetComponent<Player.PlayerHealth>().blood;
+        _text.text = "Health:" + _playerHealth.blood;
     }
 }
-
