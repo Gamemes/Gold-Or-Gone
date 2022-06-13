@@ -5,23 +5,23 @@ using UnityEngine;
 namespace Trap
 {
     /// <summary>
-    /// µØ´ÌÏİÚå
+    /// åœ°åˆºé™·é˜±
     /// </summary>
     public class TrapThorn : TrapBase
     {
-        [SerializeField] int damage;            //ÉËº¦ÊıÖµ£¨ÔÚÍâÃæÊÖ¶¯ÊäÈë£©
+        [SerializeField] int damage;            //ä¼¤å®³æ•°å€¼ï¼ˆåœ¨å¤–é¢æ‰‹åŠ¨è¾“å…¥ï¼‰
         private void Awake()
         {
             if(damage == 0)
             {
-                damage = 1;                     //Ä¬ÈÏ³õÊ¼»¯
+                damage = 1;                     //é»˜è®¤åˆå§‹åŒ–
             }
         }
         public override void onPlayerEnter(Player.PlayerAttribute playerAttribute)
         {
-            if(playerAttribute.playerHealth.blood > 0)      //µ±Íæ¼ÒÓĞÑªÁ¿Ê±
+            if(playerAttribute.playerHealth.blood > 0)      //å½“ç©å®¶æœ‰è¡€é‡æ—¶
             {
-                playerAttribute.playerHealth.damageAction(damage);      //¶ÔÍæ¼ÒÔì³ÉÉËº¦
+                playerAttribute.playerHealth.damageAction(damage);      //å¯¹ç©å®¶é€ æˆä¼¤å®³
                 Debug.Log("Player is gets damage");
             }
         }
