@@ -244,7 +244,6 @@ GameObject:
   m_Component:
   - component: {fileID: 233709923}
   - component: {fileID: 233709922}
-  - component: {fileID: 233709924}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -265,7 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1412787739393906206, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-  isdebug: 0
+  isdebug: 1
   stageCamera: {fileID: 0}
 --- !u!4 &233709923
 Transform:
@@ -282,36 +281,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &233709924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 233709921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &334153558
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,17 +1974,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 645518996, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: rotateSpeed
-      value: 130
-      objectReference: {fileID: 0}
-    - target: {fileID: 645518996, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: rotateAdjustSpeed
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906178, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412787739393906178, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906178, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2055,6 +2020,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906178, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412787739393906178, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906186, guid: e65a5d00cd465e246823cba4169c7212, type: 3}

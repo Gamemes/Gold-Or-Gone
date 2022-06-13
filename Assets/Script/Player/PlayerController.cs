@@ -41,6 +41,10 @@ namespace Player
         public bool colRig { get; private set; }
         public bool colLef { get; private set; }
         public bool Climbing { get; private set; }
+        public int faceDir
+        {
+            get => transform.localScale.x > 0 ? 1 : -1;
+        }
         #endregion
         #region 跳跃参数
         [Header("跳跃参数")]
@@ -166,6 +170,11 @@ namespace Player
         void move()
         {
             speedThisFrame.x = playerInput.Horizontal * walkSpeed;
+            if (speedThisFrame.x * transform.localScale.x < 0)
+            {
+                Vector3 tscale = transform.localScale;
+                transform.localScale = new Vector3(-1 * tscale.x, tscale.y, tscale.z);
+            }
         }
         void jump()
         {
@@ -255,7 +264,7 @@ namespace Player
                 return;
             if (playerInput.Sprint)
             {
-                StartCoroutine(_Sprint(sprintVelocityGain * speedThisFrame.x));
+                StartCoroutine(_Sprint(sprintVelocityGain * walkSpeed * faceDir));
                 //Debug.Log($"{speedThisFrame}");
             }
         }

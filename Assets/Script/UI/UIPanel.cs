@@ -4,23 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// UIÃæ°å½Å±¾
+/// UIé¢æ¿è„šæœ¬
 /// </summary>
 public class UIPanel : MonoBehaviour
 {
     public Image panelImage;
-    public AnimationCurve showCurve;            //µ¯³ö¶¯»­ÇúÏß
-    public AnimationCurve hideCurve;            //¹Ø±Õ¶¯»­ÇúÏß
-    public float animationSpeed;                //¶¯»­ËÙÂÊ
-    [SerializeField] private bool isShow = false;       //ÅĞ¶¨ÊÇ·ñÒÑ¾­ÏÔÊ¾UI
+    public AnimationCurve showCurve;            //å¼¹å‡ºåŠ¨ç”»æ›²çº¿
+    public AnimationCurve hideCurve;            //å…³é—­åŠ¨ç”»æ›²çº¿
+    public float animationSpeed;                //åŠ¨ç”»é€Ÿç‡
+    [SerializeField] private bool isShow = false;       //åˆ¤å®šæ˜¯å¦å·²ç»æ˜¾ç¤ºUI
 
     private void Awake()
     {
-        panelImage = gameObject.GetComponent<Image>();      //»ñÈ¡Í¼Æ¬×é¼ş
+        panelImage = gameObject.GetComponent<Image>();      //è·å–å›¾ç‰‡ç»„ä»¶
     }
     IEnumerator ShowPanel()
     {
-        float timer = 0;                //³õÊ¼»¯¼ÆÊ±Æ÷
+        float timer = 0;                //åˆå§‹åŒ–è®¡æ—¶å™¨
         while (panelImage.color.a < 1)
         {
             panelImage.color = new Vector4(1, 1, 1, showCurve.Evaluate(timer));
@@ -31,8 +31,8 @@ public class UIPanel : MonoBehaviour
 
     IEnumerator HidePanel()
     {
-        float timer = 0;                //³õÊ¼»¯¼ÆÊ±Æ÷
-        while (panelImage.color.a > 0) 
+        float timer = 0;                //åˆå§‹åŒ–è®¡æ—¶å™¨
+        while (panelImage.color.a > 0)
         {
             panelImage.color = new Vector4(1, 1, 1, hideCurve.Evaluate(timer));
             timer += Time.deltaTime * animationSpeed;
@@ -46,13 +46,13 @@ public class UIPanel : MonoBehaviour
         //{
         //    if(isShow == false)
         //    {
-        //        StopAllCoroutines();            //Í£Ö¹µ±Ç°¶¯»­
-        //        StartCoroutine(ShowPanel());    //¿ªÊ¼µ¯³ö¶¯»­
+        //        StopAllCoroutines();            //åœæ­¢å½“å‰åŠ¨ç”»
+        //        StartCoroutine(ShowPanel());    //å¼€å§‹å¼¹å‡ºåŠ¨ç”»
         //    }
         //    else if (isShow == true)
         //    {
-        //        StopAllCoroutines();            //Í£Ö¹µ±Ç°¶¯»­
-        //        StartCoroutine(HidePanel());    //¿ªÊ¼¹Ø±Õ¶¯»­
+        //        StopAllCoroutines();            //åœæ­¢å½“å‰åŠ¨ç”»
+        //        StartCoroutine(HidePanel());    //å¼€å§‹å…³é—­åŠ¨ç”»
         //    }
         //}
     }
