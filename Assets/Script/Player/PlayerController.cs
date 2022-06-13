@@ -75,6 +75,7 @@ namespace Player
         [Tooltip("玩家获得的速度加强")]
         public float sprintVelocityGain = 20f;
         public float sprintDurition = 0.2f;
+        public bool sprintThisFrame = false;
         #endregion
         #region 爬墙
         [Header("爬墙")]
@@ -86,35 +87,48 @@ namespace Player
         public float climbJumpDurition = 0.3f;
         public float climbJumpWalkInfluence = 1f;
         #endregion
+        #region 重力
+        [Header("重力")]
+        public float gravityScale = 1.0f;
+        public int _freeColliderIterations = 10;
+        #endregion
         Rigidbody2D rb;
         Vector2 speedThisFrame = new Vector2();
         Vector2 speedPreFrame = new Vector2();
+        bool _activate = false;
+        void _active() => _activate = true;
         int jumpTime = 0;
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             playerInput = GetComponent<FrameInput>();
+            Invoke(nameof(_active), 0.5f);
         }
         private void FixedUpdate()
         {
-            rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
+            //rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
         }
         void Update()
         {
-            speedPreFrame = Quaternion.Euler(0, 0, -Manager.MyGameManager.instance.stageManager.gravityAngle) * rb.velocity;
+            if (!_activate)
+                return;
+            speedPreFrame = speedThisFrame;//Quaternion.Euler(0, 0, -Manager.MyGameManager.instance.stageManager.gravityAngle) * rb.velocity;
             //Debug.Log(speedPreFrame);
-            speedThisFrame.Set(0, 0);
+            //speedThisFrame.Set(0, 0);
             playerInput.update();
             collisionCheck();
             updateState();
-            move();
-            jump();
+            CalculateMove();
+            CalculateGravity();
+            CalculateJump();
             CalculateClimb();
             CalculateSprint();
+            Debug.Log($"{colDow} {colLef} {colRig} {colUp}");
             //rb.velocity = speedThisFrame;
             //MovePlayer();
-            rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
+            //rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
             //Debug.Log($"{rb.velocity}");
+            MovePlayer();
             Velocity = speedThisFrame;
         }
         void collisionCheck()
@@ -167,7 +181,7 @@ namespace Player
                 Grounded = colDow;
             }
         }
-        void move()
+        void CalculateMove()
         {
             speedThisFrame.x = playerInput.Horizontal * walkSpeed;
             if (speedThisFrame.x * transform.localScale.x < 0)
@@ -176,25 +190,28 @@ namespace Player
                 transform.localScale = new Vector3(-1 * tscale.x, tscale.y, tscale.z);
             }
         }
-        void jump()
+        void CalculateJump()
         {
-            speedThisFrame.y = speedPreFrame.y;
+            //speedThisFrame.y = speedPreFrame.y;
             if (playerInput.Jump && jumpTime < maxJumpTime)
             {
                 JumpingThisFrame = true;
                 speedThisFrame.y = jumpSpeed;
                 ++jumpTime;
             }
+            if (!sprintThisFrame)
+            {
+                // 下面两个增加手感
+                if (speedThisFrame.y < 0)
+                {
+                    speedThisFrame += Vector2.up * -14 * (fallMultiplier - 1) * Time.deltaTime;
+                }
+                else if (speedThisFrame.y > 0 && !playerInput.HoldJump)
+                {
+                    speedThisFrame += Vector2.up * -14 * (lowJumpMultiplier - 1) * Time.deltaTime;
+                }
+            }
 
-            // 下面两个增加手感
-            if (speedThisFrame.y < 0)
-            {
-                speedThisFrame += Vector2.up * -14 * (fallMultiplier - 1) * Time.deltaTime;
-            }
-            else if (speedThisFrame.y > 0 && !playerInput.HoldJump)
-            {
-                speedThisFrame += Vector2.up * -14 * (lowJumpMultiplier - 1) * Time.deltaTime;
-            }
             // 下落最大速度
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -maxFallSpeed);
         }
@@ -264,24 +281,66 @@ namespace Player
                 return;
             if (playerInput.Sprint)
             {
-                StartCoroutine(_Sprint(sprintVelocityGain * walkSpeed * faceDir));
+                StartCoroutine(_Sprint(new Vector2(playerInput.Horizontal, playerInput.Vertical) * sprintVelocityGain * walkSpeed));
                 //Debug.Log($"{speedThisFrame}");
             }
         }
-        IEnumerator _Sprint(float speed)
+        IEnumerator _Sprint(Vector2 speed)
         {
+            if (sprintThisFrame)
+                yield break;
+            sprintThisFrame = true;
             float t = 0;
-            //yield return null;
             float p = rb.gravityScale;
-            rb.gravityScale = 0;
+            //rb.gravityScale = 0;
             while (t < sprintDurition)
             {
-                speedThisFrame.y = 0;
-                speedThisFrame.x = speed;
+                speedThisFrame.y = speed.y;
+                speedThisFrame.x = speed.x;
                 t += Time.deltaTime;
                 yield return null;
             }
+            speedThisFrame.y = 0f;
             rb.gravityScale = p;
+            while (!colDow) { yield return null; }
+            sprintThisFrame = false;
+        }
+
+        void CalculateGravity()
+        {
+            if (colDow)
+            {
+                speedThisFrame.y = 0;
+            }
+            else
+            {
+                speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravitySize * gravityScale * Time.deltaTime;
+            }
+        }
+        void MovePlayer()
+        {
+            var pos = transform.position;
+            var move = new Vector3(speedThisFrame.x, speedThisFrame.y) * Time.deltaTime;
+            var furPos = pos + move;
+            var hit = Physics2D.OverlapBox(furPos, playerSize.size, 0, groundLayer);
+            //transform.position += move;
+            if (!hit)
+            {
+                transform.position += move;
+                return;
+            }
+            var moveto = transform.position;
+            for (int i = 1; i <= _freeColliderIterations; ++i)
+            {
+                var t = (float)i / _freeColliderIterations;
+                var postry = Vector2.Lerp(pos, furPos, t);
+                if (Physics2D.OverlapBox(postry, playerSize.size, 0, groundLayer))
+                {
+                    transform.position = moveto;
+                    return;
+                }
+                moveto = postry;
+            }
         }
         private void drawRayRang(RayRange rayRange)
         {

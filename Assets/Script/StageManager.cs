@@ -25,6 +25,18 @@ namespace Manager
                 Physics2D.gravity = value;
             }
         }
+        public float _gravitySize = 0;
+        public float gravitySize
+        {
+            get
+            {
+                if (_gravitySize * _gravitySize != gravity.magnitude)
+                {
+                    _gravitySize = gravity.sqrMagnitude;
+                }
+                return _gravitySize;
+            }
+        }
         private float _gravityAngle = 0f;
         private float initalGrivateSize;
         public GameObject playerPrefab;
