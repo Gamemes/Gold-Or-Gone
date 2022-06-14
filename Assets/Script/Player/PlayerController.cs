@@ -84,6 +84,7 @@ namespace Player
         float climbTime = 0f;
         public float climbMoveSpeed = 4f;
         public float climbJumpSpeed = 10f;
+        public float climbJumpHorSpeed = 20f;
         public float climbJumpDurition = 0.3f;
         public float climbJumpWalkInfluence = 1f;
         #endregion
@@ -118,16 +119,12 @@ namespace Player
             playerInput.update();
             collisionCheck();
             updateState();
-            CalculateMove();
             CalculateGravity();
+            CalculateMove();
             CalculateJump();
             CalculateClimb();
             CalculateSprint();
-            Debug.Log($"{colDow} {colLef} {colRig} {colUp}");
-            //rb.velocity = speedThisFrame;
-            //MovePlayer();
             //rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
-            //Debug.Log($"{rb.velocity}");
             MovePlayer();
             Velocity = speedThisFrame;
         }
@@ -183,7 +180,15 @@ namespace Player
         }
         void CalculateMove()
         {
-            speedThisFrame.x = playerInput.Horizontal * walkSpeed;
+            if (playerInput.Horizontal != 0f)
+            {
+                if (!sprintThisFrame)
+                    speedThisFrame.x = playerInput.Horizontal * walkSpeed;
+            }
+            else
+            {
+                speedThisFrame.x = Mathf.MoveTowards(speedThisFrame.x, 0, 60 * Time.deltaTime);
+            }
             if (speedThisFrame.x * transform.localScale.x < 0)
             {
                 Vector3 tscale = transform.localScale;
@@ -193,14 +198,14 @@ namespace Player
         void CalculateJump()
         {
             //speedThisFrame.y = speedPreFrame.y;
-            if (playerInput.Jump && jumpTime < maxJumpTime)
-            {
-                JumpingThisFrame = true;
-                speedThisFrame.y = jumpSpeed;
-                ++jumpTime;
-            }
             if (!sprintThisFrame)
             {
+                if (playerInput.Jump && jumpTime < maxJumpTime)
+                {
+                    JumpingThisFrame = true;
+                    speedThisFrame.y = jumpSpeed;
+                    ++jumpTime;
+                }
                 // 下面两个增加手感
                 if (speedThisFrame.y < 0)
                 {
@@ -233,11 +238,11 @@ namespace Player
                     {
                         if (colLef)
                         {
-                            StartCoroutine(_ClimbJump(climbJumpSpeed));
+                            StartCoroutine(_ClimbJump(climbJumpHorSpeed));
                         }
                         else
                         {
-                            StartCoroutine(_ClimbJump(-climbJumpSpeed));
+                            StartCoroutine(_ClimbJump(-climbJumpHorSpeed));
                         }
                     }
                     else
@@ -258,15 +263,14 @@ namespace Player
         IEnumerator _ClimbJump(float speed)
         {
             float t = 0f;
-            speedThisFrame.y = speedThisFrame.y + Mathf.Abs(speed) * 0.4f;
+            speedThisFrame.y = climbJumpSpeed;
             float s;
             while (t < climbJumpDurition)
             {
                 if ((colLef || colRig) && t > 0.1f)
                     break;
                 t += Time.deltaTime;
-
-                s = (climbJumpDurition - t) / climbJumpDurition * speed;
+                s = speed * (1 - (t / climbJumpDurition));
                 if (speedThisFrame.x * speed < 0)
                     s += (t / climbJumpDurition + climbJumpWalkInfluence) * speedThisFrame.x;
                 else
@@ -274,6 +278,8 @@ namespace Player
                 speedThisFrame.x = s;
                 yield return null;
             }
+            //speedThisFrame.y = 0;
+            //speedThisFrame.x = 0;
         }
         void CalculateSprint()
         {
@@ -291,19 +297,16 @@ namespace Player
                 yield break;
             sprintThisFrame = true;
             float t = 0;
-            float p = rb.gravityScale;
-            //rb.gravityScale = 0;
             while (t < sprintDurition)
             {
-                speedThisFrame.y = speed.y;
-                speedThisFrame.x = speed.x;
+                speedThisFrame.y = speed.y * (t / sprintDurition);
+                speedThisFrame.x = speed.x * (t / sprintDurition);
                 t += Time.deltaTime;
                 yield return null;
             }
             speedThisFrame.y = 0f;
-            rb.gravityScale = p;
-            while (!colDow) { yield return null; }
             sprintThisFrame = false;
+            //while (!colDow) { yield return null; }
         }
 
         void CalculateGravity()
@@ -320,7 +323,14 @@ namespace Player
         void MovePlayer()
         {
             var pos = transform.position;
-            var move = new Vector3(speedThisFrame.x, speedThisFrame.y) * Time.deltaTime;
+            var rawMovement = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
+            if (colLef && speedThisFrame.x < 0)
+                rawMovement.x = 0;
+            if (colRig && speedPreFrame.x > 0)
+                rawMovement.x = 0;
+            if (colUp && speedThisFrame.y > 0)
+                rawMovement.y = 0;
+            var move = new Vector3(rawMovement.x, rawMovement.y) * Time.deltaTime;
             var furPos = pos + move;
             var hit = Physics2D.OverlapBox(furPos, playerSize.size, 0, groundLayer);
             //transform.position += move;
