@@ -54,7 +54,7 @@ namespace Player
             {
                 this.playerController.enabled = true;
                 this.godCntroller.enabled = false;
-                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.bodyType = RigidbodyType2D.Kinematic;
                 Manager.MyGameManager.instance.stageManager.stageCamera.Follow = transform;
             }
         }

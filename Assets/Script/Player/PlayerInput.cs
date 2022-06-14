@@ -134,7 +134,7 @@ namespace Player
                 {
                     ""name"": ""GamePad"",
                     ""id"": ""54256fbd-2380-4294-9488-967cb3b842a5"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

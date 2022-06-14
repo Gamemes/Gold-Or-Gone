@@ -290,7 +290,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233709921}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -2051,28 +2051,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: jumpSpeed
-      value: 35
+      propertyPath: climbJumpSpeed
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: fallMultiplier
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: sprintDurition
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: climbJumpDurition
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: sprintVelocityGain
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1412787739393906183, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
-      propertyPath: climbJumpWalkInfluence
-      value: 1.1
+      propertyPath: climbJumpHorSpeed
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906186, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
       propertyPath: cameraObj

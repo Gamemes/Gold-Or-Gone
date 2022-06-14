@@ -127,8 +127,8 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412787739393906206}
-  m_BodyType: 2
-  m_Simulated: 0
+  m_BodyType: 1
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -152,10 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a4eaf34aa38e64eb27a4c67bb95382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallMultiplier: 9
-  lowJumpMultiplier: 14
-  jumpSpeed: 32
-  maxFallSpeed: 25
+  fallMultiplier: 20
+  lowJumpMultiplier: 30
+  jumpSpeed: 38
+  maxFallSpeed: 40
   maxJumpTime: 2
   walkSpeed: 15
   playerSize:
@@ -166,18 +166,19 @@ MonoBehaviour:
     m_Bits: 64
   detectionLength: 0.07
   detectionNums: 22
-  activeSprint: 1
-  sprintVelocityGain: 5
-  sprintDurition: 0.12
-  sprintThisFrame: 0
   activeClimb: 1
   maxClimbTime: 2
   climbMoveSpeed: 10
   climbJumpSpeed: 15
-  climbJumpDurition: 1
+  climbJumpHorSpeed: 20
+  climbJumpDurition: 0.2
   climbJumpWalkInfluence: 1.1
   gravityScale: 0.75
   _freeColliderIterations: 10
+  activeSprint: 1
+  sprintVelocityGain: 3.5
+  sprintDurition: 0.1
+  sprintThisFrame: 0
 --- !u!114 &645518996
 MonoBehaviour:
   m_ObjectHideFlags: 0

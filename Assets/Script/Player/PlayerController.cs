@@ -69,14 +69,7 @@ namespace Player
         public int detectionNums = 10;
         #endregion
 
-        #region 冲刺
-        [Header("冲刺")]
-        public bool activeSprint = true;
-        [Tooltip("玩家获得的速度加强")]
-        public float sprintVelocityGain = 20f;
-        public float sprintDurition = 0.2f;
-        public bool sprintThisFrame = false;
-        #endregion
+
         #region 爬墙
         [Header("爬墙")]
         public bool activeClimb = true;
@@ -281,6 +274,15 @@ namespace Player
             //speedThisFrame.y = 0;
             //speedThisFrame.x = 0;
         }
+        #region 冲刺
+        [Header("冲刺")]
+        public bool activeSprint = true;
+        [Tooltip("玩家获得的速度加强")]
+        public float sprintVelocityGain = 20f;
+        public float sprintDurition = 0.2f;
+        public bool sprintThisFrame = false;
+        private bool canSprint = true;
+        #endregion
         void CalculateSprint()
         {
             if (!activeSprint)
@@ -293,20 +295,23 @@ namespace Player
         }
         IEnumerator _Sprint(Vector2 speed)
         {
-            if (sprintThisFrame)
+            Debug.Log($"Sprint :{speed}");
+            if (sprintThisFrame || !canSprint)
                 yield break;
+            canSprint = false;
             sprintThisFrame = true;
             float t = 0;
             while (t < sprintDurition)
             {
-                speedThisFrame.y = speed.y * (t / sprintDurition);
-                speedThisFrame.x = speed.x * (t / sprintDurition);
+                speedThisFrame.y = speed.y;
+                speedThisFrame.x = speed.x;
                 t += Time.deltaTime;
                 yield return null;
             }
             speedThisFrame.y = 0f;
             sprintThisFrame = false;
-            //while (!colDow) { yield return null; }
+            while (!colDow) { yield return null; }
+            canSprint = true;
         }
 
         void CalculateGravity()
