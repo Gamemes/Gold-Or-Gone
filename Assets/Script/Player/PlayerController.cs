@@ -46,16 +46,7 @@ namespace Player
             get => transform.localScale.x > 0 ? 1 : -1;
         }
         #endregion
-        #region 跳跃参数
-        [Header("跳跃参数")]
-        public float fallMultiplier = 4f;
 
-        public float lowJumpMultiplier = 10f;
-        [Range(1, 100)]
-        public float jumpSpeed = 24f;
-        public float maxFallSpeed = 25f;
-        public int maxJumpTime = 2;
-        #endregion
         #region 行走参数
         [Header("行走参数")]
         public float walkSpeed = 11f;
@@ -81,11 +72,7 @@ namespace Player
         public float climbJumpDurition = 0.3f;
         public float climbJumpWalkInfluence = 1f;
         #endregion
-        #region 重力
-        [Header("重力")]
-        public float gravityScale = 1.0f;
-        public int _freeColliderIterations = 10;
-        #endregion
+
         Rigidbody2D rb;
         Vector2 speedThisFrame = new Vector2();
         Vector2 speedPreFrame = new Vector2();
@@ -96,7 +83,7 @@ namespace Player
         {
             rb = GetComponent<Rigidbody2D>();
             playerInput = GetComponent<FrameInput>();
-            Invoke(nameof(_active), 0.5f);
+            Invoke(nameof(_active), 1f);
         }
         private void FixedUpdate()
         {
@@ -118,8 +105,17 @@ namespace Player
             CalculateClimb();
             CalculateSprint();
             //rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
-            MovePlayer();
             Velocity = speedThisFrame;
+        }
+        /// <summary>
+        /// LateUpdate is called every frame, if the Behaviour is enabled.
+        /// It is called after all Update functions have been called.
+        /// </summary>
+        private void LateUpdate()
+        {
+            if (!_activate)
+                return;
+            MovePlayer();
         }
         void collisionCheck()
         {
@@ -180,7 +176,7 @@ namespace Player
             }
             else
             {
-                speedThisFrame.x = Mathf.MoveTowards(speedThisFrame.x, 0, 60 * Time.deltaTime);
+                speedThisFrame.x = Mathf.MoveTowards(speedThisFrame.x, 0, 120 * Time.deltaTime);
             }
             if (speedThisFrame.x * transform.localScale.x < 0)
             {
@@ -188,32 +184,63 @@ namespace Player
                 transform.localScale = new Vector3(-1 * tscale.x, tscale.y, tscale.z);
             }
         }
+        #region 跳跃参数
+        [Header("跳跃参数")]
+        public float fallMultiplier = 4f;
+
+        public float lowJumpMultiplier = 10f;
+        [Range(1, 100)]
+        public float jumpSpeed = 24f;
+        public float maxFallSpeed = 25f;
+        public int maxJumpTime = 2;
+        public float jumpHoverTime = 0.1f;
+        private bool isHover = false;
+        #endregion
         void CalculateJump()
         {
             //speedThisFrame.y = speedPreFrame.y;
-            if (!sprintThisFrame)
+            if (playerInput.Jump && jumpTime < maxJumpTime)
             {
-                if (playerInput.Jump && jumpTime < maxJumpTime)
-                {
-                    JumpingThisFrame = true;
-                    speedThisFrame.y = jumpSpeed;
-                    ++jumpTime;
-                }
-                // 下面两个增加手感
-                if (speedThisFrame.y < 0)
-                {
-                    speedThisFrame += Vector2.up * -14 * (fallMultiplier - 1) * Time.deltaTime;
-                }
-                else if (speedThisFrame.y > 0 && !playerInput.HoldJump)
-                {
-                    speedThisFrame += Vector2.up * -14 * (lowJumpMultiplier - 1) * Time.deltaTime;
-                }
+                JumpingThisFrame = true;
+                speedThisFrame.y = jumpSpeed;
+                ++jumpTime;
             }
 
+            // 下面两个增加手感
+            if (speedThisFrame.y < 0)
+            {
+                speedThisFrame += Vector2.up * -14 * (fallMultiplier - 1) * Time.deltaTime;
+            }
+            else if (speedThisFrame.y > 0 && !playerInput.HoldJump)
+            {
+                speedThisFrame += Vector2.up * -14 * (lowJumpMultiplier - 1) * Time.deltaTime;
+            }
+            if (!colDow && speedThisFrame.y >= .0f && speedThisFrame.y <= 1f && !isHover)
+            {
+                Debug.Log($"hover");
+                //StartCoroutine(JumpHover(jumpHoverTime));
+            }
             // 下落最大速度
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -maxFallSpeed);
         }
+        IEnumerator JumpHover(float time)
+        {
+            if (isHover)
+                yield break;
 
+            float t = 0f;
+            isHover = true;
+            while (t < time)
+            {
+                if (playerInput.Jump)
+                    break;
+                speedThisFrame.y = Mathf.MoveTowards(speedThisFrame.y, 0, 10 * Time.deltaTime);
+                speedThisFrame.x *= 0.2f;
+                t += Time.deltaTime;
+                yield return 0;
+            }
+            isHover = false;
+        }
         void CalculateClimb()
         {
             if (!activeClimb)
@@ -313,20 +340,30 @@ namespace Player
             while (!colDow) { yield return null; }
             canSprint = true;
         }
-
+        #region 重力
+        [Header("重力")]
+        public bool activeGrivate = true;
+        public float gravityScale = 1.0f;
+        public int _freeColliderIterations = 10;
+        #endregion
         void CalculateGravity()
         {
+            if (!activeGrivate)
+                return;
             if (colDow)
             {
                 speedThisFrame.y = 0;
             }
             else
             {
-                speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravitySize * gravityScale * Time.deltaTime;
+                if (!sprintThisFrame && !isHover)
+                    speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravitySize * gravityScale * Time.deltaTime;
             }
         }
         void MovePlayer()
         {
+            if (Time.deltaTime > 0.1f)
+                return;
             var pos = transform.position;
             var rawMovement = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
             if (colLef && speedThisFrame.x < 0)

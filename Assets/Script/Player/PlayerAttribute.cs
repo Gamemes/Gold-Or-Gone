@@ -40,11 +40,13 @@ namespace Player
                 playerName = gameObject.name;
             Manager.MyGameManager.instance.stageManager.onGlodPlayerChange += this.onGodPlayerChange;
         }
-        void onGodPlayerChange(GameObject player)
+        void onGodPlayerChange(GameObject godPlayer)
         {
-            Debug.Log($"{this.gameObject} {player}");
-            if (player == this.gameObject)
+            Debug.Log($"{this.gameObject} {godPlayer}");
+            if (godPlayer == this.gameObject)
             {
+                this.frameInput._input.Player.Disable();
+                this.frameInput._input.God.Enable();
                 this.playerController.enabled = false;
                 this.godCntroller.enabled = true;
                 this.energy = 0;
@@ -52,6 +54,8 @@ namespace Player
             }
             else
             {
+                this.frameInput._input.Player.Enable();
+                this.frameInput._input.God.Disable();
                 this.playerController.enabled = true;
                 this.godCntroller.enabled = false;
                 rb.bodyType = RigidbodyType2D.Kinematic;

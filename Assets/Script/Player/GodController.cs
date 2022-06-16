@@ -23,10 +23,10 @@ namespace Player
                 Manager.MyGameManager.instance.stageManager.rotateGravityDuration(90, (float)90 / rotateSpeed);
                 //StartCoroutine(rotate());
             }
-            if (playerInput.Horizontal != 0f)
-            {
-                Manager.MyGameManager.instance.stageManager.rotate_Gravity(playerInput.Horizontal * Time.deltaTime * rotateAdjustSpeed);
-            }
+            // if (playerInput.Horizontal != 0f)
+            // {
+            //     Manager.MyGameManager.instance.stageManager.rotate_Gravity(playerInput.Horizontal * Time.deltaTime * rotateAdjustSpeed);
+            // }
         }
     }
 

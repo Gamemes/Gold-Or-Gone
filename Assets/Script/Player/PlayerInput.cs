@@ -57,15 +57,6 @@ namespace Player
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Rotate"",
-                    ""type"": ""Button"",
-                    ""id"": ""1a0d16ce-1743-4e3d-9144-46a27e88b412"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""42b6f236-c9d1-49cb-b5ec-f9040d14925f"",
@@ -232,28 +223,6 @@ namespace Player
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3e18d132-8be4-4ab0-8193-0753642d28ba"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""22920bc5-a216-44f8-84e3-1806565b5517"",
-                    ""path"": ""<XInputController>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""197c4746-5807-401f-bd92-b526bdc793dc"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -282,6 +251,45 @@ namespace Player
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""God"",
+            ""id"": ""75b3e22c-a924-45ff-b3a5-aff9d463b45f"",
+            ""actions"": [
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""ce0c31e1-8bc8-4544-9b90-2604102560df"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1e595481-d1d6-4bc4-a4a2-20fecd916f94"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e607e79-b4b4-4595-ba40-65177fbc76b1"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -872,8 +880,10 @@ namespace Player
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_Climb = m_Player.FindAction("Climb", throwIfNotFound: true);
-            m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
             m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+            // God
+            m_God = asset.FindActionMap("God", throwIfNotFound: true);
+            m_God_Rotate = m_God.FindAction("Rotate", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -948,7 +958,6 @@ namespace Player
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_Climb;
-        private readonly InputAction m_Player_Rotate;
         private readonly InputAction m_Player_Sprint;
         public struct PlayerActions
         {
@@ -957,7 +966,6 @@ namespace Player
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @Climb => m_Wrapper.m_Player_Climb;
-            public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
             public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
@@ -977,9 +985,6 @@ namespace Player
                     @Climb.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClimb;
                     @Climb.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClimb;
                     @Climb.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClimb;
-                    @Rotate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
-                    @Rotate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
-                    @Rotate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                     @Sprint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                     @Sprint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                     @Sprint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
@@ -996,9 +1001,6 @@ namespace Player
                     @Climb.started += instance.OnClimb;
                     @Climb.performed += instance.OnClimb;
                     @Climb.canceled += instance.OnClimb;
-                    @Rotate.started += instance.OnRotate;
-                    @Rotate.performed += instance.OnRotate;
-                    @Rotate.canceled += instance.OnRotate;
                     @Sprint.started += instance.OnSprint;
                     @Sprint.performed += instance.OnSprint;
                     @Sprint.canceled += instance.OnSprint;
@@ -1006,6 +1008,39 @@ namespace Player
             }
         }
         public PlayerActions @Player => new PlayerActions(this);
+
+        // God
+        private readonly InputActionMap m_God;
+        private IGodActions m_GodActionsCallbackInterface;
+        private readonly InputAction m_God_Rotate;
+        public struct GodActions
+        {
+            private @PlayerInput m_Wrapper;
+            public GodActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Rotate => m_Wrapper.m_God_Rotate;
+            public InputActionMap Get() { return m_Wrapper.m_God; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(GodActions set) { return set.Get(); }
+            public void SetCallbacks(IGodActions instance)
+            {
+                if (m_Wrapper.m_GodActionsCallbackInterface != null)
+                {
+                    @Rotate.started -= m_Wrapper.m_GodActionsCallbackInterface.OnRotate;
+                    @Rotate.performed -= m_Wrapper.m_GodActionsCallbackInterface.OnRotate;
+                    @Rotate.canceled -= m_Wrapper.m_GodActionsCallbackInterface.OnRotate;
+                }
+                m_Wrapper.m_GodActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Rotate.started += instance.OnRotate;
+                    @Rotate.performed += instance.OnRotate;
+                    @Rotate.canceled += instance.OnRotate;
+                }
+            }
+        }
+        public GodActions @God => new GodActions(this);
 
         // UI
         private readonly InputActionMap m_UI;
@@ -1161,8 +1196,11 @@ namespace Player
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnClimb(InputAction.CallbackContext context);
-            void OnRotate(InputAction.CallbackContext context);
             void OnSprint(InputAction.CallbackContext context);
+        }
+        public interface IGodActions
+        {
+            void OnRotate(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
