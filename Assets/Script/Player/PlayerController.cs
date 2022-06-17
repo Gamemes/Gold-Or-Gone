@@ -217,7 +217,7 @@ namespace Player
             }
             if (!colDow && speedThisFrame.y >= .0f && speedThisFrame.y <= 1f && !isHover)
             {
-                Debug.Log($"hover");
+                //Debug.Log($"hover");
                 //StartCoroutine(JumpHover(jumpHoverTime));
             }
             // 下落最大速度
@@ -357,7 +357,7 @@ namespace Player
             else
             {
                 if (!sprintThisFrame && !isHover)
-                    speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravitySize * gravityScale * Time.deltaTime;
+                    speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravity.sqrMagnitude * gravityScale * Time.deltaTime;
             }
         }
         void MovePlayer()
@@ -365,17 +365,19 @@ namespace Player
             if (Time.deltaTime > 0.1f)
                 return;
             var pos = transform.position;
-            var rawMovement = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
             if (colLef && speedThisFrame.x < 0)
-                rawMovement.x = 0;
+                speedThisFrame.x = 0;
             if (colRig && speedPreFrame.x > 0)
-                rawMovement.x = 0;
+                speedThisFrame.x = 0;
             if (colUp && speedThisFrame.y > 0)
-                rawMovement.y = 0;
+                speedThisFrame.y = 0;
+            if (colDow && speedThisFrame.y < 0)
+                speedThisFrame.y = 0;
+            var rawMovement = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
             var move = new Vector3(rawMovement.x, rawMovement.y) * Time.deltaTime;
             var furPos = pos + move;
-            var hit = Physics2D.OverlapBox(furPos, playerSize.size, 0, groundLayer);
-            //transform.position += move;
+            //var hit = Physics2D.Linecast(pos, furPos, groundLayer);
+            var hit = Physics2D.OverlapBox(furPos, playerSize.size, Manager.MyGameManager.instance.stageManager.gravityAngle, groundLayer);
             if (!hit)
             {
                 transform.position += move;
@@ -386,7 +388,7 @@ namespace Player
             {
                 var t = (float)i / _freeColliderIterations;
                 var postry = Vector2.Lerp(pos, furPos, t);
-                if (Physics2D.OverlapBox(postry, playerSize.size, 0, groundLayer))
+                if (Physics2D.OverlapBox(postry, playerSize.size, Manager.MyGameManager.instance.stageManager.gravityAngle, groundLayer))
                 {
                     transform.position = moveto;
                     return;

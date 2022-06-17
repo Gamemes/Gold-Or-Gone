@@ -9,10 +9,14 @@ namespace Player
         public FrameInput playerInput { get; private set; }
         public bool RotatingThisFrame { get; private set; } = false;
         public float rotateSpeed = 10f;
-        public float rotateAdjustSpeed = 4f;
-        private void Awake()
+        private float adjustSpeed = 0f;
+        private PlayerInput.GodActions godinput;
+        private Manager.StageManager stageManager;
+        private void Start()
         {
             playerInput = GetComponent<FrameInput>();
+            godinput = playerInput._input.God;
+            stageManager = Manager.MyGameManager.instance.stageManager;
         }
         // Update is called once per frame
         void Update()
@@ -20,8 +24,22 @@ namespace Player
             playerInput.update();
             if (playerInput.Rotate)
             {
-                Manager.MyGameManager.instance.stageManager.rotateGravityDuration(90, (float)90 / rotateSpeed);
+                Manager.MyGameManager.instance.stageManager.rotateGravityDuration(godinput.RotateDir.ReadValue<float>() * 90f, (float)90 / rotateSpeed);
                 //StartCoroutine(rotate());
+            }
+            if (godinput.GrivateUp.IsPressed())
+            {
+                adjustSpeed += Time.deltaTime;
+                stageManager.addGrivate(Time.deltaTime);
+            }
+            else if (godinput.GrivateDown.IsPressed())
+            {
+                adjustSpeed += Time.deltaTime;
+                stageManager.addGrivate(-Time.deltaTime);
+            }
+            else
+            {
+                adjustSpeed = 0;
             }
             // if (playerInput.Horizontal != 0f)
             // {

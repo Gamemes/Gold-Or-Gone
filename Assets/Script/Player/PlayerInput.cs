@@ -268,6 +268,33 @@ namespace Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateDir"",
+                    ""type"": ""Value"",
+                    ""id"": ""c2add8b6-1ca1-4e72-929a-db0ea0439c35"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""GrivateUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""f6cb18d4-37ef-4aae-9ec9-c12438c060b5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GrivateDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""fa226272-8cd1-4e9a-8248-8733c5e3847d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -292,6 +319,160 @@ namespace Player
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7dcce696-6c99-48d6-9a4e-66487a633ece"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""0a1d3ce0-66e6-4421-9f50-103bf5f388d2"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateUp"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""b3bfa6d6-0ce7-430b-877d-a367211ab915"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""d1f575b3-7da1-4217-abc8-3d4338f215df"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d90f1ed0-9e1a-41ac-be1f-c6a194d88fc0"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""ea86b835-fee0-4ec8-b4bc-42ac1f5956ab"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateDown"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""9f392869-490f-453e-897b-18949a395d50"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""4cb85685-ba30-4e08-b4f3-eefd04b30d20"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""f4e4926f-685e-433c-9496-79b62500d3f3"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateDir"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""e0f9fd68-0e26-41a4-a3f9-f0881832aff5"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateDir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""8004544b-ce45-43ac-b497-f5e16fd6b404"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateDir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""dfd3a328-8fa8-489d-99d3-74f29d3beab5"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateDir"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""2547ea47-fe57-4ec0-a68c-5645c268efaa"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateDir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b2c78e12-5bfa-4f31-92d7-35b79fa55c78"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateDir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -884,6 +1065,9 @@ namespace Player
             // God
             m_God = asset.FindActionMap("God", throwIfNotFound: true);
             m_God_Rotate = m_God.FindAction("Rotate", throwIfNotFound: true);
+            m_God_RotateDir = m_God.FindAction("RotateDir", throwIfNotFound: true);
+            m_God_GrivateUp = m_God.FindAction("GrivateUp", throwIfNotFound: true);
+            m_God_GrivateDown = m_God.FindAction("GrivateDown", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1013,11 +1197,17 @@ namespace Player
         private readonly InputActionMap m_God;
         private IGodActions m_GodActionsCallbackInterface;
         private readonly InputAction m_God_Rotate;
+        private readonly InputAction m_God_RotateDir;
+        private readonly InputAction m_God_GrivateUp;
+        private readonly InputAction m_God_GrivateDown;
         public struct GodActions
         {
             private @PlayerInput m_Wrapper;
             public GodActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Rotate => m_Wrapper.m_God_Rotate;
+            public InputAction @RotateDir => m_Wrapper.m_God_RotateDir;
+            public InputAction @GrivateUp => m_Wrapper.m_God_GrivateUp;
+            public InputAction @GrivateDown => m_Wrapper.m_God_GrivateDown;
             public InputActionMap Get() { return m_Wrapper.m_God; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1030,6 +1220,15 @@ namespace Player
                     @Rotate.started -= m_Wrapper.m_GodActionsCallbackInterface.OnRotate;
                     @Rotate.performed -= m_Wrapper.m_GodActionsCallbackInterface.OnRotate;
                     @Rotate.canceled -= m_Wrapper.m_GodActionsCallbackInterface.OnRotate;
+                    @RotateDir.started -= m_Wrapper.m_GodActionsCallbackInterface.OnRotateDir;
+                    @RotateDir.performed -= m_Wrapper.m_GodActionsCallbackInterface.OnRotateDir;
+                    @RotateDir.canceled -= m_Wrapper.m_GodActionsCallbackInterface.OnRotateDir;
+                    @GrivateUp.started -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateUp;
+                    @GrivateUp.performed -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateUp;
+                    @GrivateUp.canceled -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateUp;
+                    @GrivateDown.started -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateDown;
+                    @GrivateDown.performed -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateDown;
+                    @GrivateDown.canceled -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateDown;
                 }
                 m_Wrapper.m_GodActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1037,6 +1236,15 @@ namespace Player
                     @Rotate.started += instance.OnRotate;
                     @Rotate.performed += instance.OnRotate;
                     @Rotate.canceled += instance.OnRotate;
+                    @RotateDir.started += instance.OnRotateDir;
+                    @RotateDir.performed += instance.OnRotateDir;
+                    @RotateDir.canceled += instance.OnRotateDir;
+                    @GrivateUp.started += instance.OnGrivateUp;
+                    @GrivateUp.performed += instance.OnGrivateUp;
+                    @GrivateUp.canceled += instance.OnGrivateUp;
+                    @GrivateDown.started += instance.OnGrivateDown;
+                    @GrivateDown.performed += instance.OnGrivateDown;
+                    @GrivateDown.canceled += instance.OnGrivateDown;
                 }
             }
         }
@@ -1201,6 +1409,9 @@ namespace Player
         public interface IGodActions
         {
             void OnRotate(InputAction.CallbackContext context);
+            void OnRotateDir(InputAction.CallbackContext context);
+            void OnGrivateUp(InputAction.CallbackContext context);
+            void OnGrivateDown(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

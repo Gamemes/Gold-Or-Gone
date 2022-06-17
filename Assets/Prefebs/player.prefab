@@ -9865,7 +9865,7 @@ MonoBehaviour:
   sprintThisFrame: 0
   activeGrivate: 1
   gravityScale: 0.75
-  _freeColliderIterations: 10
+  _freeColliderIterations: 40
 --- !u!114 &645518996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9879,7 +9879,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 130
-  rotateAdjustSpeed: 15
 --- !u!114 &1412787739393906180
 MonoBehaviour:
   m_ObjectHideFlags: 0
