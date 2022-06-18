@@ -45,14 +45,21 @@ namespace Player
         }
         public void update()
         {
-            var vec = _input.Player.Move.ReadValue<Vector2>();
-            Horizontal = vec.x;
-            Vertical = vec.y;
-            Jump = _input.Player.Jump.WasPressedThisFrame();
-            HoldJump = _input.Player.Jump.IsPressed();
-            Rotate = _input.Player.Rotate.WasPressedThisFrame();
-            Climb = _input.Player.Climb.IsPressed();
-            Sprint = _input.Player.Sprint.WasPressedThisFrame();
+            if (_input.Player.enabled)
+            {
+                var vec = _input.Player.Move.ReadValue<Vector2>();
+                Horizontal = vec.x;
+                Vertical = vec.y;
+                Jump = _input.Player.Jump.WasPressedThisFrame();
+                HoldJump = _input.Player.Jump.IsPressed();
+                Climb = _input.Player.Climb.IsPressed();
+                Sprint = _input.Player.Sprint.WasPressedThisFrame();
+            }
+            else
+            {
+                Rotate = _input.God.Rotate.WasPressedThisFrame();
+            }
+            //
         }
         public override string ToString()
         {

@@ -25,16 +25,24 @@ namespace Manager
                 Physics2D.gravity = value;
             }
         }
-        public float _gravitySize = 0;
+        private float _gravitySize = 0;
         public float gravitySize
         {
             get
             {
-                if (_gravitySize * _gravitySize != gravity.magnitude)
+                if (_gravitySize * _gravitySize != gravity.sqrMagnitude)
                 {
-                    _gravitySize = gravity.sqrMagnitude;
+                    _gravitySize = gravity.magnitude;
                 }
                 return _gravitySize;
+            }
+            set
+            {
+                Debug.Log($"{value}");
+                _gravitySize = MathF.Min(50, value);
+                Vector2 griv = new Vector2(0, -_gravitySize);
+                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+                Debug.Log($"change grivate {_gravitySize}");
             }
         }
         private float _gravityAngle = 0f;
@@ -73,7 +81,9 @@ namespace Manager
         {
             MyGameManager.instance.setStageManager(this);
             gravityDirection = gravity.normalized;
-            initalGrivateSize = gravity.sqrMagnitude;
+            initalGrivateSize = gravity.magnitude;
+            _gravitySize = initalGrivateSize;
+            Debug.Log($"{gravity} initalGrivateSize {initalGrivateSize}");
             InputSystem.onDeviceChange += this.onDeviceChange;
             if (stageCamera == null)
                 stageCamera = GameObject.FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
@@ -161,6 +171,8 @@ namespace Manager
         {
             float _ang = 0;
             float dangle, t = 0f, x, _x;
+            float dir = angle < 0 ? -1 : 1;
+            angle = Mathf.Abs(angle);
             while (t < duration)
             {
                 _x = (float)t / duration;
@@ -168,7 +180,7 @@ namespace Manager
                 x = (float)t / duration;
                 dangle = (Mathf.Pow(x, 4) - Mathf.Pow(_x, 4)) * angle;
                 dangle = Mathf.Min(dangle, angle - _ang);
-                rotate_Gravity(dangle);
+                rotate_Gravity(dir * dangle);
                 _ang += dangle;
                 yield return null;
             }
@@ -176,6 +188,7 @@ namespace Manager
         }
         public void rotateGravityDuration(float angle, float duration = 1f)
         {
+            //Debug.Log($"rotate {angle}");
             StartCoroutine(_rotateGravityDuration(angle, duration));
         }
         public void reSetGrivateSize()
@@ -187,6 +200,10 @@ namespace Manager
         {
             Vector2 griv = new Vector2(0, -initalGrivateSize * val);
             gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+        }
+        public void addGrivate(float val)
+        {
+            gravitySize += val;
         }
         #endregion
         private void OnDisable()
