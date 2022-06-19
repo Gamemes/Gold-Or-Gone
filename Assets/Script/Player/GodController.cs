@@ -24,7 +24,8 @@ namespace Player
             playerInput.update();
             if (playerInput.Rotate)
             {
-                Manager.MyGameManager.instance.stageManager.rotateGravityDuration(godinput.RotateDir.ReadValue<float>() * 90f, (float)90 / rotateSpeed);
+                int dir = (int)godinput.RotateDir.ReadValue<float>();
+                Manager.MyGameManager.instance.stageManager.rotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
                 //StartCoroutine(rotate());
             }
             if (godinput.GrivateUp.IsPressed())

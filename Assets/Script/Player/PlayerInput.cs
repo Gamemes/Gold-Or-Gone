@@ -425,7 +425,7 @@ namespace Player
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""RotateDir"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -436,7 +436,7 @@ namespace Player
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""RotateDir"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -458,7 +458,7 @@ namespace Player
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""RotateDir"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -469,7 +469,7 @@ namespace Player
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""RotateDir"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true

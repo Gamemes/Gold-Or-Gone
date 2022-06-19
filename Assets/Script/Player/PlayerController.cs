@@ -59,20 +59,6 @@ namespace Player
         public float detectionLength = 0.5f;
         public int detectionNums = 10;
         #endregion
-
-
-        #region 爬墙
-        [Header("爬墙")]
-        public bool activeClimb = true;
-        public float maxClimbTime = 4f;
-        float climbTime = 0f;
-        public float climbMoveSpeed = 4f;
-        public float climbJumpSpeed = 10f;
-        public float climbJumpHorSpeed = 20f;
-        public float climbJumpDurition = 0.3f;
-        public float climbJumpWalkInfluence = 1f;
-        #endregion
-
         Rigidbody2D rb;
         Vector2 speedThisFrame = new Vector2();
         Vector2 speedPreFrame = new Vector2();
@@ -83,7 +69,7 @@ namespace Player
         {
             rb = GetComponent<Rigidbody2D>();
             playerInput = GetComponent<FrameInput>();
-            Invoke(nameof(_active), 1f);
+            Invoke(nameof(_active), 0.5f);
         }
         private void FixedUpdate()
         {
@@ -93,9 +79,7 @@ namespace Player
         {
             if (!_activate)
                 return;
-            speedPreFrame = speedThisFrame;//Quaternion.Euler(0, 0, -Manager.MyGameManager.instance.stageManager.gravityAngle) * rb.velocity;
-            //Debug.Log(speedPreFrame);
-            //speedThisFrame.Set(0, 0);
+            speedPreFrame = speedThisFrame;
             playerInput.update();
             collisionCheck();
             updateState();
@@ -104,8 +88,6 @@ namespace Player
             CalculateJump();
             CalculateClimb();
             CalculateSprint();
-            //rb.velocity = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
-            Velocity = speedThisFrame;
         }
         /// <summary>
         /// LateUpdate is called every frame, if the Behaviour is enabled.
@@ -116,6 +98,7 @@ namespace Player
             if (!_activate)
                 return;
             MovePlayer();
+            Velocity = speedThisFrame;
         }
         void collisionCheck()
         {
@@ -135,11 +118,6 @@ namespace Player
             var minpos = b.min;
             var maxpos = b.max;
             float angle = transform.rotation.eulerAngles.z;
-            // if (Manager.MyGameManager.instance && Manager.MyGameManager.instance.stageManager != null)
-            //     angle = Manager.MyGameManager.instance.stageManager.gravityAngle;
-            // else
-            //     angle = 0;
-            //Debug.Log(angle);
             _coldown = new RayRange(minpos, new Vector2(maxpos.x, minpos.y), Vector2.down, transform.position, angle);
             _colLef = new RayRange(minpos, new Vector2(minpos.x, maxpos.y), Vector2.left, transform.position, angle);
             _colRig = new RayRange(new Vector2(maxpos.x, minpos.y), maxpos, Vector2.right, transform.position, angle);
@@ -147,10 +125,9 @@ namespace Player
         }
         private IEnumerable<Vector2> lerpPoint(RayRange ran, int nums)
         {
-            //Debug.Log($"{ran.Start} {ran.End} {ran.Dir}");
-            for (var i = 1; i <= nums; i++)
+            for (var i = 0; i <= nums; i++)
             {
-                yield return Vector2.Lerp(ran.Start, ran.End, (float)i / (nums + 1));
+                yield return Vector2.Lerp(ran.Start, ran.End, (float)i / nums);
             }
         }
         void updateState()
@@ -195,10 +172,9 @@ namespace Player
         public int maxJumpTime = 2;
         public float jumpHoverTime = 0.1f;
         private bool isHover = false;
-        #endregion
+
         void CalculateJump()
         {
-            //speedThisFrame.y = speedPreFrame.y;
             if (playerInput.Jump && jumpTime < maxJumpTime)
             {
                 JumpingThisFrame = true;
@@ -214,11 +190,6 @@ namespace Player
             else if (speedThisFrame.y > 0 && !playerInput.HoldJump)
             {
                 speedThisFrame += Vector2.up * -14 * (lowJumpMultiplier - 1) * Time.deltaTime;
-            }
-            if (!colDow && speedThisFrame.y >= .0f && speedThisFrame.y <= 1f && !isHover)
-            {
-                //Debug.Log($"hover");
-                //StartCoroutine(JumpHover(jumpHoverTime));
             }
             // 下落最大速度
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -maxFallSpeed);
@@ -241,6 +212,18 @@ namespace Player
             }
             isHover = false;
         }
+        #endregion
+        #region 爬墙
+        [Header("爬墙")]
+        public bool activeClimb = true;
+        public float maxClimbTime = 4f;
+        float climbTime = 0f;
+        public float climbMoveSpeed = 4f;
+        public float climbJumpSpeed = 10f;
+        public float climbJumpHorSpeed = 20f;
+        public float climbJumpDurition = 0.3f;
+        public float climbJumpWalkInfluence = 1f;
+        #endregion
         void CalculateClimb()
         {
             if (!activeClimb)
@@ -317,12 +300,10 @@ namespace Player
             if (playerInput.Sprint)
             {
                 StartCoroutine(_Sprint(new Vector2(playerInput.Horizontal, playerInput.Vertical) * sprintVelocityGain * walkSpeed));
-                //Debug.Log($"{speedThisFrame}");
             }
         }
         IEnumerator _Sprint(Vector2 speed)
         {
-            Debug.Log($"Sprint :{speed}");
             if (sprintThisFrame || !canSprint)
                 yield break;
             canSprint = false;
@@ -350,24 +331,17 @@ namespace Player
         {
             if (!activeGrivate)
                 return;
-            if (colDow)
-            {
-                speedThisFrame.y = 0;
-            }
-            else
-            {
-                if (!sprintThisFrame && !isHover)
-                    speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravity.sqrMagnitude * gravityScale * Time.deltaTime;
-            }
+            speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravity.sqrMagnitude * gravityScale * Time.deltaTime;
+
         }
         void MovePlayer()
         {
             if (Time.deltaTime > 0.1f)
                 return;
-            var pos = transform.position;
+            var pos = transform.position + playerSize.center;
             if (colLef && speedThisFrame.x < 0)
                 speedThisFrame.x = 0;
-            if (colRig && speedPreFrame.x > 0)
+            if (colRig && speedThisFrame.x > 0)
                 speedThisFrame.x = 0;
             if (colUp && speedThisFrame.y > 0)
                 speedThisFrame.y = 0;
@@ -377,20 +351,20 @@ namespace Player
             var move = new Vector3(rawMovement.x, rawMovement.y) * Time.deltaTime;
             var furPos = pos + move;
             //var hit = Physics2D.Linecast(pos, furPos, groundLayer);
-            var hit = Physics2D.OverlapBox(furPos, playerSize.size, Manager.MyGameManager.instance.stageManager.gravityAngle, groundLayer);
+            var hit = Physics2D.OverlapBox(furPos, playerSize.size, transform.rotation.z, groundLayer);
             if (!hit)
             {
                 transform.position += move;
                 return;
             }
             var moveto = transform.position;
-            for (int i = 1; i <= _freeColliderIterations; ++i)
+            for (int i = 0; i <= _freeColliderIterations; ++i)
             {
                 var t = (float)i / _freeColliderIterations;
                 var postry = Vector2.Lerp(pos, furPos, t);
-                if (Physics2D.OverlapBox(postry, playerSize.size, Manager.MyGameManager.instance.stageManager.gravityAngle, groundLayer))
+                if (Physics2D.OverlapBox(postry, playerSize.size, transform.rotation.z, groundLayer))
                 {
-                    transform.position = moveto;
+                    transform.position = moveto - playerSize.center;
                     return;
                 }
                 moveto = postry;
@@ -407,7 +381,7 @@ namespace Player
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(transform.position, playerSize.size);
+            Gizmos.DrawWireCube(transform.position + playerSize.center, playerSize.size);
             CalculateRayRanged();
             drawRayRang(_coldown);
             drawRayRang(_colLef);
