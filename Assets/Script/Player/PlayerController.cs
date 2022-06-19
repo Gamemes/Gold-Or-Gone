@@ -125,9 +125,9 @@ namespace Player
         }
         private IEnumerable<Vector2> lerpPoint(RayRange ran, int nums)
         {
-            for (var i = 1; i <= nums; i++)
+            for (var i = 0; i <= nums; i++)
             {
-                yield return Vector2.Lerp(ran.Start, ran.End, (float)i / (nums + 1));
+                yield return Vector2.Lerp(ran.Start, ran.End, (float)i / nums);
             }
         }
         void updateState()
