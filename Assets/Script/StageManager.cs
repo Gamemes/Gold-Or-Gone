@@ -188,7 +188,7 @@ namespace Manager
         }
         public void rotateGravityDuration(float angle, float duration = 1f)
         {
-            //Debug.Log($"rotate {angle}");
+            Debug.Log($"rotate {angle}");
             StartCoroutine(_rotateGravityDuration(angle, duration));
         }
         public void reSetGrivateSize()
