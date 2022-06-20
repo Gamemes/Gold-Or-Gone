@@ -338,7 +338,9 @@ namespace Player
         {
             if (Time.deltaTime > 0.1f)
                 return;
-            var pos = transform.position + playerSize.center;
+            var offset = Quaternion.Euler(0, 0, transform.eulerAngles.z) * playerSize.center;
+            Debug.Log($"{offset}");
+            var pos = transform.position + offset;
             if (colLef && speedThisFrame.x < 0)
                 speedThisFrame.x = 0;
             if (colRig && speedThisFrame.x > 0)
@@ -351,7 +353,7 @@ namespace Player
             var move = new Vector3(rawMovement.x, rawMovement.y) * Time.deltaTime;
             var furPos = pos + move;
             //var hit = Physics2D.Linecast(pos, furPos, groundLayer);
-            var hit = Physics2D.OverlapBox(furPos, playerSize.size, transform.rotation.z, groundLayer);
+            var hit = Physics2D.OverlapBox(furPos, playerSize.size, transform.eulerAngles.z, groundLayer);
             if (!hit)
             {
                 transform.position += move;
@@ -362,13 +364,14 @@ namespace Player
             {
                 var t = (float)i / _freeColliderIterations;
                 var postry = Vector2.Lerp(pos, furPos, t);
-                if (Physics2D.OverlapBox(postry, playerSize.size, transform.rotation.z, groundLayer))
+                if (Physics2D.OverlapBox(postry, playerSize.size, transform.eulerAngles.z, groundLayer))
                 {
-                    transform.position = moveto - playerSize.center;
+                    transform.position = moveto - offset;
                     return;
                 }
                 moveto = postry;
             }
+
         }
         private void drawRayRang(RayRange rayRange)
         {
@@ -378,10 +381,28 @@ namespace Player
                 Gizmos.DrawLine(pos, pos + rayRange.Dir * detectionLength);
             }
         }
+        private void DrawWriteRect(Vector2 center, Vector2 size, Quaternion rotation)
+        {
+            var halfx = size.x / 2;
+            var halfy = size.y / 2;
+            var movedis = new Vector3(center.x, center.y, 0);
+            //4个顶点坐标
+            var leftDownPos = rotation * new Vector2(-halfx, -halfy) + movedis;
+            var rightDownPos = rotation * new Vector2(halfx, -halfy) + movedis;
+            var leftUpPos = rotation * new Vector2(-halfx, halfy) + movedis;
+            var rightUpPos = rotation * new Vector2(halfx, halfy) + movedis;
+            //4条线段
+            Gizmos.DrawLine(leftDownPos, rightDownPos);
+            Gizmos.DrawLine(leftDownPos, leftUpPos);
+            Gizmos.DrawLine(leftUpPos, rightUpPos);
+            Gizmos.DrawLine(rightUpPos, rightDownPos);
+        }
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(transform.position + playerSize.center, playerSize.size);
+            //Gizmos.DrawWireCube(transform.position + playerSize.center, playerSize.size);
+            var offset = Quaternion.Euler(0, 0, transform.eulerAngles.z) * playerSize.center;
+            DrawWriteRect(transform.position + offset, playerSize.size, Quaternion.Euler(0, 0, transform.eulerAngles.z));
             CalculateRayRanged();
             drawRayRang(_coldown);
             drawRayRang(_colLef);

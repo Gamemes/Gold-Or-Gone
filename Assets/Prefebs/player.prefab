@@ -9841,13 +9841,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 15
   playerSize:
-    m_Center: {x: 0, y: -0.24, z: 0}
+    m_Center: {x: 0, y: -0.25, z: 0}
     m_Extent: {x: 0.5, y: 1.25, z: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   detectionLength: 0.07
-  detectionNums: 22
+  detectionNums: 40
   fallMultiplier: 6
   lowJumpMultiplier: 8
   jumpSpeed: 38
@@ -9919,7 +9919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1c27683f5605d44a961dea996629de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraObj: {fileID: 0}
 --- !u!96 &386723193
 TrailRenderer:
   serializedVersion: 2

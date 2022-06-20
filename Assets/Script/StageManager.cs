@@ -165,6 +165,7 @@ namespace Manager
             gravity = Quaternion.Euler(0, 0, angle) * gravity;
             onGravityRotated?.Invoke(angle);
             gravityAngle += angle;
+            stageCamera.transform.Rotate(new Vector3(0, 0, angle));
         }
 
         IEnumerator _rotateGravityDuration(float angle, float duration)
