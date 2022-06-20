@@ -334,12 +334,27 @@ namespace Player
             speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravity.sqrMagnitude * gravityScale * Time.deltaTime;
 
         }
+        bool BoundCast(Bounds a, Bounds b)
+        {
+            var hit = Physics2D.Linecast(a.min, b.min, groundLayer);
+            if (hit)
+                return true;
+            hit = Physics2D.Linecast(a.max, b.max, groundLayer);
+            if (hit)
+                return true;
+            hit = Physics2D.Linecast(new Vector2(a.min.x, a.max.y), new Vector2(b.min.x, b.max.y), groundLayer);
+            if (hit)
+                return true;
+            hit = Physics2D.Linecast(new Vector2(a.max.x, a.min.y), new Vector2(b.max.x, b.min.y), groundLayer);
+            if (hit)
+                return true;
+            return false;
+        }
         void MovePlayer()
         {
             if (Time.deltaTime > 0.1f)
                 return;
             var offset = Quaternion.Euler(0, 0, transform.eulerAngles.z) * playerSize.center;
-            Debug.Log($"{offset}");
             var pos = transform.position + offset;
             if (colLef && speedThisFrame.x < 0)
                 speedThisFrame.x = 0;
@@ -352,9 +367,8 @@ namespace Player
             var rawMovement = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
             var move = new Vector3(rawMovement.x, rawMovement.y) * Time.deltaTime;
             var furPos = pos + move;
-            //var hit = Physics2D.Linecast(pos, furPos, groundLayer);
             var hit = Physics2D.OverlapBox(furPos, playerSize.size, transform.eulerAngles.z, groundLayer);
-            if (!hit)
+            if (!hit && !BoundCast(new Bounds(pos, playerSize.size), new Bounds(furPos, playerSize.size)))
             {
                 transform.position += move;
                 return;

@@ -7,16 +7,20 @@ namespace Prop
     /// <summary>
     /// 可拾取道具基类.
     /// </summary>
+    [RequireComponent(typeof(BoxCollider2D))]
     public class PropBase : MonoBehaviour
     {
         /// <summary>
         /// 道具名称
         /// </summary>
-        public string propName;
+        private string propName;
         public virtual void Start()
         {
             if (propName.Length < 1)
-                throw new UnityException($"{gameObject.name} propname is invaild");
+            {
+                Debug.LogError($"{gameObject.name} propname is invaild, reset to gamobject name");
+                propName = gameObject.name;
+            }
         }
         /// <summary>
         /// 玩家走进触发

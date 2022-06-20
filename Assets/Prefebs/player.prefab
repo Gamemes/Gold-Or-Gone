@@ -9790,7 +9790,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.24893677}
@@ -9804,7 +9804,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.484512}
+  m_Size: {x: 1.14, y: 2.68}
   m_EdgeRadius: 0
 --- !u!50 &1412787739393906182
 Rigidbody2D:
@@ -9846,12 +9846,12 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  detectionLength: 0.07
+  detectionLength: 0.04
   detectionNums: 40
   fallMultiplier: 6
   lowJumpMultiplier: 8
-  jumpSpeed: 38
-  maxFallSpeed: 35
+  jumpSpeed: 28
+  maxFallSpeed: 50
   maxJumpTime: 2
   jumpHoverTime: 0.1
   activeClimb: 1
@@ -9866,7 +9866,7 @@ MonoBehaviour:
   sprintDurition: 0.1
   sprintThisFrame: 0
   activeGrivate: 1
-  gravityScale: 0.75
+  gravityScale: 0.5
   _freeColliderIterations: 40
 --- !u!114 &645518996
 MonoBehaviour:
