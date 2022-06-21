@@ -6,7 +6,9 @@ namespace Manager
 {
     public class MyGameManager : MonoBehaviour
     {
-        // Start is called before the first frame update
+        /// <summary>
+        /// 当前场景的stagemanager, 控制场景的属性, 包括重力方向,大小.
+        /// </summary>
         public StageManager stageManager { get; private set; } = null;
         public static MyGameManager instance = null;
         public Action onSceneChanged;

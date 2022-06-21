@@ -48,6 +48,9 @@ namespace Manager
         private float _gravityAngle = 0f;
         private float initalGrivateSize;
         public GameObject playerPrefab;
+        /// <summary>
+        /// 重力的方向
+        /// </summary>
         public float gravityAngle
         {
             get
@@ -64,6 +67,7 @@ namespace Manager
         public Vector2 gravityDirection { get; private set; }
         public bool isdebug = true;
         public Action<float> onGravityRotated;
+        public Action<float> onGravityRotateCompleted;
         /// <summary>
         /// 这个场景里所有的Player
         /// </summary>
@@ -185,11 +189,11 @@ namespace Manager
                 _ang += dangle;
                 yield return null;
             }
+            onGravityRotateCompleted?.Invoke(angle * dir);
             yield return null;
         }
         public void rotateGravityDuration(float angle, float duration = 1f)
         {
-            Debug.Log($"rotate {angle}");
             StartCoroutine(_rotateGravityDuration(angle, duration));
         }
         public void reSetGrivateSize()

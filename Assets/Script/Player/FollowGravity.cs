@@ -11,24 +11,36 @@ namespace Player
         void Start()
         {
             playerController = GetComponent<PlayerController>();
-            Manager.MyGameManager.instance.stageManager.onGravityRotated += this.rotate;
+            Manager.MyGameManager.instance.stageManager.onGravityRotateCompleted += this.rotate;
         }
         void rotate(float dangle)
         {
-            angle += dangle;
+            StartCoroutine(_startRotate(dangle));
+            //angle += dangle;
         }
         void Update()
         {
-            if (angle != 0f)
+            // if (angle != 0f && !playerController.hitGround(transform.position, Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle)))
+            // {
+            //     StartCoroutine(_startRotate(angle));
+            //     angle = 0f;
+            // }
+        }
+        IEnumerator _startRotate(float _angle)
+        {
+            Debug.Log($"start rotate {_angle}");
+            while (playerController.hitGround(transform.position, Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle)))
             {
-                int dir = angle > 0 ? 1 : -1;
+                yield return null;
+            }
+            int dir = _angle > 0 ? 1 : -1;
+            while (_angle != 0)
+            {
                 float dangle = rotateSpeed * Time.deltaTime;
-                dangle = dir * Mathf.Min(Mathf.Abs(dangle), Mathf.Abs(angle));
-                if (!playerController.hitGround(transform.position, Quaternion.Euler(0, 0, transform.eulerAngles.z + dangle)))
-                {
-                    transform.Rotate(new Vector3(0, 0, dangle));
-                    angle -= dangle;
-                }
+                dangle = dir * Mathf.Min(Mathf.Abs(dangle), Mathf.Abs(_angle));
+                transform.Rotate(new Vector3(0, 0, dangle));
+                _angle -= dangle;
+                yield return null;
             }
         }
     }
