@@ -16552,7 +16552,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5224737715405838372, guid: 336bef7002e961048a0938f7d680c0d1, type: 3}
       propertyPath: isdebug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5224737715405838373, guid: 336bef7002e961048a0938f7d680c0d1, type: 3}
       propertyPath: m_RootOrder
@@ -16883,6 +16883,10 @@ PrefabInstance:
     - target: {fileID: 1412787739393906182, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
       propertyPath: m_GravityScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412787739393906186, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
+      propertyPath: rotateSpeed
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 1412787739393906206, guid: e65a5d00cd465e246823cba4169c7212, type: 3}
       propertyPath: m_Name

@@ -350,6 +350,19 @@ namespace Player
                 return true;
             return false;
         }
+        /// <summary>
+        /// 返回玩家在pos位置quaternion旋转的情况下是否会碰撞到墙壁
+        /// </summary>
+        /// <param name="pos">目标位置</param>
+        /// <param name="quaternion">目标旋转</param>
+        /// <returns></returns>
+        public bool hitGround(Vector3 pos, Quaternion quaternion)
+        {
+            var offset = quaternion * playerSize.center;
+            var fpos = pos + offset;
+            var hit = Physics2D.OverlapBox(fpos, playerSize.size, quaternion.eulerAngles.z, groundLayer);
+            return hit != null;
+        }
         void MovePlayer()
         {
             if (Time.deltaTime > 0.1f)
@@ -364,11 +377,12 @@ namespace Player
                 speedThisFrame.y = 0;
             if (colDow && speedThisFrame.y < 0)
                 speedThisFrame.y = 0;
-            var rawMovement = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
+            var rawMovement = Quaternion.Euler(0, 0, transform.eulerAngles.z) * speedThisFrame;
             var move = new Vector3(rawMovement.x, rawMovement.y) * Time.deltaTime;
             var furPos = pos + move;
             var hit = Physics2D.OverlapBox(furPos, playerSize.size, transform.eulerAngles.z, groundLayer);
-            if (!hit && !BoundCast(new Bounds(pos, playerSize.size), new Bounds(furPos, playerSize.size)))
+            //&& !BoundCast(new Bounds(pos, playerSize.size), new Bounds(furPos, playerSize.size))
+            if (!hit)
             {
                 transform.position += move;
                 return;

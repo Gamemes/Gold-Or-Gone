@@ -9821,7 +9821,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 4.5
+  m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 702f4a80d5e579741afd440e76aaa1bb, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -9919,6 +9919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1c27683f5605d44a961dea996629de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotateSpeed: 180
 --- !u!96 &386723193
 TrailRenderer:
   serializedVersion: 2
