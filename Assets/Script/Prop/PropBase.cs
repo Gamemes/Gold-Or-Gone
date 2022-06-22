@@ -16,9 +16,9 @@ namespace Prop
         private string propName;
         public virtual void Start()
         {
-            if (propName.Length < 1)
+            if (propName is null)
             {
-                Debug.LogError($"{gameObject.name} propname is invaild, reset to gamobject name");
+                Debug.LogWarning($"{gameObject.name} propname is invaild, reset to gamobject name");
                 propName = gameObject.name;
             }
         }

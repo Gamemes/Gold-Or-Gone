@@ -60,8 +60,11 @@ namespace Player
         public int detectionNums = 10;
         #endregion
         Rigidbody2D rb;
-        Vector2 speedThisFrame = new Vector2();
-        Vector2 speedPreFrame = new Vector2();
+        /// <summary>
+        /// 玩家的速度, 以重力方向为y轴负方向的坐标系.
+        /// </summary>
+        public Vector2 speedThisFrame = new Vector2();
+        public Vector2 speedPreFrame = new Vector2();
         bool _activate = false;
         void _active() => _activate = true;
         int jumpTime = 0;

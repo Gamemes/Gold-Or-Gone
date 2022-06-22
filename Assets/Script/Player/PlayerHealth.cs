@@ -24,12 +24,14 @@ namespace Player
         public Action onPlayerDead;
         private PlayerAttribute playerAttribute;
         private SpriteRenderer spriteRenderer;
+        private Color _color;
         private void Start()
         {
             blood = maxBlood;
             this.gameObject.tag = "Player";
             playerAttribute = GetComponent<PlayerAttribute>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            _color = spriteRenderer.color;
             damageAction += causeDamage;
         }
 
@@ -52,10 +54,9 @@ namespace Player
         }
         IEnumerator damageEffect()
         {
-            var _col = spriteRenderer.color;
             spriteRenderer.color = Color.red;
             yield return new WaitForSeconds(0.2f);
-            spriteRenderer.color = _col;
+            spriteRenderer.color = _color;
         }
         public void addBlood(int addValue)
         {
