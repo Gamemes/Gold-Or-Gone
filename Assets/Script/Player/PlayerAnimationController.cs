@@ -22,7 +22,6 @@ namespace Player
         void changeState(PlayerState state)
         {
             if (currentState == state) return;
-            Debug.Log($"change to {state.ToString()}");
             currentState = state;
             animator.Play(state.ToString());
         }

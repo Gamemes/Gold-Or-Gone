@@ -60,8 +60,11 @@ namespace Player
         public int detectionNums = 10;
         #endregion
         Rigidbody2D rb;
-        Vector2 speedThisFrame = new Vector2();
-        Vector2 speedPreFrame = new Vector2();
+        /// <summary>
+        /// 玩家的速度, 以重力方向为y轴负方向的坐标系.
+        /// </summary>
+        public Vector2 speedThisFrame = new Vector2();
+        public Vector2 speedPreFrame = new Vector2();
         bool _activate = false;
         void _active() => _activate = true;
         int jumpTime = 0;
@@ -334,11 +337,41 @@ namespace Player
             speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravity.sqrMagnitude * gravityScale * Time.deltaTime;
 
         }
+        bool BoundCast(Bounds a, Bounds b)
+        {
+            var hit = Physics2D.Linecast(a.min, b.min, groundLayer);
+            if (hit)
+                return true;
+            hit = Physics2D.Linecast(a.max, b.max, groundLayer);
+            if (hit)
+                return true;
+            hit = Physics2D.Linecast(new Vector2(a.min.x, a.max.y), new Vector2(b.min.x, b.max.y), groundLayer);
+            if (hit)
+                return true;
+            hit = Physics2D.Linecast(new Vector2(a.max.x, a.min.y), new Vector2(b.max.x, b.min.y), groundLayer);
+            if (hit)
+                return true;
+            return false;
+        }
+        /// <summary>
+        /// 返回玩家在pos位置quaternion旋转的情况下是否会碰撞到墙壁
+        /// </summary>
+        /// <param name="pos">目标位置</param>
+        /// <param name="quaternion">目标旋转</param>
+        /// <returns></returns>
+        public bool hitGround(Vector3 pos, Quaternion quaternion)
+        {
+            var offset = quaternion * playerSize.center;
+            var fpos = pos + offset;
+            var hit = Physics2D.OverlapBox(fpos, playerSize.size, quaternion.eulerAngles.z, groundLayer);
+            return hit != null;
+        }
         void MovePlayer()
         {
             if (Time.deltaTime > 0.1f)
                 return;
-            var pos = transform.position + playerSize.center;
+            var offset = Quaternion.Euler(0, 0, transform.eulerAngles.z) * playerSize.center;
+            var pos = transform.position + offset;
             if (colLef && speedThisFrame.x < 0)
                 speedThisFrame.x = 0;
             if (colRig && speedThisFrame.x > 0)
@@ -347,11 +380,11 @@ namespace Player
                 speedThisFrame.y = 0;
             if (colDow && speedThisFrame.y < 0)
                 speedThisFrame.y = 0;
-            var rawMovement = Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle) * speedThisFrame;
+            var rawMovement = Quaternion.Euler(0, 0, transform.eulerAngles.z) * speedThisFrame;
             var move = new Vector3(rawMovement.x, rawMovement.y) * Time.deltaTime;
             var furPos = pos + move;
-            //var hit = Physics2D.Linecast(pos, furPos, groundLayer);
-            var hit = Physics2D.OverlapBox(furPos, playerSize.size, transform.rotation.z, groundLayer);
+            var hit = Physics2D.OverlapBox(furPos, playerSize.size, transform.eulerAngles.z, groundLayer);
+            //&& !BoundCast(new Bounds(pos, playerSize.size), new Bounds(furPos, playerSize.size))
             if (!hit)
             {
                 transform.position += move;
@@ -362,13 +395,14 @@ namespace Player
             {
                 var t = (float)i / _freeColliderIterations;
                 var postry = Vector2.Lerp(pos, furPos, t);
-                if (Physics2D.OverlapBox(postry, playerSize.size, transform.rotation.z, groundLayer))
+                if (Physics2D.OverlapBox(postry, playerSize.size, transform.eulerAngles.z, groundLayer))
                 {
-                    transform.position = moveto - playerSize.center;
+                    transform.position = moveto - offset;
                     return;
                 }
                 moveto = postry;
             }
+
         }
         private void drawRayRang(RayRange rayRange)
         {
@@ -378,10 +412,28 @@ namespace Player
                 Gizmos.DrawLine(pos, pos + rayRange.Dir * detectionLength);
             }
         }
+        private void DrawWriteRect(Vector2 center, Vector2 size, Quaternion rotation)
+        {
+            var halfx = size.x / 2;
+            var halfy = size.y / 2;
+            var movedis = new Vector3(center.x, center.y, 0);
+            //4个顶点坐标
+            var leftDownPos = rotation * new Vector2(-halfx, -halfy) + movedis;
+            var rightDownPos = rotation * new Vector2(halfx, -halfy) + movedis;
+            var leftUpPos = rotation * new Vector2(-halfx, halfy) + movedis;
+            var rightUpPos = rotation * new Vector2(halfx, halfy) + movedis;
+            //4条线段
+            Gizmos.DrawLine(leftDownPos, rightDownPos);
+            Gizmos.DrawLine(leftDownPos, leftUpPos);
+            Gizmos.DrawLine(leftUpPos, rightUpPos);
+            Gizmos.DrawLine(rightUpPos, rightDownPos);
+        }
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(transform.position + playerSize.center, playerSize.size);
+            //Gizmos.DrawWireCube(transform.position + playerSize.center, playerSize.size);
+            var offset = Quaternion.Euler(0, 0, transform.eulerAngles.z) * playerSize.center;
+            DrawWriteRect(transform.position + offset, playerSize.size, Quaternion.Euler(0, 0, transform.eulerAngles.z));
             CalculateRayRanged();
             drawRayRang(_coldown);
             drawRayRang(_colLef);

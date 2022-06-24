@@ -9790,7 +9790,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.24893677}
@@ -9804,7 +9804,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.484512}
+  m_Size: {x: 1.14, y: 2.68}
   m_EdgeRadius: 0
 --- !u!50 &1412787739393906182
 Rigidbody2D:
@@ -9821,7 +9821,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 4.5
+  m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 702f4a80d5e579741afd440e76aaa1bb, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -9841,17 +9841,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 15
   playerSize:
-    m_Center: {x: 0, y: -0.24, z: 0}
+    m_Center: {x: 0, y: -0.25, z: 0}
     m_Extent: {x: 0.5, y: 1.25, z: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  detectionLength: 0.07
-  detectionNums: 22
+  detectionLength: 0.04
+  detectionNums: 40
   fallMultiplier: 6
   lowJumpMultiplier: 8
-  jumpSpeed: 38
-  maxFallSpeed: 35
+  jumpSpeed: 28
+  maxFallSpeed: 50
   maxJumpTime: 2
   jumpHoverTime: 0.1
   activeClimb: 1
@@ -9866,7 +9866,7 @@ MonoBehaviour:
   sprintDurition: 0.1
   sprintThisFrame: 0
   activeGrivate: 1
-  gravityScale: 0.75
+  gravityScale: 0.5
   _freeColliderIterations: 40
 --- !u!114 &645518996
 MonoBehaviour:
@@ -9919,7 +9919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1c27683f5605d44a961dea996629de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraObj: {fileID: 0}
+  rotateSpeed: 180
 --- !u!96 &386723193
 TrailRenderer:
   serializedVersion: 2

@@ -7,6 +7,7 @@ namespace Prop
     {
         public override void onPlayerEnter(PlayerAttribute playerAttribute)
         {
+
             playerAttribute.energy++;
             Debug.Log($"{playerAttribute.playerName} {playerAttribute.energy}");
         }

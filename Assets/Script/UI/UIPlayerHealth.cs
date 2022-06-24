@@ -15,12 +15,12 @@ public class UIPlayerHealth : MonoBehaviour
     private void Start()
     {
         _player = GameObject.Find("player");
-        _text= gameObject.GetComponent<Text>();
+        _text = gameObject.GetComponent<Text>();
         _playerHealth = _player.GetComponent<Player.PlayerHealth>();
-
     }
+
     private void Update()
     {
-        _text.text = "Health:" + _playerHealth.blood;
+        _text.text = $"{_player.name}:{_playerHealth.blood}";//"Health:" + _playerHealth.blood;
     }
 }

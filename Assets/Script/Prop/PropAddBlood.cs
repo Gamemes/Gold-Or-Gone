@@ -12,7 +12,7 @@ namespace Prop
         [SerializeField] int addBloodVal;           //要加血的数值（在外边手动输入）
         private void Awake()
         {
-            if(addBloodVal == 0)
+            if (addBloodVal == 0)
             {
                 addBloodVal = 1;                    //默认初始化
             }

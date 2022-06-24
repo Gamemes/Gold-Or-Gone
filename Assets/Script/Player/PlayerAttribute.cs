@@ -21,11 +21,11 @@ namespace Player
             get => _energy;
             set
             {
-                if (value < 0 || value > 3)
-                    return;
+                // if (value < 0 || value > 3)
+                //     return;
                 if (value == 3)
                     Manager.MyGameManager.instance.stageManager.changeGloadPlayer(gameObject);
-                _energy = value;
+                _energy = value % 3;
             }
         }
         private int _energy = 0;
@@ -42,15 +42,15 @@ namespace Player
         }
         void onGodPlayerChange(GameObject godPlayer)
         {
-            Debug.Log($"{this.gameObject} {godPlayer}");
-            if (godPlayer == this.gameObject)
+            if (godPlayer.Equals(this.gameObject))
             {
                 this.frameInput._input.Player.Disable();
                 this.frameInput._input.God.Enable();
                 this.playerController.enabled = false;
                 this.godCntroller.enabled = true;
-                this.energy = 0;
+                this._energy = 0;
                 rb.bodyType = RigidbodyType2D.Static;
+                Debug.Log($"{this.gameObject} {godPlayer} {this.energy}");
             }
             else
             {
