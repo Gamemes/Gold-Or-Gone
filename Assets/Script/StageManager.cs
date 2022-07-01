@@ -47,7 +47,8 @@ namespace Manager
         }
         private float _gravityAngle = 0f;
         private float initalGrivateSize;
-        public GameObject playerPrefab;
+        public GameObject
+        playerPrefab;
         /// <summary>
         /// 重力的方向
         /// </summary>

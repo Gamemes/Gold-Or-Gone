@@ -65,7 +65,10 @@ namespace Player
         /// </summary>
         public Vector2 speedThisFrame = new Vector2();
         public Vector2 speedPreFrame = new Vector2();
-        bool _activate = false;
+        /// <summary>
+        /// 启用玩家本地控制, 如果来自远程则取消
+        /// </summary>
+        public bool _activate = false;
         void _active() => _activate = true;
         int jumpTime = 0;
         private void Awake()
