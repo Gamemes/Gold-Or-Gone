@@ -9705,7 +9705,7 @@ GameObject:
   - component: {fileID: 1412787739074837364}
   - component: {fileID: 1412787739074837376}
   m_Layer: 0
-  m_Name: player
+  m_Name: LocalPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9848,6 +9848,9 @@ MonoBehaviour:
     m_Bits: 64
   detectionLength: 0.04
   detectionNums: 40
+  speedThisFrame: {x: 0, y: 0}
+  speedPreFrame: {x: 0, y: 0}
+  _activate: 0
   fallMultiplier: 6
   lowJumpMultiplier: 8
   jumpSpeed: 28
