@@ -9850,7 +9850,7 @@ MonoBehaviour:
   detectionNums: 40
   speedThisFrame: {x: 0, y: 0}
   speedPreFrame: {x: 0, y: 0}
-  _activate: 0
+  _activate: 1
   fallMultiplier: 6
   lowJumpMultiplier: 8
   jumpSpeed: 28

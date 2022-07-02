@@ -24,11 +24,12 @@ namespace Player
                 // if (value < 0 || value > 3)
                 //     return;
                 if (value == 3)
-                    Manager.MyGameManager.instance.stageManager.changeGloadPlayer(gameObject);
+                    Manager.MyGameManager.instance.currentStage.changeGloadPlayer(gameObject);
                 _energy = value % 3;
             }
         }
         private int _energy = 0;
+        private Manager.StageManager stageManager;
         void Awake()
         {
             frameInput = GetComponent<FrameInput>();
@@ -36,9 +37,10 @@ namespace Player
             godCntroller = GetComponent<GodController>();
             playerHealth = GetComponent<PlayerHealth>();
             rb = GetComponent<Rigidbody2D>();
+            stageManager = Manager.MyGameManager.instance.currentStage;
             if (playerName == "")
                 playerName = gameObject.name;
-            Manager.MyGameManager.instance.stageManager.onGlodPlayerChange += this.onGodPlayerChange;
+            stageManager.onGlodPlayerChange += this.onGodPlayerChange;
         }
         void onGodPlayerChange(GameObject godPlayer)
         {
@@ -59,7 +61,8 @@ namespace Player
                 this.playerController.enabled = true;
                 this.godCntroller.enabled = false;
                 rb.bodyType = RigidbodyType2D.Kinematic;
-                Manager.MyGameManager.instance.stageManager.stageCamera.Follow = transform;
+                if (!stageManager.isOnline)
+                    stageManager.stageCamera.Follow = transform;
             }
         }
         // Update is called once per frame
