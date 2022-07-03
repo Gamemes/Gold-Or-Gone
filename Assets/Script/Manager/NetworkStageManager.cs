@@ -40,5 +40,15 @@ namespace Manager
         {
             StartCoroutine(stageManager._rotateGravityDuration(angle, duration));
         }
+        [Command(requiresAuthority = false)]
+        public void CmdAddGrivate(float val)
+        {
+            RpcAddGrivate(val);
+        }
+        [ClientRpc]
+        private void RpcAddGrivate(float val)
+        {
+            stageManager.gravitySize += val;
+        }
     }
 }

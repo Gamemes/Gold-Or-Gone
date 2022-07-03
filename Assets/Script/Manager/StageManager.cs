@@ -25,6 +25,10 @@ namespace Manager
             }
         }
         private float _gravitySize = 0;
+        /// <summary>
+        /// 重力大小,用<see cref="addGrivate"/>改变重力大小, 不要直接调用setter函数除非你知道原因
+        /// </summary>
+        /// <value></value>
         public float gravitySize
         {
             get
@@ -35,9 +39,9 @@ namespace Manager
                 }
                 return _gravitySize;
             }
-            private set
+            set
             {
-                Debug.Log($"{value}");
+                Debug.Log($"set gravity size to {value}");
                 _gravitySize = MathF.Min(50, value);
                 Vector2 griv = new Vector2(0, -_gravitySize);
                 gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
@@ -221,17 +225,38 @@ namespace Manager
         }
         public void reSetGrivateSize()
         {
-            Vector2 griv = new Vector2(0, -initalGrivateSize);
-            gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+            if (isOnline)
+            {
+
+            }
+            else
+            {
+                Vector2 griv = new Vector2(0, -initalGrivateSize);
+                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+            }
         }
         public void scaleGrivate(float val = 1.0f, float duration = -1f)
         {
-            Vector2 griv = new Vector2(0, -initalGrivateSize * val);
-            gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+            if (isOnline)
+            {
+
+            }
+            else
+            {
+                Vector2 griv = new Vector2(0, -initalGrivateSize * val);
+                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+            }
         }
         public void addGrivate(float val)
         {
-            gravitySize += val;
+            if (isOnline)
+            {
+                networkStage.CmdAddGrivate(val);
+            }
+            else
+            {
+                gravitySize += val;
+            }
         }
         #endregion
         private void OnDisable()

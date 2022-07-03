@@ -17268,7 +17268,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  stageManager: {fileID: 0}
 --- !u!114 &1970259496
 MonoBehaviour:
   m_ObjectHideFlags: 0
