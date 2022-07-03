@@ -16,7 +16,7 @@ namespace Player
         {
             playerInput = GetComponent<FrameInput>();
             godinput = playerInput._input.God;
-            stageManager = Manager.MyGameManager.instance.stageManager;
+            stageManager = Manager.MyGameManager.instance.currentStage;
         }
         // Update is called once per frame
         void Update()
@@ -25,7 +25,7 @@ namespace Player
             if (playerInput.Rotate)
             {
                 int dir = (int)godinput.RotateDir.ReadValue<float>();
-                Manager.MyGameManager.instance.stageManager.rotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
+                Manager.MyGameManager.instance.currentStage.rotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
                 //StartCoroutine(rotate());
             }
             if (godinput.GrivateUp.IsPressed())

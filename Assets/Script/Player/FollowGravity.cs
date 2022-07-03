@@ -11,7 +11,7 @@ namespace Player
         void Start()
         {
             playerController = GetComponent<PlayerController>();
-            Manager.MyGameManager.instance.stageManager.onGravityRotateCompleted += this.rotate;
+            Manager.MyGameManager.instance.currentStage.onGravityRotateCompleted += this.rotate;
         }
         void rotate(float dangle)
         {
@@ -29,7 +29,7 @@ namespace Player
         IEnumerator _startRotate(float _angle)
         {
             Debug.Log($"start rotate {_angle}");
-            while (playerController.hitGround(transform.position, Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle)))
+            while (playerController.hitGround(transform.position, Quaternion.Euler(0, 0, Manager.MyGameManager.instance.currentStage.gravityAngle)))
             {
                 yield return null;
             }

@@ -12,20 +12,23 @@ namespace Manager
     /// </summary>
     public class StageManager : MonoBehaviour
     {
-        // Start is called before the first frame update
         public Vector2 gravity
         {
             get
             {
                 return Physics2D.gravity;
             }
-            set
+            private set
             {
                 gravityDirection = value.normalized;
                 Physics2D.gravity = value;
             }
         }
         private float _gravitySize = 0;
+        /// <summary>
+        /// 重力大小,用<see cref="addGrivate"/>改变重力大小, 不要直接调用setter函数除非你知道原因
+        /// </summary>
+        /// <value></value>
         public float gravitySize
         {
             get
@@ -38,35 +41,24 @@ namespace Manager
             }
             set
             {
-                Debug.Log($"{value}");
+                Debug.Log($"set gravity size to {value}");
                 _gravitySize = MathF.Min(50, value);
                 Vector2 griv = new Vector2(0, -_gravitySize);
                 gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
                 Debug.Log($"change grivate {_gravitySize}");
             }
         }
-        private float _gravityAngle = 0f;
         private float initalGrivateSize;
-        public GameObject
-        playerPrefab;
+        public GameObject playerPrefab;
         /// <summary>
         /// 重力的方向
         /// </summary>
-        public float gravityAngle
-        {
-            get
-            {
-                return _gravityAngle;
-            }
-            private set
-            {
-                //Debug.Log(value);
-                _gravityAngle = value;
-
-            }
-        }
+        public float gravityAngle { get; private set; }
+        /// <summary>
+        /// 重力的normalized
+        /// </summary>
+        /// <value></value>
         public Vector2 gravityDirection { get; private set; }
-        public bool isdebug = true;
         public Action<float> onGravityRotated;
         public Action<float> onGravityRotateCompleted;
         /// <summary>
@@ -74,14 +66,32 @@ namespace Manager
         /// </summary>
         public List<GameObject> stagePlayers { get; private set; }
         /// <summary>
-        /// 当前的上帝玩家
+        /// 当前的上帝玩家, 调用<see cref="changeGloadPlayer"/>,而不是直接调用setter除非你知道这样做会出现的问题. 
         /// </summary>
-        public GameObject glodPlayer { get; private set; }
+        public GameObject GodPlayer
+        {
+            get
+            {
+                return _godPlayer;
+            }
+            set
+            {
+                if (value == _godPlayer)
+                    return;
+                Debug.Log($"change god player to {value}");
+                _godPlayer = value;
+                onGlodPlayerChange?.Invoke(value);
+            }
+        }
+        private GameObject _godPlayer;
         /// <summary>
         /// 当上帝玩家切换, 传入切换后的玩家(GameObject)
         /// </summary>
         public Action<GameObject> onGlodPlayerChange;
         public Cinemachine.CinemachineVirtualCamera stageCamera = null;
+        public NetworkStageManager networkStage = null;
+        public bool isOnline = false;
+        public bool isdebug = true;
         void Awake()
         {
             MyGameManager.instance.setStageManager(this);
@@ -89,22 +99,28 @@ namespace Manager
             initalGrivateSize = gravity.magnitude;
             _gravitySize = initalGrivateSize;
             Debug.Log($"{gravity} initalGrivateSize {initalGrivateSize}");
-            InputSystem.onDeviceChange += this.onDeviceChange;
+            networkStage = GetComponent<NetworkStageManager>();
             if (stageCamera == null)
                 stageCamera = GameObject.FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
+
+            //是否是线上模式
+            isOnline = (networkStage != null);
+            //如果不是线上模式就需要接入多设备输入
+            if (!isOnline)
+                InputSystem.onDeviceChange += this.onDeviceChange;
         }
         private void Start()
         {
-            stagePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
-            if (!isdebug)
+            //如果不是线上模式, 需要同步输入设备到玩家.
+            if (!isOnline)
             {
-                synchroPlayerAndDevice();
-                changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+                stagePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
+                if (!isdebug)
+                {
+                    synchroPlayerAndDevice();
+                    changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+                }
             }
-        }
-        void Update()
-        {
-
         }
         /// <summary>
         /// 改变当前的上帝玩家
@@ -112,12 +128,16 @@ namespace Manager
         /// <param name="player">目标玩家</param>
         public void changeGloadPlayer(GameObject player)
         {
-            if (player == this.glodPlayer)
-                return;
-            Debug.Log($"change god player to {player}");
-            this.glodPlayer = player;
-            onGlodPlayerChange?.Invoke(player);
+            if (isOnline)
+            {
+                networkStage.CmdChangeGodPlayer(player);
+            }
+            else
+            {
+                GodPlayer = player;
+            }
         }
+        #region 设备控制
         void addPlayer(InputDevice inputDevice)
         {
             Debug.Log($"ADD PLAYER {inputDevice}");
@@ -128,7 +148,6 @@ namespace Manager
             //添加到stagePlayers
             stagePlayers.Add(newPlayer);
         }
-        #region 设备控制
         /// <summary>
         /// 同步输入设备和玩家
         /// </summary>
@@ -165,7 +184,7 @@ namespace Manager
         /// 旋转重力, 直接旋转, 没有过程
         /// </summary>
         /// <param name="angle">度数</param>
-        public void rotate_Gravity(float angle)
+        private void rotate_Gravity(float angle)
         {
             gravity = Quaternion.Euler(0, 0, angle) * gravity;
             onGravityRotated?.Invoke(angle);
@@ -173,7 +192,7 @@ namespace Manager
             stageCamera.transform.Rotate(new Vector3(0, 0, angle));
         }
 
-        IEnumerator _rotateGravityDuration(float angle, float duration)
+        public IEnumerator _rotateGravityDuration(float angle, float duration)
         {
             float _ang = 0;
             float dangle, t = 0f, x, _x;
@@ -195,21 +214,49 @@ namespace Manager
         }
         public void rotateGravityDuration(float angle, float duration = 1f)
         {
-            StartCoroutine(_rotateGravityDuration(angle, duration));
+            if (isOnline)
+            {
+                networkStage.CmdRotateGravityDuration(angle, duration);
+            }
+            else
+            {
+                StartCoroutine(_rotateGravityDuration(angle, duration));
+            }
         }
         public void reSetGrivateSize()
         {
-            Vector2 griv = new Vector2(0, -initalGrivateSize);
-            gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+            if (isOnline)
+            {
+
+            }
+            else
+            {
+                Vector2 griv = new Vector2(0, -initalGrivateSize);
+                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+            }
         }
         public void scaleGrivate(float val = 1.0f, float duration = -1f)
         {
-            Vector2 griv = new Vector2(0, -initalGrivateSize * val);
-            gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+            if (isOnline)
+            {
+
+            }
+            else
+            {
+                Vector2 griv = new Vector2(0, -initalGrivateSize * val);
+                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+            }
         }
         public void addGrivate(float val)
         {
-            gravitySize += val;
+            if (isOnline)
+            {
+                networkStage.CmdAddGrivate(val);
+            }
+            else
+            {
+                gravitySize += val;
+            }
         }
         #endregion
         private void OnDisable()
