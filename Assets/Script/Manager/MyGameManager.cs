@@ -9,9 +9,14 @@ namespace Manager
         /// <summary>
         /// 当前场景的stagemanager, 控制场景的属性, 包括重力方向,大小.
         /// </summary>
-        public StageManager stageManager { get; private set; } = null;
+        public StageManager currentStage { get; private set; } = null;
         public static MyGameManager instance = null;
         public Action onSceneChanged;
+        public static StageManager CurrentStageManager()
+        {
+            Debug.Assert(MyGameManager.instance.currentStage != null);
+            return MyGameManager.instance.currentStage;
+        }
         private void Awake()
         {
             if (instance == null)
@@ -28,12 +33,12 @@ namespace Manager
         }
         void onSceneChange(Scene pre, Scene now)
         {
-            this.stageManager = null;
+            this.currentStage = null;
             onSceneChanged?.Invoke();
         }
-        public void setStageManager(StageManager stageManager)
+        public void setStageManager(StageManager stage)
         {
-            this.stageManager = stageManager;
+            this.currentStage = stage;
         }
         // Update is called once per frame
         void Update()

@@ -68,14 +68,14 @@ namespace Player
         /// <summary>
         /// 启用玩家本地控制, 如果来自远程则取消
         /// </summary>
-        public bool _activate = false;
+        public bool _activate = true;
         void _active() => _activate = true;
         int jumpTime = 0;
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             playerInput = GetComponent<FrameInput>();
-            Invoke(nameof(_active), 0.5f);
+            //Invoke(nameof(_active), 0.5f);
         }
         private void FixedUpdate()
         {
@@ -83,12 +83,12 @@ namespace Player
         }
         void Update()
         {
+            collisionCheck();
+            updateState();
             if (!_activate)
                 return;
             speedPreFrame = speedThisFrame;
             playerInput.update();
-            collisionCheck();
-            updateState();
             CalculateGravity();
             CalculateMove();
             CalculateJump();
@@ -337,7 +337,7 @@ namespace Player
         {
             if (!activeGrivate)
                 return;
-            speedThisFrame.y -= Manager.MyGameManager.instance.stageManager.gravity.sqrMagnitude * gravityScale * Time.deltaTime;
+            speedThisFrame.y -= Manager.MyGameManager.instance.currentStage.gravity.sqrMagnitude * gravityScale * Time.deltaTime;
 
         }
         bool BoundCast(Bounds a, Bounds b)
