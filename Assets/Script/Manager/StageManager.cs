@@ -66,6 +66,10 @@ namespace Manager
         /// </summary>
         public List<GameObject> stagePlayers { get; private set; }
         /// <summary>
+        /// 每添加了一个玩家就广播一次
+        /// </summary>
+        public Action<GameObject> onAddPlayer;
+        /// <summary>
         /// 当前的上帝玩家, 调用<see cref="changeGloadPlayer"/>,而不是直接调用setter除非你知道这样做会出现的问题. 
         /// </summary>
         public GameObject GodPlayer
@@ -105,6 +109,7 @@ namespace Manager
 
             //是否是线上模式
             isOnline = (networkStage != null);
+            onAddPlayer += (player) => { this.stagePlayers.Add(player); };
             //如果不是线上模式就需要接入多设备输入
             if (!isOnline)
                 InputSystem.onDeviceChange += this.onDeviceChange;
@@ -227,7 +232,7 @@ namespace Manager
         {
             if (isOnline)
             {
-
+                Debug.Log($"在线模式未适配");
             }
             else
             {
@@ -239,7 +244,7 @@ namespace Manager
         {
             if (isOnline)
             {
-
+                Debug.Log($"在线模式未适配");
             }
             else
             {
