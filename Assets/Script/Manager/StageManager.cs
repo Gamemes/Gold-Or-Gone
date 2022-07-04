@@ -87,7 +87,7 @@ namespace Manager
                 onGlodPlayerChange?.Invoke(value);
             }
         }
-        private GameObject _godPlayer;
+        private GameObject _godPlayer = null;
         /// <summary>
         /// 当上帝玩家切换, 传入切换后的玩家(GameObject)
         /// </summary>
@@ -98,34 +98,52 @@ namespace Manager
         public bool isdebug = true;
         void Awake()
         {
+            //初始化设置
             MyGameManager.instance.setStageManager(this);
+            stagePlayers = new List<GameObject>();
+
             gravityDirection = gravity.normalized;
             initalGrivateSize = gravity.magnitude;
             _gravitySize = initalGrivateSize;
             Debug.Log($"{gravity} initalGrivateSize {initalGrivateSize}");
+
+            //检测是否是线上模式
             networkStage = GetComponent<NetworkStageManager>();
             if (stageCamera == null)
                 stageCamera = GameObject.FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
 
-            //是否是线上模式
+            //是否是线上模式, 如果存在 NetworkStageManager 组件就说明是线上模式.
             isOnline = (networkStage != null);
-            onAddPlayer += (player) => { this.stagePlayers.Add(player); };
+            //每次增加玩家就加入stagePlayers里.
+            onAddPlayer += (player) =>
+            {
+                this.stagePlayers.Add(player);
+                //玩家数大于2的时候, 就随机一个玩家成为上帝.
+                if (this.stagePlayers.Count >= 2 && GodPlayer == null)
+                {
+                    Invoke(nameof(RandomGodPlayer), 1f);
+                }
+            };
             //如果不是线上模式就需要接入多设备输入
             if (!isOnline)
                 InputSystem.onDeviceChange += this.onDeviceChange;
         }
         private void Start()
         {
+            stagePlayers.AddRange(GameObject.FindGameObjectsWithTag("Player"));
             //如果不是线上模式, 需要同步输入设备到玩家.
             if (!isOnline)
             {
-                stagePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
                 if (!isdebug)
                 {
                     synchroPlayerAndDevice();
                     changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
                 }
             }
+        }
+        private void RandomGodPlayer()
+        {
+            changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
         }
         /// <summary>
         /// 改变当前的上帝玩家

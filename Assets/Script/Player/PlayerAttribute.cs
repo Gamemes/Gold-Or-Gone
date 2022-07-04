@@ -52,7 +52,13 @@ namespace Player
                 this.godCntroller.enabled = true;
                 this._energy = 0;
                 rb.bodyType = RigidbodyType2D.Static;
-                Debug.Log($"{this.gameObject} {godPlayer} {this.energy}");
+                if (stageManager.isOnline)
+                {
+                    Debug.Log($"{stageManager.stagePlayers.Count}");
+                    var t = stageManager.stagePlayers.Find((player) => { return !player.Equals(godPlayer); });
+                    Debug.Log($"god {t}");
+
+                }
             }
             else
             {
@@ -61,8 +67,15 @@ namespace Player
                 this.playerController.enabled = true;
                 this.godCntroller.enabled = false;
                 rb.bodyType = RigidbodyType2D.Kinematic;
-                if (!stageManager.isOnline)
-                    stageManager.stageCamera.Follow = transform;
+                stageManager.stageCamera.Follow = transform;
+                if (stageManager.isOnline)
+                {
+
+                }
+                else
+                {
+
+                }
             }
         }
         // Update is called once per frame
