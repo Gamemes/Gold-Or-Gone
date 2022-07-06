@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &90871051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 90871052}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &90871052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90871051}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.271177, y: 1.4877863, z: 0.061984014}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &196471186
 GameObject:
   m_ObjectHideFlags: 0
@@ -1374,46 +1405,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1254816223611203399, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.992
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816223611203399, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.053
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816223611203512, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: orthographic size
-      value: 11.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816223753826388, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_TrackedObjectOffset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816223753826388, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_TrackedObjectOffset.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816225071403667, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.992
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816225071403667, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.053
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816225071403668, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816225071403668, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_Lens.m_SensorSize.x
-      value: 1.7778802
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254816225071403668, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
-      propertyPath: m_Lens.OrthographicSize
-      value: 11.93
-      objectReference: {fileID: 0}
     - target: {fileID: 1254816225382191578, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
       propertyPath: m_RootOrder
       value: 4
