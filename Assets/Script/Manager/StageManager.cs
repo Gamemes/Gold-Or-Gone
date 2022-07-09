@@ -96,6 +96,8 @@ namespace Manager
         public NetworkStageManager networkStage = null;
         public bool isOnline = false;
         public bool isdebug = true;
+        //边界范围
+        private PolygonCollider2D polygonCollider;
         void Awake()
         {
             //初始化设置
@@ -127,6 +129,8 @@ namespace Manager
             //如果不是线上模式就需要接入多设备输入
             if (!isOnline)
                 InputSystem.onDeviceChange += this.onDeviceChange;
+            //获取多边形碰撞体(边界)
+            this.polygonCollider = GetComponent<PolygonCollider2D>();
         }
         private void Start()
         {
@@ -286,6 +290,24 @@ namespace Manager
         {
 
         }
-
+        private void checkPlayerInBorder()
+        {
+            foreach (var player in this.stagePlayers)
+            {
+                if (!this.polygonCollider.OverlapPoint(player.transform.position))
+                {
+                    player.transform.position = new Vector3(0, 0, 0);
+                    player.GetComponent<Player.PlayerAttribute>().playerHealth.causeDamage(1);
+                    Debug.Log($"{player} out");
+                }
+            }
+        }
+        /// <summary>
+        /// Update is called every frame, if the MonoBehaviour is enabled.
+        /// </summary>
+        private void Update()
+        {
+            checkPlayerInBorder();
+        }
     }
 }
