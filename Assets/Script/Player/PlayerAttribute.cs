@@ -26,7 +26,7 @@ namespace Player
                 // if (value < 0 || value > 3)
                 //     return;
                 if (value == 3)
-                    Manager.MyGameManager.instance.currentStage.changeGloadPlayer(gameObject);
+                    Manager.MyGameManager.instance.currentStage.ChangeGloadPlayer(gameObject);
                 _energy = value % 3;
                 onEneryChange?.Invoke(_energy);
             }
@@ -43,7 +43,7 @@ namespace Player
             stageManager = Manager.MyGameManager.instance.currentStage;
             if (playerName == "")
                 playerName = gameObject.name;
-            stageManager.onGlodPlayerChange += this.onGodPlayerChange;
+            stageManager.onGlodPlayerChange += this.OnGodPlayerChange;
         }
         /// <summary>
         /// Start is called on the frame when a script is enabled just before
@@ -53,7 +53,7 @@ namespace Player
         {
             onEneryChange?.Invoke(energy);
         }
-        void onGodPlayerChange(GameObject godPlayer)
+        void OnGodPlayerChange(GameObject godPlayer)
         {
             if (godPlayer.Equals(this.gameObject))
             {

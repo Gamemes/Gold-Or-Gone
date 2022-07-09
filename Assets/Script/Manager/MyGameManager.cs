@@ -17,6 +17,11 @@ namespace Manager
             Debug.Assert(MyGameManager.instance.currentStage != null);
             return MyGameManager.instance.currentStage;
         }
+        public static void ShowInfoInCurrentStage(string info)
+        {
+            Debug.Assert(MyGameManager.instance.currentStage != null);
+            MyGameManager.instance.currentStage.stageInfo.ShowInfo(info);
+        }
         private void Awake()
         {
             if (instance == null)

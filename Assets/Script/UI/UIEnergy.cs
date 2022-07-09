@@ -11,10 +11,10 @@ public class UIEnergy : UISpaced
         base.Awake();
         playerUIManager = GetComponentInParent<Player.PlayerUIManager>();
         Debug.Assert(playerUIManager != null);
-        playerUIManager.targetPlayer.onEneryChange += this.onChangeEnergy;
+        playerUIManager.targetPlayer.onEneryChange += this.OnChangeEnergy;
         //playerUIManager.targetPlayer.playerHealth.onPlayerBloodChange += this.onBloodChange;
     }
-    void onChangeEnergy(int energy)
+    void OnChangeEnergy(int energy)
     {
         while (energy > images.Count)
         {

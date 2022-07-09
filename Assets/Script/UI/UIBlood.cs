@@ -14,9 +14,9 @@ public class UIBlood : UISpaced
         base.Awake();
         playerUIManager = GetComponentInParent<Player.PlayerUIManager>();
         Debug.Assert(playerUIManager != null);
-        playerUIManager.targetPlayer.playerHealth.onPlayerBloodChange += this.onBloodChange;
+        playerUIManager.targetPlayer.playerHealth.onPlayerBloodChange += this.OnBloodChange;
     }
-    void onBloodChange(int blood)
+    void OnBloodChange(int blood)
     {
         while (blood > images.Count)
         {

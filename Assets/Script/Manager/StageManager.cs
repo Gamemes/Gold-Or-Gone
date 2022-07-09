@@ -70,7 +70,7 @@ namespace Manager
         /// </summary>
         public Action<GameObject> onAddPlayer;
         /// <summary>
-        /// 当前的上帝玩家, 调用<see cref="changeGloadPlayer"/>,而不是直接调用setter除非你知道这样做会出现的问题. 
+        /// 当前的上帝玩家, 调用<see cref="ChangeGloadPlayer"/>,而不是直接调用setter除非你知道这样做会出现的问题. 
         /// </summary>
         public GameObject GodPlayer
         {
@@ -98,6 +98,8 @@ namespace Manager
         public bool isdebug = true;
         //边界范围
         private PolygonCollider2D polygonCollider;
+        //场景信息UI
+        public UIStageInfo stageInfo;
         void Awake()
         {
             //初始化设置
@@ -131,6 +133,8 @@ namespace Manager
                 InputSystem.onDeviceChange += this.onDeviceChange;
             //获取多边形碰撞体(边界)
             this.polygonCollider = GetComponent<PolygonCollider2D>();
+            //获取info UI
+            this.stageInfo = GetComponentInChildren<UIStageInfo>();
         }
         private void Start()
         {
@@ -141,19 +145,19 @@ namespace Manager
                 if (!isdebug)
                 {
                     synchroPlayerAndDevice();
-                    changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+                    ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
                 }
             }
         }
         private void RandomGodPlayer()
         {
-            changeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+            ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
         }
         /// <summary>
         /// 改变当前的上帝玩家
         /// </summary>
         /// <param name="player">目标玩家</param>
-        public void changeGloadPlayer(GameObject player)
+        public void ChangeGloadPlayer(GameObject player)
         {
             if (isOnline)
             {
@@ -163,6 +167,7 @@ namespace Manager
             {
                 GodPlayer = player;
             }
+            stageInfo.ShowInfo($"Change God to {player}");
         }
         #region 设备控制
         void addPlayer(InputDevice inputDevice)
@@ -290,14 +295,14 @@ namespace Manager
         {
 
         }
-        private void checkPlayerInBorder()
+        private void CheckPlayerInBorder()
         {
             foreach (var player in this.stagePlayers)
             {
                 if (!this.polygonCollider.OverlapPoint(player.transform.position))
                 {
                     player.transform.position = new Vector3(0, 0, 0);
-                    player.GetComponent<Player.PlayerAttribute>().playerHealth.causeDamage(1);
+                    player.GetComponent<Player.PlayerAttribute>().playerHealth.CauseDamage(1);
                     Debug.Log($"{player} out");
                 }
             }
@@ -307,7 +312,7 @@ namespace Manager
         /// </summary>
         private void Update()
         {
-            checkPlayerInBorder();
+            CheckPlayerInBorder();
         }
     }
 }

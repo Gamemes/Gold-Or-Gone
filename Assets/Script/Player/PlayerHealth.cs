@@ -32,19 +32,20 @@ namespace Player
             playerAttribute = GetComponent<PlayerAttribute>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             _color = spriteRenderer.color;
-            damageAction += causeDamage;
+            damageAction += CauseDamage;
             onPlayerBloodChange?.Invoke(maxBlood);
         }
 
-        public void causeDamage(int hurtValue)
+        public void CauseDamage(int hurtValue)
         {
             Debug.Assert(hurtValue > 0);
             int preBlood = blood;
             blood -= hurtValue;
-            StartCoroutine(damageEffect());
+            StartCoroutine(DamageEffect());
             blood = Mathf.Max(0, blood);
             if (blood <= 0)
             {
+                Manager.MyGameManager.ShowInfoInCurrentStage($"{playerAttribute.playerName} died");
                 onPlayerDead?.Invoke();
             }
             if (blood < preBlood)
@@ -53,7 +54,7 @@ namespace Player
                 onPlayerBloodChange?.Invoke(blood);
             }
         }
-        IEnumerator damageEffect()
+        IEnumerator DamageEffect()
         {
             spriteRenderer.color = Color.red;
             yield return new WaitForSeconds(0.2f);
@@ -85,7 +86,7 @@ namespace Player
             {
                 if (playerAttribute.playerController.Velocity.y >= playerAttribute.playerController.maxFallSpeed)
                 {
-                    causeDamage(1);
+                    CauseDamage(1);
                 }
             }
         }
