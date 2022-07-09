@@ -15,9 +15,9 @@ namespace Player
         /// </summary>
         public Action<int> damageAction;
         /// <summary>
-        /// 当玩家受伤(生命值减少), 传输玩家生命值作为参数
+        /// 当玩家生命值变化, 传输玩家生命值作为参数
         /// </summary>
-        public Action<int> onPlayerHurt;
+        public Action<int> onPlayerBloodChange;
         /// <summary>
         /// 当玩家死亡
         /// </summary>
@@ -33,6 +33,7 @@ namespace Player
             spriteRenderer = GetComponent<SpriteRenderer>();
             _color = spriteRenderer.color;
             damageAction += causeDamage;
+            onPlayerBloodChange?.Invoke(maxBlood);
         }
 
         public void causeDamage(int hurtValue)
@@ -49,7 +50,7 @@ namespace Player
             if (blood < preBlood)
             {
                 Debug.Log($"cause damage {hurtValue}, blood now : {blood}");
-                onPlayerHurt?.Invoke(blood);
+                onPlayerBloodChange?.Invoke(blood);
             }
         }
         IEnumerator damageEffect()
@@ -61,7 +62,10 @@ namespace Player
         public void addBlood(int addValue)
         {
             Debug.Assert(addValue > 0);
+            int pre = blood;
             blood = Mathf.Min(maxBlood, blood + addValue);
+            if (pre != blood)
+                onPlayerBloodChange?.Invoke(blood);
         }
         /// <summary>
         /// Update is called every frame, if the MonoBehaviour is enabled.

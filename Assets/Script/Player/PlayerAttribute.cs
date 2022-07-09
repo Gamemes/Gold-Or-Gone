@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Player
         public PlayerHealth playerHealth { get; private set; }
         public Rigidbody2D rb { get; private set; }
         public string playerName = "";
+        public Action<int> onEneryChange;
         /// <summary>
         /// 能量值, 达3的时候变成上帝
         /// </summary>
@@ -26,6 +28,7 @@ namespace Player
                 if (value == 3)
                     Manager.MyGameManager.instance.currentStage.changeGloadPlayer(gameObject);
                 _energy = value % 3;
+                onEneryChange?.Invoke(_energy);
             }
         }
         private int _energy = 0;
@@ -41,6 +44,14 @@ namespace Player
             if (playerName == "")
                 playerName = gameObject.name;
             stageManager.onGlodPlayerChange += this.onGodPlayerChange;
+        }
+        /// <summary>
+        /// Start is called on the frame when a script is enabled just before
+        /// any of the Update methods is called the first time.
+        /// </summary>
+        private void Start()
+        {
+            onEneryChange?.Invoke(energy);
         }
         void onGodPlayerChange(GameObject godPlayer)
         {
