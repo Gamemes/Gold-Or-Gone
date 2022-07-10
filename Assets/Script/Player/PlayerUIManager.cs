@@ -18,12 +18,19 @@ namespace Player
         private void Update()
         {
             if (playerTransform)
+            {
+                this.transform.rotation = playerTransform.rotation;
                 this.transform.position = playerTransform.position + offset;
+
+            }
         }
         private void OnDrawGizmos()
         {
             if (playerTransform)
+            {
+                this.transform.rotation = playerTransform.rotation;
                 this.transform.position = playerTransform.position + offset;
+            }
         }
     }
 

@@ -21,8 +21,6 @@ namespace Player
         }
         private void Start()
         {
-            Debug.Log($"a player {isLocalPlayer} {isClient} {isServer}");
-            base.OnStartClient();
             targetCompent = GetComponent<PlayerAttribute>();
             Debug.Assert(targetCompent != null);
             //如果不是本地玩家则取消本地输入
