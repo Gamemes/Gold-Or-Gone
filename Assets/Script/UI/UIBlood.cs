@@ -14,6 +14,9 @@ public class UIBlood : UISpaced
         base.Awake();
         playerUIManager = GetComponentInParent<Player.PlayerUIManager>();
         Debug.Assert(playerUIManager != null);
+    }
+    private void Start()
+    {
         playerUIManager.targetPlayer.playerHealth.onPlayerBloodChange += this.OnBloodChange;
     }
     void OnBloodChange(int blood)

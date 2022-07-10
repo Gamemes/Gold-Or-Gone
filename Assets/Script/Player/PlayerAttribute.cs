@@ -51,7 +51,7 @@ namespace Player
         /// </summary>
         private void Start()
         {
-            onEneryChange?.Invoke(energy);
+            Manager.MyGameManager.CurrentStageManager().onGameStart += () => onEneryChange?.Invoke(energy);
         }
         void OnGodPlayerChange(GameObject godPlayer)
         {
@@ -65,10 +65,7 @@ namespace Player
                 rb.bodyType = RigidbodyType2D.Static;
                 if (stageManager.isOnline)
                 {
-                    Debug.Log($"{stageManager.stagePlayers.Count}");
                     var t = stageManager.stagePlayers.Find((player) => { return !player.Equals(godPlayer); });
-                    Debug.Log($"god {t}");
-
                 }
             }
             else

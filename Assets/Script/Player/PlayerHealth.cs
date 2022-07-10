@@ -33,7 +33,7 @@ namespace Player
             spriteRenderer = GetComponent<SpriteRenderer>();
             _color = spriteRenderer.color;
             damageAction += CauseDamage;
-            onPlayerBloodChange?.Invoke(maxBlood);
+            Manager.MyGameManager.CurrentStageManager().onGameStart += () => { onPlayerBloodChange?.Invoke(blood); };
         }
 
         public void CauseDamage(int hurtValue)

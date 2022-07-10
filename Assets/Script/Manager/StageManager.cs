@@ -70,6 +70,13 @@ namespace Manager
         /// </summary>
         public Action<GameObject> onAddPlayer;
         /// <summary>
+        /// 游戏开始事件, 在游戏开始的时候会触发此事件.
+        /// 游戏开始是建立在 
+        /// 1.玩家数量大于2 
+        /// 2.玩家全部准备就绪
+        /// </summary>
+        public Action onGameStart;
+        /// <summary>
         /// 当前的上帝玩家, 调用<see cref="ChangeGloadPlayer"/>,而不是直接调用setter除非你知道这样做会出现的问题. 
         /// </summary>
         public GameObject GodPlayer
@@ -123,9 +130,10 @@ namespace Manager
             {
                 this.stagePlayers.Add(player);
                 //玩家数大于2的时候, 就随机一个玩家成为上帝.
+                //这只是一个临时方案.
                 if (this.stagePlayers.Count >= 2 && GodPlayer == null)
                 {
-                    Invoke(nameof(RandomGodPlayer), 1f);
+                    Invoke(nameof(StartGame), 1f);
                 }
             };
             //如果不是线上模式就需要接入多设备输入
@@ -138,7 +146,10 @@ namespace Manager
         }
         private void Start()
         {
-            stagePlayers.AddRange(GameObject.FindGameObjectsWithTag("Player"));
+            foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                onAddPlayer?.Invoke(player);
+            }
             //如果不是线上模式, 需要同步输入设备到玩家.
             if (!isOnline)
             {
@@ -149,9 +160,10 @@ namespace Manager
                 }
             }
         }
-        private void RandomGodPlayer()
+        private void StartGame()
         {
             ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+            onGameStart?.Invoke();
         }
         /// <summary>
         /// 改变当前的上帝玩家
@@ -178,7 +190,7 @@ namespace Manager
             var controller = newPlayer.GetComponent<Player.FrameInput>();
             controller.setDevice(inputDevice);
             //添加到stagePlayers
-            stagePlayers.Add(newPlayer);
+            onAddPlayer?.Invoke(newPlayer);
         }
         /// <summary>
         /// 同步输入设备和玩家

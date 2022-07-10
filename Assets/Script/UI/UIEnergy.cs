@@ -11,8 +11,10 @@ public class UIEnergy : UISpaced
         base.Awake();
         playerUIManager = GetComponentInParent<Player.PlayerUIManager>();
         Debug.Assert(playerUIManager != null);
+    }
+    private void Start()
+    {
         playerUIManager.targetPlayer.onEneryChange += this.OnChangeEnergy;
-        //playerUIManager.targetPlayer.playerHealth.onPlayerBloodChange += this.onBloodChange;
     }
     void OnChangeEnergy(int energy)
     {
