@@ -39,6 +39,8 @@ namespace Player
         public void CauseDamage(int hurtValue)
         {
             Debug.Assert(hurtValue > 0);
+            if (Manager.MyGameManager.CurrentStageManager().isdebug)
+                return;
             int preBlood = blood;
             blood -= hurtValue;
             StartCoroutine(DamageEffect());

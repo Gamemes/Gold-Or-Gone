@@ -20,5 +20,11 @@ namespace Manager
             //触发玩家加入事件.
             MyGameManager.CurrentStageManager().onAddPlayer?.Invoke(player);
         }
+        public override void Start()
+        {
+            base.Start();
+
+        }
     }
+
 }

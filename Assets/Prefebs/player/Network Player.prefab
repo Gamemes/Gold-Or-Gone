@@ -9914,6 +9914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 
+  playerUIObject: {fileID: 4394490451780360504, guid: 746f6733d9f1df240bbef0f64be2872c, type: 3}
 --- !u!114 &6363210703864033762
 MonoBehaviour:
   m_ObjectHideFlags: 0

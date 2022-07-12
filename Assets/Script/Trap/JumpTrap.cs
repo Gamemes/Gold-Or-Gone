@@ -9,7 +9,6 @@ namespace Trap
     {
         public override void onPlayerEnter(PlayerAttribute playerAttribute)
         {
-            Debug.Log($"jump block");
             var playercontroller = playerAttribute.playerController;
             StartCoroutine(jump(playercontroller));
             //playercontroller.speedThisFrame.y += 2 * playercontroller.jumpSpeed;
@@ -20,7 +19,6 @@ namespace Trap
             yield return null;
             if (playerController.colDow)
             {
-                Debug.Log($"jump");
                 playerController.speedThisFrame.y += 2 * playerController.jumpSpeed;
             }
         }

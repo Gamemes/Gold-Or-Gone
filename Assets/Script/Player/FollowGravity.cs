@@ -7,7 +7,7 @@ namespace Player
     {
         public float rotateSpeed = 180f;
         private PlayerController playerController;
-        private float angle = 0f;
+        //private float angle = 0f;
         void Start()
         {
             playerController = GetComponent<PlayerController>();

@@ -539,6 +539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4394490451641730253}
   - component: {fileID: 2830394346930745073}
+  - component: {fileID: 927837305}
   m_Layer: 0
   m_Name: energy
   m_TagString: Untagged
@@ -570,6 +571,21 @@ RectTransform:
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2830394346930745073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4394490451641730254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6825dfa48b67048af4c8ccd5e7b7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnImage: {fileID: -3983950619504736678, guid: 74f8b4d56cb24724abef2f7c526fd9ca, type: 3}
+  OffImage: {fileID: -9176472066801411641, guid: 74f8b4d56cb24724abef2f7c526fd9ca, type: 3}
+  space: 0.7
+--- !u!114 &927837305
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -672,7 +688,7 @@ GameObject:
   - component: {fileID: 4394490451780360451}
   - component: {fileID: 4394490451780360452}
   - component: {fileID: 4394490451780360453}
-  - component: {fileID: 6254110627821303149}
+  - component: {fileID: 2016049573}
   m_Layer: 0
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -765,7 +781,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6254110627821303149
+--- !u!114 &2016049573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -790,6 +806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4394490451834414452}
   - component: {fileID: 6417719339742464291}
+  - component: {fileID: 2104690132}
   m_Layer: 0
   m_Name: bloods
   m_TagString: Untagged
@@ -821,6 +838,21 @@ RectTransform:
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6417719339742464291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4394490451834414453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7afa281dfa8854e80976cc3930cb4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnImage: {fileID: -5390123095117124330, guid: 74f8b4d56cb24724abef2f7c526fd9ca, type: 3}
+  OffImage: {fileID: -8880520576215733831, guid: 74f8b4d56cb24724abef2f7c526fd9ca, type: 3}
+  space: 0.7
+--- !u!114 &2104690132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -870,7 +902,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.4, y: 0}
+  m_AnchoredPosition: {x: 2.1, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2060839482467344338

@@ -9,7 +9,6 @@ namespace Prop
         {
 
             playerAttribute.energy++;
-            Debug.Log($"add energy {playerAttribute.playerName} {playerAttribute.energy}");
         }
     }
 }

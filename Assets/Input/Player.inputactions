@@ -321,7 +321,7 @@
                 {
                     "name": "modifier",
                     "id": "b3bfa6d6-0ce7-430b-877d-a367211ab915",
-                    "path": "<Gamepad>/leftStick/up",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -332,7 +332,7 @@
                 {
                     "name": "binding",
                     "id": "d1f575b3-7da1-4217-abc8-3d4338f215df",
-                    "path": "<XInputController>/buttonSouth",
+                    "path": "<XInputController>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -365,7 +365,7 @@
                 {
                     "name": "modifier",
                     "id": "9f392869-490f-453e-897b-18949a395d50",
-                    "path": "<Gamepad>/leftStick/down",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -376,7 +376,7 @@
                 {
                     "name": "binding",
                     "id": "4cb85685-ba30-4e08-b4f3-eefd04b30d20",
-                    "path": "<XInputController>/buttonSouth",
+                    "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -7,9 +7,9 @@ namespace Player
     public class PlayerAnimationController : MonoBehaviour
     {
         // Start is called before the first frame update
-        enum PlayerState
+        public enum PlayerState
         {
-            Idle, Run, Death, FlyUp, FlyDown
+            Idle, Run, Death, FlyUp, FlyDown, Climb, Sprint
         }
         public Animator animator;
         private PlayerAttribute playerAttribute;
@@ -19,17 +19,22 @@ namespace Player
             animator = GetComponent<Animator>();
             playerAttribute = GetComponent<PlayerAttribute>();
         }
-        void changeState(PlayerState state)
+        public void changeState(PlayerState state)
         {
             if (currentState == state) return;
             currentState = state;
+            //Debug.Log($"change state to {state.ToString()}");
             animator.Play(state.ToString());
         }
         // Update is called once per frame
         void Update()
         {
             var velocity = playerAttribute.playerController.Velocity;
-            if (velocity.y > .3f)
+            if (playerAttribute.playerController.Climbing)
+            {
+                changeState(PlayerState.Climb);
+            }
+            else if (velocity.y > .3f)
             {
                 changeState(PlayerState.FlyUp);
             }

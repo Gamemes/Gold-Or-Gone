@@ -41,11 +41,11 @@ namespace Manager
             }
             set
             {
-                Debug.Log($"set gravity size to {value}");
+                //Debug.Log($"set gravity size to {value}");
                 _gravitySize = MathF.Min(50, value);
                 Vector2 griv = new Vector2(0, -_gravitySize);
                 gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
-                Debug.Log($"change grivate {_gravitySize}");
+                Debug.Log($"change grivate size {_gravitySize}");
             }
         }
         private float initalGrivateSize;
