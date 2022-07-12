@@ -66,8 +66,9 @@ namespace Player
         /// </summary>
         private void Start()
         {
-            Manager.MyGameManager.CurrentStageManager().onGameStart += () => onEneryChange?.Invoke(energy);
+            stageManager.onGameStart += () => onEneryChange?.Invoke(energy);
             playerHealth.onPlayerDead += this.OnPlayerDied;
+            stageManager.onReGame += this.OnReGame;
         }
         void OnGodPlayerChange(GameObject godPlayer)
         {
@@ -108,17 +109,27 @@ namespace Player
         private void OnDestroy()
         {
             Destroy(playerUIObject);
-            Manager.MyGameManager.CurrentStageManager().stagePlayers.Remove(this.gameObject);
+            stageManager.stagePlayers.Remove(this.gameObject);
+            stageManager.onGlodPlayerChange -= this.OnGodPlayerChange;
         }
         void OnPlayerDied()
         {
             this.playerController.enabled = false;
             this.godController.enabled = false;
             playerAnimation.changeState(PlayerAnimationController.PlayerState.Death);
+            stageManager.ReGame();
         }
         // Update is called once per frame
         void Update()
         {
+        }
+        void OnReGame()
+        {
+            this.playerController.enabled = true;
+            this.godController.enabled = false;
+            this.playerHealth.ReSetHealth();
+            playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
+            this.energy = 0;
         }
     }
 }

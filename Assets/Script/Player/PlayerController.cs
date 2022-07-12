@@ -175,6 +175,7 @@ namespace Player
         [Range(1, 100)]
         public float jumpSpeed = 24f;
         public float maxFallSpeed = 25f;
+        public float glidingFallSpeed = 5f;
         public int maxJumpTime = 2;
         public float jumpHoverTime = 0.1f;
         private bool isHover = false;
@@ -198,7 +199,10 @@ namespace Player
                 speedThisFrame += Vector2.up * -14 * (lowJumpMultiplier - 1) * Time.deltaTime;
             }
             // 下落最大速度
-            speedThisFrame.y = Mathf.Max(speedThisFrame.y, -maxFallSpeed);
+            float tmaxfallspeed = maxFallSpeed;
+            if (playerInput.HoldJump)
+                tmaxfallspeed = glidingFallSpeed;
+            speedThisFrame.y = Mathf.Max(speedThisFrame.y, -tmaxfallspeed);
         }
         IEnumerator JumpHover(float time)
         {

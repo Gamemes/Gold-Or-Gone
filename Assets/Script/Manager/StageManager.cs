@@ -70,12 +70,17 @@ namespace Manager
         /// </summary>
         public Action<GameObject> onAddPlayer;
         /// <summary>
+        /// todo: 这是个临时方案, 后期需要取消他现在的事件绑定
         /// 游戏开始事件, 在游戏开始的时候会触发此事件.
         /// 游戏开始是建立在 
         /// 1.玩家数量大于2 
         /// 2.玩家全部准备就绪
         /// </summary>
         public Action onGameStart;
+        /// <summary>
+        /// 重新开始游戏
+        /// </summary>
+        public Action onReGame;
         /// <summary>
         /// 当前的上帝玩家, 调用<see cref="ChangeGloadPlayer"/>,而不是直接调用setter除非你知道这样做会出现的问题. 
         /// </summary>
@@ -325,6 +330,20 @@ namespace Manager
         private void Update()
         {
             CheckPlayerInBorder();
+        }
+        /// <summary>
+        /// 重新游戏
+        /// </summary>
+        public void ReGame()
+        {
+            if (isOnline)
+            {
+                networkStage.CmdReGame();
+            }
+            else
+            {
+
+            }
         }
     }
 }

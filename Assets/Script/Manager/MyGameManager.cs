@@ -14,7 +14,9 @@ namespace Manager
         public Action onSceneChanged;
         public static StageManager CurrentStageManager()
         {
-            Debug.Assert(MyGameManager.instance.currentStage != null);
+            //Debug.Assert(MyGameManager.instance.currentStage != null);
+            if (MyGameManager.instance.currentStage == null)
+                Debug.LogWarning("尝试获得空值场景管理");
             return MyGameManager.instance.currentStage;
         }
         public static void ShowInfoInCurrentStage(string info)

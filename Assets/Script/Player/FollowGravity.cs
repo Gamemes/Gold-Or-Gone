@@ -12,6 +12,7 @@ namespace Player
         {
             playerController = GetComponent<PlayerController>();
             Manager.MyGameManager.instance.currentStage.onGravityRotateCompleted += this.rotate;
+            transform.Rotate(new Vector3(0, 0, Manager.MyGameManager.CurrentStageManager().gravityAngle));
         }
         void rotate(float dangle)
         {
@@ -42,6 +43,14 @@ namespace Player
                 _angle -= dangle;
                 yield return null;
             }
+        }
+        /// <summary>
+        /// This function is called when the MonoBehaviour will be destroyed.
+        /// </summary>
+        private void OnDestroy()
+        {
+            if (Manager.MyGameManager.CurrentStageManager())
+                Manager.MyGameManager.CurrentStageManager().onGravityRotateCompleted -= this.rotate;
         }
     }
 }

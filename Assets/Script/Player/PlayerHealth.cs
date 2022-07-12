@@ -9,7 +9,25 @@ namespace Player
         [SerializeField]
         private int maxBlood = 3;
         public int MaxBlood { get => maxBlood; }
-        public int blood { get; private set; }
+        private int _blood;
+        /// <summary>
+        /// 玩家的当前血量
+        /// </summary>
+        /// <value>血量</value>
+        public int blood
+        {
+            get => _blood;
+            private set
+            {
+                if (value < 0 || value > maxBlood)
+                    return;
+                if (value != blood)
+                {
+                    _blood = value;
+                    onPlayerBloodChange?.Invoke(value);
+                }
+            }
+        }
         /// <summary>
         /// 对玩家造成伤害
         /// </summary>
@@ -41,7 +59,6 @@ namespace Player
             Debug.Assert(hurtValue > 0);
             if (Manager.MyGameManager.CurrentStageManager().isdebug)
                 return;
-            int preBlood = blood;
             blood -= hurtValue;
             StartCoroutine(DamageEffect());
             blood = Mathf.Max(0, blood);
@@ -49,11 +66,6 @@ namespace Player
             {
                 Manager.MyGameManager.ShowInfoInCurrentStage($"{playerAttribute.playerName} died");
                 onPlayerDead?.Invoke();
-            }
-            if (blood < preBlood)
-            {
-                Debug.Log($"cause damage {hurtValue}, blood now : {blood}");
-                onPlayerBloodChange?.Invoke(blood);
             }
         }
         IEnumerator DamageEffect()
@@ -65,10 +77,12 @@ namespace Player
         public void addBlood(int addValue)
         {
             Debug.Assert(addValue > 0);
-            int pre = blood;
             blood = Mathf.Min(maxBlood, blood + addValue);
-            if (pre != blood)
-                onPlayerBloodChange?.Invoke(blood);
+        }
+        public void ReSetHealth()
+        {
+            maxBlood = 3;
+            this.blood = maxBlood;
         }
         /// <summary>
         /// Update is called every frame, if the MonoBehaviour is enabled.

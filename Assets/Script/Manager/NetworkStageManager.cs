@@ -50,5 +50,19 @@ namespace Manager
         {
             stageManager.gravitySize += val;
         }
+        [Command(requiresAuthority = false)]
+        public void CmdReGame()
+        {
+            foreach (var player in stageManager.stagePlayers)
+            {
+                player.transform.position = NetworkManager.singleton.GetStartPosition().position;
+            }
+            RpcReGame();
+        }
+        [ClientRpc]
+        private void RpcReGame()
+        {
+            stageManager.onReGame?.Invoke();
+        }
     }
 }
