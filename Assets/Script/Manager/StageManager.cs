@@ -156,7 +156,7 @@ namespace Manager
                 onAddPlayer?.Invoke(player);
             }
             //如果不是线上模式, 需要同步输入设备到玩家.
-            if (!isOnline)
+            if (!isOnline && !isdebug)
             {
                 synchroPlayerAndDevice();
             }
