@@ -42,8 +42,17 @@ TagManager:
   - name: back
     uniqueID: 3932891579
     locked: 0
+  - name: Prop
+    uniqueID: 3334179281
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: ground
+    uniqueID: 3427277107
+    locked: 0
+  - name: Player
+    uniqueID: 1981440267
     locked: 0
   - name: front
     uniqueID: 1738321791

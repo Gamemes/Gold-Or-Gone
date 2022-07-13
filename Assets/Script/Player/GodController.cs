@@ -21,7 +21,7 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-            playerInput.update();
+            //playerInput.update();
             if (playerInput.Rotate)
             {
                 int dir = (int)godinput.RotateDir.ReadValue<float>();

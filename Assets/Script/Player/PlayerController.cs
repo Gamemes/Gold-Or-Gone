@@ -19,7 +19,6 @@ namespace Player
             Start = Quaternion.Euler(0, 0, angle) * start + offset;
             End = Quaternion.Euler(0, 0, angle) * end + offset;
             Dir = Quaternion.Euler(0, 0, angle) * dir;
-
         }
 
         public readonly Vector2 Start, End, Dir;
@@ -88,7 +87,7 @@ namespace Player
             if (!_activate)
                 return;
             speedPreFrame = speedThisFrame;
-            playerInput.update();
+            //playerInput.update();
             CalculateGravity();
             CalculateMove();
             CalculateJump();
@@ -446,6 +445,12 @@ namespace Player
             drawRayRang(_colLef);
             drawRayRang(_colRig);
             drawRayRang(_colUp);
+        }
+        public void ReSetController()
+        {
+            activeClimb = false;
+            activeSprint = false;
+            maxJumpTime = 1;
         }
     }
 

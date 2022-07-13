@@ -134,12 +134,12 @@ namespace Manager
             onAddPlayer += (player) =>
             {
                 this.stagePlayers.Add(player);
-                //玩家数大于2的时候, 就随机一个玩家成为上帝.
-                //这只是一个临时方案.
-                if (this.stagePlayers.Count >= 2 && GodPlayer == null)
-                {
-                    Invoke(nameof(StartGame), 1f);
-                }
+                // //玩家数大于2的时候, 就随机一个玩家成为上帝.
+                // //这只是一个临时方案.
+                // if (this.stagePlayers.Count >= 2 && GodPlayer == null)
+                // {
+                //     Invoke(nameof(StartGame), 1f);
+                // }
             };
             //如果不是线上模式就需要接入多设备输入
             if (!isOnline)
@@ -158,11 +158,7 @@ namespace Manager
             //如果不是线上模式, 需要同步输入设备到玩家.
             if (!isOnline)
             {
-                if (!isdebug)
-                {
-                    synchroPlayerAndDevice();
-                    ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
-                }
+                synchroPlayerAndDevice();
             }
         }
         private void StartGame()

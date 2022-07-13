@@ -14,6 +14,7 @@ namespace Prop
         /// 道具名称
         /// </summary>
         private string propName;
+        protected bool autoDelete = true;
         public virtual void Start()
         {
             if (propName is null)
@@ -41,6 +42,8 @@ namespace Prop
                     throw err;
                 }
                 onPlayerEnter(attribute);
+                if (autoDelete)
+                    Destroy(this.gameObject);
             }
         }
         public override int GetHashCode()

@@ -43,7 +43,7 @@ namespace Player
             _input.devices = new InputDevice[] { inputDevice };
 
         }
-        public void update()
+        public void Update()
         {
             if (_input.Player.enabled)
             {
@@ -60,10 +60,6 @@ namespace Player
                 Rotate = _input.God.Rotate.WasPressedThisFrame();
             }
             //
-        }
-        public override string ToString()
-        {
-            return $"Horizontal: {Horizontal} Jump: {Jump}";
         }
     }
 }

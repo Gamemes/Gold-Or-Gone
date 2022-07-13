@@ -9718,7 +9718,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8258579443823930206}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.639, y: 1.558, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9766,8 +9766,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1981440267
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -1220948830, guid: 0e78598c4581c1946a4c20a4fed23f65, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9855,16 +9855,17 @@ MonoBehaviour:
   lowJumpMultiplier: 8
   jumpSpeed: 28
   maxFallSpeed: 50
-  maxJumpTime: 2
+  glidingFallSpeed: 5
+  maxJumpTime: 1
   jumpHoverTime: 0.1
-  activeClimb: 1
+  activeClimb: 0
   maxClimbTime: 2
   climbMoveSpeed: 10
   climbJumpSpeed: 40
   climbJumpHorSpeed: 25
   climbJumpDurition: 0.2
   climbJumpWalkInfluence: 1.1
-  activeSprint: 1
+  activeSprint: 0
   sprintVelocityGain: 3.5
   sprintDurition: 0.1
   sprintThisFrame: 0

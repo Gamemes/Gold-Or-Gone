@@ -14,6 +14,7 @@ namespace Player
         public PlayerHealth playerHealth { get; private set; }
         public PlayerAnimationController playerAnimation { get; private set; }
         public Rigidbody2D rb { get; private set; }
+        public SpriteRenderer spriteRenderer { get; private set; }
         public string playerName = "";
         public Action<int> onEneryChange;
         /// <summary>
@@ -41,6 +42,7 @@ namespace Player
             playerHealth = GetComponent<PlayerHealth>();
             playerAnimation = GetComponent<PlayerAnimationController>();
             rb = GetComponent<Rigidbody2D>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
             stageManager = Manager.MyGameManager.instance.currentStage;
             if (playerName == "")
                 playerName = gameObject.name;
