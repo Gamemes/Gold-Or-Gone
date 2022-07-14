@@ -7,7 +7,11 @@ namespace Player
 {
     public class PlayerAttribute : MonoBehaviour
     {
-        // Start is called before the first frame update
+        /// <summary>
+        /// 如果是本地模式那么一直为true.
+        /// 如果是联机模式那么只有本地玩家为true.
+        /// </summary>
+        public bool isLocalPlayer = true;
         public FrameInput frameInput { get; private set; }
         public PlayerController playerController { get; private set; }
         public GodController godController { get; private set; }
@@ -16,23 +20,26 @@ namespace Player
         public Rigidbody2D rb { get; private set; }
         public SpriteRenderer spriteRenderer { get; private set; }
         public string playerName = "";
-        public Action<int> onEneryChange;
-        /// <summary>
-        /// 能量值, 达3的时候变成上帝
-        /// </summary>
-        public int energy
-        {
-            get => _energy;
-            set
-            {
-                if (value == 3)
-                    Manager.MyGameManager.instance.currentStage.ChangeGloadPlayer(gameObject);
-                _energy = value % 3;
-                onEneryChange?.Invoke(_energy);
-            }
-        }
-        private int _energy = 0;
+        // public Action<int> onEneryChange;
+        // /// <summary>
+        // /// 能量值, 达3的时候变成上帝
+        // /// </summary>
+        // public int energy
+        // {
+        //     get => _energy;
+        //     set
+        //     {
+        //         if (value == 3)
+        //             Manager.MyGameManager.instance.currentStage.ChangeGloadPlayer(gameObject);
+        //         _energy = value % 3;
+        //         onEneryChange?.Invoke(_energy);
+        //     }
+        // }
+        // private int _energy = 0;
         private Manager.StageManager stageManager;
+        /// <summary>
+        /// 玩家的ui对象, 为玩家提供了 血量|能量|名称 的显示
+        /// </summary>
         public GameObject playerUIObject;
         void Awake()
         {
@@ -68,7 +75,6 @@ namespace Player
         /// </summary>
         private void Start()
         {
-            stageManager.onGameStart += () => onEneryChange?.Invoke(energy);
             playerHealth.onPlayerDead += this.OnPlayerDied;
             stageManager.onReGame += this.OnReGame;
         }
@@ -80,7 +86,7 @@ namespace Player
                 this.frameInput._input.God.Enable();
                 this.playerController.enabled = false;
                 this.godController.enabled = true;
-                this._energy = 0;
+                this.playerHealth.energy = 0;
                 rb.bodyType = RigidbodyType2D.Static;
                 if (stageManager.isOnline)
                 {
@@ -105,13 +111,10 @@ namespace Player
                 }
             }
         }
-        /// <summary>
-        /// This function is called when the MonoBehaviour will be destroyed.
-        /// </summary>
         private void OnDestroy()
         {
             Destroy(playerUIObject);
-            stageManager.stagePlayers.Remove(this.gameObject);
+            stageManager.onRemovePlayer?.Invoke(this.gameObject);
             stageManager.onGlodPlayerChange -= this.OnGodPlayerChange;
         }
         void OnPlayerDied()
@@ -131,7 +134,6 @@ namespace Player
             this.godController.enabled = false;
             this.playerHealth.ReSetHealth();
             playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
-            this.energy = 0;
         }
     }
 }
