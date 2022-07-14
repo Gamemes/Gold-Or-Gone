@@ -14,7 +14,7 @@ public class UIEnergy : UISpaced
     }
     private void Start()
     {
-        playerUIManager.targetPlayer.onEneryChange += this.OnChangeEnergy;
+        playerUIManager.targetPlayer.playerHealth.onEneryChange += this.OnChangeEnergy;
     }
     void OnChangeEnergy(int energy)
     {

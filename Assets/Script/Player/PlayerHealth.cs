@@ -11,13 +11,14 @@ namespace Player
         public int MaxBlood { get => maxBlood; }
         private int _blood;
         /// <summary>
-        /// 玩家的当前血量
+        /// 玩家的当前血量.
+        /// 不要直接调用setter函数.
         /// </summary>
         /// <value>血量</value>
         public int blood
         {
             get => _blood;
-            private set
+            set
             {
                 if (value < 0 || value > maxBlood)
                     return;
@@ -43,6 +44,24 @@ namespace Player
         private PlayerAttribute playerAttribute;
         private SpriteRenderer spriteRenderer;
         private Color _color;
+        #region 能量
+        public Action<int> onEneryChange;
+        /// <summary>
+        /// 能量值, 达3的时候变成上帝
+        /// </summary>
+        public int energy
+        {
+            get => _energy;
+            set
+            {
+                if (value == 3)
+                    Manager.MyGameManager.instance.currentStage.ChangeGloadPlayer(gameObject);
+                _energy = value % 3;
+                onEneryChange?.Invoke(_energy);
+            }
+        }
+        private int _energy = 0;
+        #endregion
         private void Start()
         {
             blood = maxBlood;
@@ -52,6 +71,7 @@ namespace Player
             _color = spriteRenderer.color;
             damageAction += CauseDamage;
             Manager.MyGameManager.CurrentStageManager().onGameStart += () => { onPlayerBloodChange?.Invoke(blood); };
+            Manager.MyGameManager.CurrentStageManager().onGameStart += () => onEneryChange?.Invoke(energy);
         }
 
         public void CauseDamage(int hurtValue)
@@ -83,6 +103,7 @@ namespace Player
         {
             maxBlood = 3;
             this.blood = maxBlood;
+            this.energy = 0;
         }
         /// <summary>
         /// Update is called every frame, if the MonoBehaviour is enabled.

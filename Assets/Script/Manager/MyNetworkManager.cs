@@ -15,7 +15,7 @@ namespace Manager
 
             // instantiating a "Player" prefab gives it the name "Player(clone)"
             // => appending the connectionId is WAY more useful for debugging!
-            player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+            player.name = $"{playerPrefab.name} [connId={conn.connectionId}] [randID={UnityEngine.Random.Range(1000, 9999)}]";
             NetworkServer.AddPlayerForConnection(conn, player);
             //触发玩家加入事件.
             MyGameManager.CurrentStageManager().onAddPlayer?.Invoke(player);

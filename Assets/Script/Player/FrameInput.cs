@@ -14,29 +14,20 @@ namespace Player
         public bool Climb;
         public bool Sprint;
         public PlayerInput _input;
-        /// <summary>
-        /// Start is called on the frame when a script is enabled just before
-        /// any of the Update methods is called the first time.
-        /// </summary>
         private void Awake()
         {
             _input = new PlayerInput();
             _input.Player.Enable();
         }
-        /// <summary>
-        /// This function is called when the object becomes enabled and active.
-        /// </summary>
         private void OnEnable()
         {
             if (_input != null)
                 _input.Player.Enable();
         }
-        /// <summary>
-        /// This function is called when the behaviour becomes disabled or inactive.
-        /// </summary>
         private void OnDisable()
         {
             _input.Player.Disable();
+            _input.God.Disable();
         }
         public void setDevice(InputDevice inputDevice)
         {
@@ -55,11 +46,10 @@ namespace Player
                 Climb = _input.Player.Climb.IsPressed();
                 Sprint = _input.Player.Sprint.WasPressedThisFrame();
             }
-            else
+            else if (_input.God.enabled)
             {
                 Rotate = _input.God.Rotate.WasPressedThisFrame();
             }
-            //
         }
     }
 }

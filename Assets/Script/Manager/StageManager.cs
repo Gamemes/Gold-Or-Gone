@@ -65,10 +65,15 @@ namespace Manager
         /// 这个场景里所有的Player
         /// </summary>
         public List<GameObject> stagePlayers { get; private set; }
+        public Dictionary<GameObject, Player.PlayerAttribute> stagePlayerAttributes { get; private set; }
         /// <summary>
         /// 每添加了一个玩家就广播一次
         /// </summary>
         public Action<GameObject> onAddPlayer;
+        /// <summary>
+        /// 当玩家退出
+        /// </summary>
+        public Action<GameObject> onRemovePlayer;
         /// <summary>
         /// todo: 这是个临时方案, 后期需要取消他现在的事件绑定
         /// 游戏开始事件, 在游戏开始的时候会触发此事件.
@@ -117,6 +122,7 @@ namespace Manager
             //初始化设置
             MyGameManager.instance.setStageManager(this);
             stagePlayers = new List<GameObject>();
+            stagePlayerAttributes = new Dictionary<GameObject, Player.PlayerAttribute>();
 
             gravityDirection = gravity.normalized;
             initalGrivateSize = gravity.magnitude;
@@ -131,15 +137,15 @@ namespace Manager
             //是否是线上模式, 如果存在 NetworkStageManager 组件就说明是线上模式.
             isOnline = (networkStage != null);
             //每次增加玩家就加入stagePlayers里.
-            onAddPlayer += (player) =>
+            onAddPlayer += (GameObject player) =>
             {
                 this.stagePlayers.Add(player);
-                // //玩家数大于2的时候, 就随机一个玩家成为上帝.
-                // //这只是一个临时方案.
-                // if (this.stagePlayers.Count >= 2 && GodPlayer == null)
-                // {
-                //     Invoke(nameof(StartGame), 1f);
-                // }
+                this.stagePlayerAttributes.Add(player, player.GetComponent<Player.PlayerAttribute>());
+            };
+            onRemovePlayer += (player) =>
+            {
+                this.stagePlayers.Remove(player);
+                this.stagePlayerAttributes.Remove(player);
             };
             //如果不是线上模式就需要接入多设备输入
             if (!isOnline)
