@@ -166,7 +166,7 @@ namespace Player
                 transform.localScale = new Vector3(-1 * tscale.x, tscale.y, tscale.z);
             }
         }
-        #region 跳跃参数
+        #region 跳跃
         [Header("跳跃参数")]
         public float fallMultiplier = 4f;
 
@@ -184,7 +184,9 @@ namespace Player
             if (playerInput.Jump && jumpTime < maxJumpTime)
             {
                 JumpingThisFrame = true;
-                speedThisFrame.y = jumpSpeed;
+                float k = 1f - ((float)jumpTime / (maxJumpTime * 2));
+                speedThisFrame.y = jumpSpeed * k;
+                Debug.Log($"{speedThisFrame.y}");
                 ++jumpTime;
             }
 
@@ -202,24 +204,6 @@ namespace Player
             if (playerInput.HoldJump)
                 tmaxfallspeed = glidingFallSpeed;
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -tmaxfallspeed);
-        }
-        IEnumerator JumpHover(float time)
-        {
-            if (isHover)
-                yield break;
-
-            float t = 0f;
-            isHover = true;
-            while (t < time)
-            {
-                if (playerInput.Jump)
-                    break;
-                speedThisFrame.y = Mathf.MoveTowards(speedThisFrame.y, 0, 10 * Time.deltaTime);
-                speedThisFrame.x *= 0.2f;
-                t += Time.deltaTime;
-                yield return 0;
-            }
-            isHover = false;
         }
         #endregion
         #region 爬墙

@@ -167,11 +167,7 @@ namespace Manager
                 synchroPlayerAndDevice();
             }
         }
-        private void StartGame()
-        {
-            ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
-            onGameStart?.Invoke();
-        }
+
         /// <summary>
         /// 改变当前的上帝玩家
         /// </summary>
@@ -332,6 +328,14 @@ namespace Manager
         private void Update()
         {
             CheckPlayerInBorder();
+        }
+        /// <summary>
+        /// 开始游戏
+        /// </summary>
+        public void StartGame()
+        {
+            ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+            onGameStart?.Invoke();
         }
         /// <summary>
         /// 重新游戏

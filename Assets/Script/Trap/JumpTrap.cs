@@ -9,14 +9,14 @@ namespace Trap
     {
         public override void onPlayerEnter(PlayerAttribute playerAttribute)
         {
+            Debug.Log($"jump block enter");
             var playercontroller = playerAttribute.playerController;
             StartCoroutine(jump(playercontroller));
-            //playercontroller.speedThisFrame.y += 2 * playercontroller.jumpSpeed;
-
         }
         IEnumerator jump(Player.PlayerController playerController)
         {
             yield return null;
+            Debug.Log($"jump block");
             if (playerController.colDow)
             {
                 playerController.speedThisFrame.y += 2 * playerController.jumpSpeed;

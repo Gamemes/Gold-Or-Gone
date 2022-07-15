@@ -14,7 +14,6 @@ public class UISpaced : MonoBehaviour
     {
         images = new List<Image>();
         images.AddRange(GetComponentsInChildren<Image>());
-        Debug.Log($"get {images.Count} image");
     }
     protected virtual void Update()
     {

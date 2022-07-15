@@ -9704,6 +9704,8 @@ GameObject:
   - component: {fileID: 6991667762270190671}
   - component: {fileID: 8258579443606029876}
   - component: {fileID: 8258579443606030016}
+  - component: {fileID: 6991667762384158179}
+  - component: {fileID: 6991667762384158180}
   m_Layer: 0
   m_Name: bird_local_player
   m_TagString: Player
@@ -9793,7 +9795,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.003217101, y: -0.0019054413}
+  m_Offset: {x: -0.0030325651, y: 0.0037455559}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -9804,7 +9806,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3394768, y: 1.4468343}
+  m_Size: {x: 1.426974, y: 1.4917805}
   m_EdgeRadius: 0
 --- !u!50 &8258579443823930182
 Rigidbody2D:
@@ -9856,9 +9858,9 @@ MonoBehaviour:
   jumpSpeed: 28
   maxFallSpeed: 50
   glidingFallSpeed: 5
-  maxJumpTime: 1
+  maxJumpTime: 3
   jumpHoverTime: 0.1
-  activeClimb: 0
+  activeClimb: 1
   maxClimbTime: 2
   climbMoveSpeed: 10
   climbJumpSpeed: 40
@@ -9910,6 +9912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aafbd393cbb37a546ad0b03f084c9cf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLocalPlayer: 1
   playerName: 
   playerUIObject: {fileID: 4394490451780360504, guid: 746f6733d9f1df240bbef0f64be2872c, type: 3}
 --- !u!114 &8258579443823930186
@@ -10099,3 +10102,114 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+--- !u!82 &6991667762384158179
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258579443823930206}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &6991667762384158180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258579443823930206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 973bf0928246e8e4f860f13a8b1700c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkClip: {fileID: 0}
+  jumpClip: {fileID: 8300000, guid: 16bb26916783ea74c8946e131ad17ee0, type: 3}
+  landClip: {fileID: 8300000, guid: 6ba0ce3fb118a3a4bacada3e0a9d8fec, type: 3}

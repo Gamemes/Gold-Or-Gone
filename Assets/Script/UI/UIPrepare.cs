@@ -9,6 +9,7 @@ namespace GameUI
         // Start is called before the first frame update
         public GameObject playerPrepareUI;
         public List<UIPlayerPrepare> playerPrepares;
+        private bool isStart = false;
         void Awake()
         {
             playerPrepares = new List<UIPlayerPrepare>();
@@ -26,7 +27,7 @@ namespace GameUI
         // Update is called once per frame
         void Update()
         {
-            if (playerPrepares.Count >= 2)
+            if (playerPrepares.Count >= 2 && !isStart)
             {
                 bool ready = true;
                 foreach (var item in playerPrepares)
@@ -37,6 +38,9 @@ namespace GameUI
                 {
                     //所有人都准备完毕.
                     Debug.Log($"game start");
+                    Manager.MyGameManager.CurrentStageManager().StartGame();
+                    Destroy(this.gameObject);
+                    isStart = true;
                 }
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-namespace Player
+namespace Player.Network
 {
     [RequireComponent(typeof(NetworkTransform))]
     [RequireComponent(typeof(NetworkAnimator))]
@@ -24,6 +24,8 @@ namespace Player
         private PlayerAttribute targetCompent;
         [Tooltip("True来开启同步")]
         public bool activeSync = true;
+        private float timeFromLastSync = 100f;
+        private PlayerSyncAttribute preAttribute;
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
@@ -32,6 +34,7 @@ namespace Player
         private void Start()
         {
             targetCompent = GetComponent<PlayerAttribute>();
+            preAttribute = new PlayerSyncAttribute(targetCompent.playerHealth.blood, targetCompent.playerHealth.energy);
             targetCompent.isLocalPlayer = isLocalPlayer;
             Debug.Assert(targetCompent != null);
             //如果不是本地玩家则取消本地输入
@@ -45,12 +48,35 @@ namespace Player
                 targetCompent.playerController._activate = true;
             }
         }
-        // Update is called once per frame
+        bool needSync()
+        {
+            bool need = false;
+            if (targetCompent.playerHealth.blood != preAttribute.blood)
+            {
+                preAttribute.blood = targetCompent.playerHealth.blood;
+                need = true;
+            }
+            if (targetCompent.playerHealth.energy != preAttribute.energy)
+            {
+                preAttribute.energy = targetCompent.playerHealth.energy;
+                need = true;
+            }
+
+            //每10s也要同步一次
+            timeFromLastSync += Time.deltaTime;
+            if (timeFromLastSync > 5f)
+            {
+                need = true;
+                timeFromLastSync = 0f;
+            }
+
+            return need;
+        }
         void Update()
         {
-            if (isLocalPlayer)
+            if (isLocalPlayer && needSync())
             {
-                CmdSyncAttribute(new PlayerSyncAttribute(targetCompent.playerHealth.blood, targetCompent.playerHealth.energy));
+                CmdSyncAttribute(preAttribute);
             }
         }
         [Command]
@@ -61,12 +87,10 @@ namespace Player
         [ClientRpc]
         public void RpcSyncAttribute(PlayerSyncAttribute playerSync)
         {
-            if (targetCompent)
+            if (targetCompent && !isLocalPlayer)
             {
-                //Debug.Log($"sync energy {energy} {netId} {gameObject.name}");
                 targetCompent.playerHealth.energy = playerSync.energy;
                 targetCompent.playerHealth.blood = playerSync.blood;
-
             }
         }
     }
