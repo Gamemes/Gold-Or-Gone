@@ -221,7 +221,7 @@ namespace Player
         public float climbJumpDurition = 0.3f;
         [Tooltip("水平移动对墙跳的横向影响")]
         public float climbJumpWalkInfluence = 1f;
-        #endregion
+
         void CalculateClimb()
         {
             if (!activeClimb)
@@ -282,6 +282,7 @@ namespace Player
                 yield return null;
             }
         }
+        #endregion
         #region 冲刺
         [Header("冲刺")]
         public bool activeSprint = true;
@@ -290,15 +291,18 @@ namespace Player
         public float sprintDurition = 0.2f;
         public bool sprintThisFrame = false;
         private bool canSprint = true;
-        #endregion
+        public float sprintCoolTime = 3f;
+        public float fromLastSprintTime = 0f;
         void CalculateSprint()
         {
             if (!activeSprint)
                 return;
-            if (playerInput.Sprint)
+            if (playerInput.Sprint && fromLastSprintTime > sprintCoolTime)
             {
                 StartCoroutine(_Sprint(new Vector2(playerInput.Horizontal, playerInput.Vertical) * sprintVelocityGain * walkSpeed));
+                fromLastSprintTime = 0f;
             }
+            fromLastSprintTime += Time.deltaTime;
         }
         IEnumerator _Sprint(Vector2 speed)
         {
@@ -319,12 +323,13 @@ namespace Player
             while (!colDow) { yield return null; }
             canSprint = true;
         }
+        #endregion
         #region 重力
         [Header("重力")]
         public bool activeGrivate = true;
         public float gravityScale = 1.0f;
         public int _freeColliderIterations = 10;
-        #endregion
+
         void CalculateGravity()
         {
             if (!activeGrivate)
@@ -348,6 +353,7 @@ namespace Player
                 return true;
             return false;
         }
+        #endregion
         /// <summary>
         /// 返回玩家在pos位置quaternion旋转的情况下是否会碰撞到墙壁
         /// </summary>

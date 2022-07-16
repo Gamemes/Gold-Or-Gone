@@ -12,6 +12,14 @@ namespace Player
         private float adjustSpeed = 0f;
         private PlayerInput.GodActions godinput;
         private Manager.StageManager stageManager;
+        [Tooltip("重力改变的持续时间")]
+        public float gravityChangeDuration = 2f;
+        [Tooltip("重力大小改变冷却")]
+        public float gravityChangeCoolTime = 5f;
+        [Tooltip("重力旋转的冷却")]
+        public float gravityRotateCoolTime = 5f;
+        public float lastGrivateChangeTime = 0f;
+        public float lastGravityRotateTime = 0f;
         private void Start()
         {
             playerInput = GetComponent<FrameInput>();
@@ -22,30 +30,25 @@ namespace Player
         void Update()
         {
             //playerInput.update();
-            if (playerInput.Rotate)
+            if (playerInput.Rotate && lastGravityRotateTime > gravityRotateCoolTime)
             {
                 int dir = (int)godinput.RotateDir.ReadValue<float>();
-                Manager.MyGameManager.instance.currentStage.rotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
-                //StartCoroutine(rotate());
+                Manager.MyGameManager.instance.currentStage.RotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
+                lastGravityRotateTime = 0f;
             }
-            if (godinput.GrivateUp.IsPressed())
+            if (godinput.GrivateUp.WasPressedThisFrame() && lastGrivateChangeTime > gravityChangeCoolTime)
             {
-                adjustSpeed += Time.deltaTime;
-                stageManager.addGrivate(Time.deltaTime);
+                stageManager.AddGrivate(stageManager.gravitySize / 2, gravityChangeDuration);
+                lastGrivateChangeTime = 0f;
             }
-            else if (godinput.GrivateDown.IsPressed())
+            else if (godinput.GrivateDown.WasPressedThisFrame() && lastGrivateChangeTime > gravityChangeCoolTime)
             {
-                adjustSpeed += Time.deltaTime;
-                stageManager.addGrivate(-Time.deltaTime);
+                stageManager.AddGrivate(-stageManager.gravitySize / 2, gravityChangeDuration);
+                lastGrivateChangeTime = 0f;
             }
-            else
-            {
-                adjustSpeed = 0;
-            }
-            // if (playerInput.Horizontal != 0f)
-            // {
-            //     Manager.MyGameManager.instance.stageManager.rotate_Gravity(playerInput.Horizontal * Time.deltaTime * rotateAdjustSpeed);
-            // }
+            lastGravityRotateTime += Time.deltaTime;
+            lastGrivateChangeTime += Time.deltaTime;
+
         }
     }
 

@@ -12,55 +12,9 @@ namespace Manager
     /// </summary>
     public class StageManager : MonoBehaviour
     {
-        public Vector2 gravity
-        {
-            get
-            {
-                return Physics2D.gravity;
-            }
-            private set
-            {
-                gravityDirection = value.normalized;
-                Physics2D.gravity = value;
-            }
-        }
-        private float _gravitySize = 0;
-        /// <summary>
-        /// 重力大小,用<see cref="addGrivate"/>改变重力大小, 不要直接调用setter函数除非你知道原因
-        /// </summary>
-        /// <value></value>
-        public float gravitySize
-        {
-            get
-            {
-                if (_gravitySize * _gravitySize != gravity.sqrMagnitude)
-                {
-                    _gravitySize = gravity.magnitude;
-                }
-                return _gravitySize;
-            }
-            set
-            {
-                //Debug.Log($"set gravity size to {value}");
-                _gravitySize = MathF.Min(50, value);
-                Vector2 griv = new Vector2(0, -_gravitySize);
-                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
-                Debug.Log($"change grivate size {_gravitySize}");
-            }
-        }
-        private float initalGrivateSize;
+
         public GameObject playerPrefab;
-        /// <summary>
-        /// 重力的方向
-        /// </summary>
-        public float gravityAngle { get; private set; }
-        /// <summary>
-        /// 重力的normalized
-        /// </summary>
-        /// <value></value>
-        public Vector2 gravityDirection { get; private set; }
-        public Action<float> onGravityRotated;
-        public Action<float> onGravityRotateCompleted;
+
         /// <summary>
         /// 这个场景里所有的Player
         /// </summary>
@@ -189,6 +143,9 @@ namespace Manager
             }
 
         }
+
+
+
         #region 设备控制
         void addPlayer(InputDevice inputDevice)
         {
@@ -231,7 +188,58 @@ namespace Manager
             }
         }
         #endregion
+
+
+
         #region 重力控制
+        public Vector2 gravity
+        {
+            get
+            {
+                return Physics2D.gravity;
+            }
+            private set
+            {
+                gravityDirection = value.normalized;
+                Physics2D.gravity = value;
+            }
+        }
+        private float _gravitySize = 0;
+        /// <summary>
+        /// 重力大小,用<see cref="AddGrivate"/>改变重力大小, 不要直接调用setter函数除非你知道原因
+        /// </summary>
+        /// <value></value>
+        public float gravitySize
+        {
+            get
+            {
+                if (_gravitySize * _gravitySize != gravity.sqrMagnitude)
+                {
+                    _gravitySize = gravity.magnitude;
+                }
+                return _gravitySize;
+            }
+            set
+            {
+                //Debug.Log($"set gravity size to {value}");
+                _gravitySize = MathF.Min(50, value);
+                Vector2 griv = new Vector2(0, -_gravitySize);
+                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+                Debug.Log($"change grivate size {_gravitySize}");
+            }
+        }
+        private float initalGrivateSize;
+        /// <summary>
+        /// 重力的方向
+        /// </summary>
+        public float gravityAngle { get; private set; }
+        /// <summary>
+        /// 重力的normalized
+        /// </summary>
+        /// <value></value>
+        public Vector2 gravityDirection { get; private set; }
+        public Action<float> onGravityRotated;
+        public Action<float> onGravityRotateCompleted;
         /// <summary>
         /// 旋转重力, 直接旋转, 没有过程
         /// </summary>
@@ -264,7 +272,7 @@ namespace Manager
             onGravityRotateCompleted?.Invoke(angle * dir);
             yield return null;
         }
-        public void rotateGravityDuration(float angle, float duration = 1f)
+        public void RotateGravityDuration(float angle, float duration = 1f)
         {
             if (isOnline)
             {
@@ -275,7 +283,7 @@ namespace Manager
                 StartCoroutine(_rotateGravityDuration(angle, duration));
             }
         }
-        public void reSetGrivateSize()
+        public void ReSetGrivateSize()
         {
             if (isOnline)
             {
@@ -283,23 +291,15 @@ namespace Manager
             }
             else
             {
-                Vector2 griv = new Vector2(0, -initalGrivateSize);
-                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
+                gravitySize = initalGrivateSize;
             }
         }
-        public void scaleGrivate(float val = 1.0f, float duration = -1f)
-        {
-            if (isOnline)
-            {
-                Debug.Log($"在线模式未适配");
-            }
-            else
-            {
-                Vector2 griv = new Vector2(0, -initalGrivateSize * val);
-                gravity = Quaternion.Euler(0, 0, gravityAngle) * griv;
-            }
-        }
-        public void addGrivate(float val)
+        /// <summary>
+        /// 改变重力大小
+        /// </summary>
+        /// <param name="val">增加的值</param>
+        /// <param name="duration">持续时间, 如果小于等于0表示持续永久</param>
+        public void AddGrivate(float val, float duration = 5f)
         {
             if (isOnline)
             {
@@ -309,6 +309,11 @@ namespace Manager
             {
                 gravitySize += val;
             }
+            if (duration <= 0f)
+            {
+                return;
+            }
+            StartCoroutine(Utils.Utils.DelayInvoke(() => { AddGrivate(-val, 0f); }, duration));
         }
         #endregion
         private void OnDisable()
