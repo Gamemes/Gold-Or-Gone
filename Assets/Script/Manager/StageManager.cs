@@ -143,7 +143,7 @@ namespace Manager
                 this.stagePlayerAttributes.Add(player, player.GetComponent<Player.PlayerAttribute>());
                 if (stagePlayers.Count >= 2)
                 {
-                    StartGame();
+                    //StartGame();
                 }
             };
             onRemovePlayer += (player) =>

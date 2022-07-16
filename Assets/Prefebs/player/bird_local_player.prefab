@@ -9841,7 +9841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a4eaf34aa38e64eb27a4c67bb95382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 15
+  walkSpeed: 20
   playerSize:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.67, y: 0.7, z: 0}
@@ -9855,18 +9855,18 @@ MonoBehaviour:
   _activate: 1
   fallMultiplier: 6
   lowJumpMultiplier: 8
-  jumpSpeed: 28
+  jumpSpeed: 35
   maxFallSpeed: 50
   glidingFallSpeed: 5
   maxJumpTime: 3
   jumpHoverTime: 0.1
   activeClimb: 1
   maxClimbTime: 2
-  climbMoveSpeed: 10
-  climbJumpSpeed: 40
-  climbJumpHorSpeed: 25
+  climbMoveSpeed: 5
+  climbJumpSpeed: 30
+  climbJumpHorSpeed: 15
   climbJumpDurition: 0.2
-  climbJumpWalkInfluence: 1.1
+  climbJumpWalkInfluence: 1
   activeSprint: 0
   sprintVelocityGain: 3.5
   sprintDurition: 0.1

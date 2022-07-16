@@ -15,17 +15,13 @@ namespace GameUI
             playerPrepares = new List<UIPlayerPrepare>();
             Debug.Assert(playerPrepareUI != null);
         }
-        void temp()
+        private void Start()
         {
             Manager.MyGameManager.CurrentStageManager().onAddPlayer += this.OnAddPlayer;
         }
-        private void Start()
-        {
-            Invoke(nameof(temp), 1f);
-        }
         void OnAddPlayer(GameObject player)
         {
-            GameObject playerui = Instantiate(playerPrepareUI, Vector3.zero, Quaternion.identity, this.transform);
+            GameObject playerui = Instantiate(playerPrepareUI, this.transform);
             playerui.transform.localPosition = new Vector3(-300 + 200 * this.playerPrepares.Count, 0, 0);
             var tplayer = playerui.GetComponent<UIPlayerPrepare>();
             tplayer.setPlayer(player.GetComponent<Player.PlayerAttribute>());

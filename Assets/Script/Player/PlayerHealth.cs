@@ -126,13 +126,7 @@ namespace Player
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.tag == "Ground")
-            {
-                if (playerAttribute.playerController.Velocity.y >= playerAttribute.playerController.maxFallSpeed)
-                {
-                    CauseDamage(1);
-                }
-            }
+
         }
     }
 }

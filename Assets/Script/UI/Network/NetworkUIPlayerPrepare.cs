@@ -13,7 +13,6 @@ namespace GameUI.Network
         private void Start()
         {
             target = GetComponent<UIPlayerPrepare>();
-
         }
         private void Update()
         {

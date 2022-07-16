@@ -66,9 +66,10 @@ namespace Manager
             stageManager.onReGame?.Invoke();
         }
         [Command(requiresAuthority = false)]
-        public void CmdSpawn(GameObject gameObject)
+        public void CmdSpawn(GameObject gameObject, Transform parent)
         {
-            NetworkServer.Spawn(gameObject);
+            var res = Instantiate(gameObject, parent);
+            NetworkServer.Spawn(res);
         }
     }
 }

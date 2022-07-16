@@ -208,12 +208,18 @@ namespace Player
         #region 爬墙
         [Header("爬墙")]
         public bool activeClimb = true;
+        [Tooltip("在墙上停留的时间")]
         public float maxClimbTime = 4f;
         float climbTime = 0f;
+        [Tooltip("在墙上上下移动的速度")]
         public float climbMoveSpeed = 4f;
+        [Tooltip("在墙上跳跃的锤子速度")]
         public float climbJumpSpeed = 10f;
+        [Tooltip("在墙上跳跃的水平速度")]
         public float climbJumpHorSpeed = 20f;
+        [Tooltip("在墙上跳跃的持续时间")]
         public float climbJumpDurition = 0.3f;
+        [Tooltip("水平移动对墙跳的横向影响")]
         public float climbJumpWalkInfluence = 1f;
         #endregion
         void CalculateClimb()
@@ -242,7 +248,7 @@ namespace Player
                     }
                     else
                     {
-                        speedThisFrame.y = Mathf.Max(playerInput.Vertical * climbMoveSpeed, speedThisFrame.y);
+                        speedThisFrame.y = 0f;//Mathf.Max(playerInput.Vertical * climbMoveSpeed, speedThisFrame.y);
                         speedThisFrame.x = .0f;
                     }
                 }
@@ -259,22 +265,22 @@ namespace Player
         {
             float t = 0f;
             speedThisFrame.y = climbJumpSpeed;
-            float s;
+            float s, k;
             while (t < climbJumpDurition)
             {
                 if ((colLef || colRig) && t > 0.1f)
                     break;
                 t += Time.deltaTime;
-                s = speed * (1 - (t / climbJumpDurition));
+                k = (t / climbJumpDurition);
+                Debug.Log($"{k}");
+                s = speed * (1 - k);
                 if (speedThisFrame.x * speed < 0)
-                    s += (t / climbJumpDurition + climbJumpWalkInfluence) * speedThisFrame.x;
+                    s += k * climbJumpWalkInfluence * speedThisFrame.x;
                 else
-                    s += (t / climbJumpDurition) * 0.6f * speedThisFrame.x;
+                    s += k * climbJumpWalkInfluence * speedThisFrame.x;
                 speedThisFrame.x = s;
                 yield return null;
             }
-            //speedThisFrame.y = 0;
-            //speedThisFrame.x = 0;
         }
         #region 冲刺
         [Header("冲刺")]
