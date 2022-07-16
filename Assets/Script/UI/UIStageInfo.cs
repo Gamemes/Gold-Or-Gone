@@ -8,7 +8,7 @@ public class UIStageInfo : MonoBehaviour
     private Animator animator;
     private Text infoText;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
         infoText = GetComponentInChildren<Text>();

@@ -20,13 +20,20 @@ namespace Player
             get => _blood;
             set
             {
+                if (value == blood)
+                    return;
                 if (value < 0 || value > maxBlood)
                     return;
-                if (value != blood)
+                if (value < blood)
+                    StartCoroutine(DamageEffect());
+                if (value == 0)
                 {
-                    _blood = value;
-                    onPlayerBloodChange?.Invoke(value);
+                    Manager.MyGameManager.ShowInfoInCurrentStage($"{playerAttribute.playerName} died");
+                    onPlayerDead?.Invoke();
                 }
+                _blood = value;
+                onPlayerBloodChange?.Invoke(value);
+                Debug.Log($"{gameObject} change blood {value}");
             }
         }
         /// <summary>
@@ -54,19 +61,33 @@ namespace Player
             get => _energy;
             set
             {
+                if (value == energy)
+                    return;
                 if (value == 3)
+                {
                     Manager.MyGameManager.instance.currentStage.ChangeGloadPlayer(gameObject);
+
+                }
                 _energy = value % 3;
                 onEneryChange?.Invoke(_energy);
+                Debug.Log($"{gameObject} change energy {value}");
             }
         }
         private int _energy = 0;
         #endregion
+        /// <summary>
+        /// Awake is called when the script instance is being loaded.
+        /// </summary>
+        private void Awake()
+        {
+            playerAttribute = GetComponent<PlayerAttribute>();
+            Debug.Assert(playerAttribute != null);
+        }
         private void Start()
         {
+
             blood = maxBlood;
             this.gameObject.tag = "Player";
-            playerAttribute = GetComponent<PlayerAttribute>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             _color = spriteRenderer.color;
             damageAction += CauseDamage;
@@ -80,13 +101,7 @@ namespace Player
             if (Manager.MyGameManager.CurrentStageManager().isdebug)
                 return;
             blood -= hurtValue;
-            StartCoroutine(DamageEffect());
             blood = Mathf.Max(0, blood);
-            if (blood <= 0)
-            {
-                Manager.MyGameManager.ShowInfoInCurrentStage($"{playerAttribute.playerName} died");
-                onPlayerDead?.Invoke();
-            }
         }
         IEnumerator DamageEffect()
         {

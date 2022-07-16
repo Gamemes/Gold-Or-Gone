@@ -28,6 +28,7 @@ namespace Manager
         private void RpcChangeGodPlayer(GameObject player)
         {
             stageManager.GodPlayer = player;
+            stageManager.stageInfo.ShowInfo($"Change God to {player}");
         }
         [Command(requiresAuthority = false)]
         public void CmdRotateGravityDuration(float angle, float duration)
@@ -53,16 +54,21 @@ namespace Manager
         [Command(requiresAuthority = false)]
         public void CmdReGame()
         {
-            foreach (var player in stageManager.stagePlayers)
-            {
-                player.transform.position = NetworkManager.singleton.GetStartPosition().position;
-            }
+            // foreach (var player in stageManager.stagePlayers)
+            // {
+            //     player.transform.position = NetworkManager.singleton.GetStartPosition().position;
+            // }
             RpcReGame();
         }
         [ClientRpc]
         private void RpcReGame()
         {
             stageManager.onReGame?.Invoke();
+        }
+        [Command(requiresAuthority = false)]
+        public void CmdSpawn(GameObject gameObject)
+        {
+            NetworkServer.Spawn(gameObject);
         }
     }
 }

@@ -141,6 +141,10 @@ namespace Manager
             {
                 this.stagePlayers.Add(player);
                 this.stagePlayerAttributes.Add(player, player.GetComponent<Player.PlayerAttribute>());
+                if (stagePlayers.Count >= 2)
+                {
+                    StartGame();
+                }
             };
             onRemovePlayer += (player) =>
             {
@@ -181,8 +185,9 @@ namespace Manager
             else
             {
                 GodPlayer = player;
+                stageInfo.ShowInfo($"Change God to {player}");
             }
-            stageInfo.ShowInfo($"Change God to {player}");
+
         }
         #region 设备控制
         void addPlayer(InputDevice inputDevice)
@@ -348,8 +353,13 @@ namespace Manager
             }
             else
             {
-
+                onReGame?.Invoke();
             }
+            StartCoroutine(Utils.Utils.DelayInvoke(() =>
+            {
+                ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+            }, 4f));
         }
+
     }
 }

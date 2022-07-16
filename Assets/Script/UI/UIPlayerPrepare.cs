@@ -14,7 +14,7 @@ namespace GameUI
         public Sprite onSprite;
         public Sprite offSprite;
         public bool ready = false;
-        private Player.PlayerAttribute target;
+        public Player.PlayerAttribute target;
         void Awake()
         {
             this.checkImage.sprite = ready ? onSprite : offSprite;
@@ -37,15 +37,12 @@ namespace GameUI
             this.target = playerAttribute;
             this.playerImage.sprite = playerAttribute.spriteRenderer.sprite;
             this.playerName.text = playerAttribute.playerName;
-            playerAttribute.playerController.enabled = false;
+            playerAttribute.playerController._activate = false;
         }
         public void StartGame()
         {
-            this.target.playerController.enabled = true;
+            this.target.playerController._activate = true;
         }
-        /// <summary>
-        /// Callback to draw gizmos that are pickable and always drawn.
-        /// </summary>
         private void OnDrawGizmos()
         {
             if (this.checkImage && this.onSprite && this.offSprite)

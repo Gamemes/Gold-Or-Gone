@@ -47,7 +47,6 @@ namespace Manager
         {
             this.currentStage = stage;
         }
-        // Update is called once per frame
         void Update()
         {
 

@@ -186,7 +186,6 @@ namespace Player
                 JumpingThisFrame = true;
                 float k = 1f - ((float)jumpTime / (maxJumpTime * 2));
                 speedThisFrame.y = jumpSpeed * k;
-                Debug.Log($"{speedThisFrame.y}");
                 ++jumpTime;
             }
 

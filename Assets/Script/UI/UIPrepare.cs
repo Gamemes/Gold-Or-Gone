@@ -13,8 +13,15 @@ namespace GameUI
         void Awake()
         {
             playerPrepares = new List<UIPlayerPrepare>();
-            Manager.MyGameManager.CurrentStageManager().onAddPlayer += this.OnAddPlayer;
             Debug.Assert(playerPrepareUI != null);
+        }
+        void temp()
+        {
+            Manager.MyGameManager.CurrentStageManager().onAddPlayer += this.OnAddPlayer;
+        }
+        private void Start()
+        {
+            Invoke(nameof(temp), 1f);
         }
         void OnAddPlayer(GameObject player)
         {

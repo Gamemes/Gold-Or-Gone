@@ -20,27 +20,12 @@ namespace Player
         public Rigidbody2D rb { get; private set; }
         public SpriteRenderer spriteRenderer { get; private set; }
         public string playerName = "";
-        // public Action<int> onEneryChange;
-        // /// <summary>
-        // /// 能量值, 达3的时候变成上帝
-        // /// </summary>
-        // public int energy
-        // {
-        //     get => _energy;
-        //     set
-        //     {
-        //         if (value == 3)
-        //             Manager.MyGameManager.instance.currentStage.ChangeGloadPlayer(gameObject);
-        //         _energy = value % 3;
-        //         onEneryChange?.Invoke(_energy);
-        //     }
-        // }
-        // private int _energy = 0;
         private Manager.StageManager stageManager;
         /// <summary>
         /// 玩家的ui对象, 为玩家提供了 血量|能量|名称 的显示
         /// </summary>
         public GameObject playerUIObject;
+        public Mirror.NetworkIdentity networkIdentity { get; private set; } = null;
         void Awake()
         {
             frameInput = GetComponent<FrameInput>();
@@ -50,6 +35,7 @@ namespace Player
             playerAnimation = GetComponent<PlayerAnimationController>();
             rb = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            networkIdentity = GetComponent<Mirror.NetworkIdentity>();
             stageManager = Manager.MyGameManager.instance.currentStage;
             if (playerName == "")
                 playerName = gameObject.name;
@@ -82,34 +68,32 @@ namespace Player
         {
             if (godPlayer.Equals(this.gameObject))
             {
-                this.frameInput._input.Player.Disable();
-                this.frameInput._input.God.Enable();
-                this.playerController.enabled = false;
-                this.godController.enabled = true;
-                this.playerHealth.energy = 0;
-                rb.bodyType = RigidbodyType2D.Static;
-                if (stageManager.isOnline)
-                {
-                    var t = stageManager.stagePlayers.Find((player) => { return !player.Equals(godPlayer); });
-                }
+                ChangeToGod();
             }
             else
             {
-                this.frameInput._input.Player.Enable();
-                this.frameInput._input.God.Disable();
-                this.playerController.enabled = true;
-                this.godController.enabled = false;
-                rb.bodyType = RigidbodyType2D.Kinematic;
-                stageManager.stageCamera.Follow = transform;
-                if (stageManager.isOnline)
-                {
-
-                }
-                else
-                {
-
-                }
+                ChangeToHuman();
             }
+        }
+        void ChangeToHuman()
+        {
+            this.frameInput._input.Player.Enable();
+            this.frameInput._input.God.Disable();
+            this.playerController.enabled = true;
+            this.playerController._activate = true;
+            this.godController.enabled = false;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            stageManager.stageCamera.Follow = transform;
+        }
+        void ChangeToGod()
+        {
+            this.frameInput._input.Player.Disable();
+            this.frameInput._input.God.Enable();
+            this.playerController._activate = false;
+            this.godController.enabled = true;
+            this.playerHealth.energy = 0;
+            rb.bodyType = RigidbodyType2D.Static;
+            playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
         }
         private void OnDestroy()
         {
@@ -119,10 +103,12 @@ namespace Player
         }
         void OnPlayerDied()
         {
+            if (!isLocalPlayer)
+                return;
             this.playerController.enabled = false;
             this.godController.enabled = false;
             playerAnimation.changeState(PlayerAnimationController.PlayerState.Death);
-            stageManager.ReGame();
+            StartCoroutine(Utils.Utils.DelayInvoke(() => { stageManager.ReGame(); }, 2f));
         }
         // Update is called once per frame
         void Update()
@@ -130,8 +116,8 @@ namespace Player
         }
         void OnReGame()
         {
-            this.playerController.enabled = true;
-            this.godController.enabled = false;
+            Debug.Log($"{gameObject} regame");
+            ChangeToHuman();
             this.playerHealth.ReSetHealth();
             playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
         }

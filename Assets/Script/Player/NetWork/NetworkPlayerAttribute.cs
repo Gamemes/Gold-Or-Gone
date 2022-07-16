@@ -20,6 +20,11 @@ namespace Player.Network
                 this.blood = blood;
                 this.energy = energy;
             }
+            public void update(PlayerHealth health)
+            {
+                this.blood = health.blood;
+                this.energy = health.energy;
+            }
         }
         private PlayerAttribute targetCompent;
         [Tooltip("True来开启同步")]
@@ -42,6 +47,7 @@ namespace Player.Network
             {
                 targetCompent.playerController._activate = false;
                 targetCompent.frameInput.enabled = false;
+                gameObject.tag = "Player Network";
             }
             else
             {
@@ -53,12 +59,10 @@ namespace Player.Network
             bool need = false;
             if (targetCompent.playerHealth.blood != preAttribute.blood)
             {
-                preAttribute.blood = targetCompent.playerHealth.blood;
                 need = true;
             }
             if (targetCompent.playerHealth.energy != preAttribute.energy)
             {
-                preAttribute.energy = targetCompent.playerHealth.energy;
                 need = true;
             }
 
@@ -69,7 +73,8 @@ namespace Player.Network
                 need = true;
                 timeFromLastSync = 0f;
             }
-
+            if (need)
+                preAttribute.update(targetCompent.playerHealth);
             return need;
         }
         void Update()
@@ -77,6 +82,11 @@ namespace Player.Network
             if (isLocalPlayer && needSync())
             {
                 CmdSyncAttribute(preAttribute);
+            }
+            else
+            {
+                targetCompent.playerHealth.energy = preAttribute.energy;
+                targetCompent.playerHealth.blood = preAttribute.blood;
             }
         }
         [Command]
@@ -87,10 +97,9 @@ namespace Player.Network
         [ClientRpc]
         public void RpcSyncAttribute(PlayerSyncAttribute playerSync)
         {
-            if (targetCompent && !isLocalPlayer)
+            if (!isLocalPlayer)
             {
-                targetCompent.playerHealth.energy = playerSync.energy;
-                targetCompent.playerHealth.blood = playerSync.blood;
+                preAttribute = playerSync;
             }
         }
     }
