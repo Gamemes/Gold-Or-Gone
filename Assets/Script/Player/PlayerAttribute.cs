@@ -66,7 +66,7 @@ namespace Player
         }
         void OnGodPlayerChange(GameObject godPlayer)
         {
-            if (godPlayer.Equals(this.gameObject))
+            if (this.gameObject.Equals(godPlayer))
             {
                 ChangeToGod();
             }

@@ -181,16 +181,16 @@ MonoBehaviour:
   jumpSpeed: 28
   maxFallSpeed: 50
   glidingFallSpeed: 5
-  maxJumpTime: 2
+  maxJumpTime: 1
   jumpHoverTime: 0.1
-  activeClimb: 1
+  activeClimb: 0
   maxClimbTime: 2
   climbMoveSpeed: 10
   climbJumpSpeed: 40
   climbJumpHorSpeed: 25
   climbJumpDurition: 0.2
   climbJumpWalkInfluence: 1.1
-  activeSprint: 1
+  activeSprint: 0
   sprintVelocityGain: 3.5
   sprintDurition: 0.1
   sprintThisFrame: 0

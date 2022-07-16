@@ -347,6 +347,7 @@ namespace Manager
         /// </summary>
         public void ReGame()
         {
+            ChangeGloadPlayer(null);
             if (isOnline)
             {
                 networkStage.CmdReGame();
