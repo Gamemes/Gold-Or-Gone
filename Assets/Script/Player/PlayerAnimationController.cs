@@ -29,26 +29,29 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-            var velocity = playerAttribute.playerController.Velocity;
-            if (playerAttribute.playerController.Climbing)
+            if (playerAttribute.playerController.enabled)
             {
-                changeState(PlayerState.Climb);
-            }
-            else if (velocity.y > .3f)
-            {
-                changeState(PlayerState.FlyUp);
-            }
-            else if (velocity.y < -.3f)
-            {
-                changeState(PlayerState.FlyDown);
-            }
-            else if (velocity.x == .0f && velocity.y == .0f)
-            {
-                changeState(PlayerState.Idle);
-            }
-            else if (velocity.x != .0f)
-            {
-                changeState(PlayerState.Run);
+                var velocity = playerAttribute.playerController.Velocity;
+                if (playerAttribute.playerController.Climbing)
+                {
+                    changeState(PlayerState.Climb);
+                }
+                else if (velocity.y > .3f)
+                {
+                    changeState(PlayerState.FlyUp);
+                }
+                else if (velocity.y < -.3f)
+                {
+                    changeState(PlayerState.FlyDown);
+                }
+                else if (velocity.x == .0f && velocity.y == .0f)
+                {
+                    changeState(PlayerState.Idle);
+                }
+                else if (velocity.x != .0f)
+                {
+                    changeState(PlayerState.Run);
+                }
             }
         }
     }

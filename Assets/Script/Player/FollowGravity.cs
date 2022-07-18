@@ -17,19 +17,12 @@ namespace Player
         void rotate(float dangle)
         {
             StartCoroutine(_startRotate(dangle));
-            //angle += dangle;
         }
         void Update()
         {
-            // if (angle != 0f && !playerController.hitGround(transform.position, Quaternion.Euler(0, 0, Manager.MyGameManager.instance.stageManager.gravityAngle)))
-            // {
-            //     StartCoroutine(_startRotate(angle));
-            //     angle = 0f;
-            // }
         }
         IEnumerator _startRotate(float _angle)
         {
-            Debug.Log($"start rotate {_angle}");
             while (playerController.hitGround(transform.position, Quaternion.Euler(0, 0, Manager.MyGameManager.instance.currentStage.gravityAngle)))
             {
                 yield return null;
@@ -44,9 +37,6 @@ namespace Player
                 yield return null;
             }
         }
-        /// <summary>
-        /// This function is called when the MonoBehaviour will be destroyed.
-        /// </summary>
         private void OnDestroy()
         {
             if (Manager.MyGameManager.CurrentStageManager())

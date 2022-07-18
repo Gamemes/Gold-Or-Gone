@@ -25,9 +25,9 @@ namespace GameUI
         {
             if (target == null)
                 return;
-            if (target.frameInput.Jump)
+            if (target.frameInput.specialKey != ready)
             {
-                ready = !ready;
+                ready = target.frameInput.specialKey;
                 this.checkImage.sprite = ready ? onSprite : offSprite;
             }
 
@@ -37,11 +37,12 @@ namespace GameUI
             this.target = playerAttribute;
             this.playerImage.sprite = playerAttribute.spriteRenderer.sprite;
             this.playerName.text = playerAttribute.playerName;
-            playerAttribute.playerController._activate = false;
+            playerAttribute.playerController.enabled = false;
+            playerAttribute.frameInput.specialKeyFunc = () => { return playerAttribute.frameInput.Jump; };
         }
         public void StartGame()
         {
-            this.target.playerController._activate = true;
+            this.target.playerController.enabled = true;
         }
         private void OnDrawGizmos()
         {

@@ -18,11 +18,13 @@ namespace Player
         public float gravityChangeCoolTime = 5f;
         [Tooltip("重力旋转的冷却")]
         public float gravityRotateCoolTime = 5f;
-        public float lastGrivateChangeTime = 0f;
-        public float lastGravityRotateTime = 0f;
-        private void Start()
+        public float fromLastGrivateChangeTime = 100f;
+        public float fromLastGravityRotateTime = 100f;
+        private PlayerAttribute playerAttribute;
+        private void Awake()
         {
             playerInput = GetComponent<FrameInput>();
+            playerAttribute = GetComponent<PlayerAttribute>();
             godinput = playerInput._input.God;
             stageManager = Manager.MyGameManager.instance.currentStage;
         }
@@ -30,25 +32,35 @@ namespace Player
         void Update()
         {
             //playerInput.update();
-            if (playerInput.Rotate && lastGravityRotateTime > gravityRotateCoolTime)
+            if (playerInput.Rotate && fromLastGravityRotateTime > gravityRotateCoolTime)
             {
                 int dir = (int)godinput.RotateDir.ReadValue<float>();
                 Manager.MyGameManager.instance.currentStage.RotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
-                lastGravityRotateTime = 0f;
+                fromLastGravityRotateTime = 0f;
             }
-            if (godinput.GrivateUp.WasPressedThisFrame() && lastGrivateChangeTime > gravityChangeCoolTime)
+            if (godinput.GrivateUp.WasPressedThisFrame() && fromLastGrivateChangeTime > gravityChangeCoolTime)
             {
                 stageManager.AddGrivate(stageManager.gravitySize / 2, gravityChangeDuration);
-                lastGrivateChangeTime = 0f;
+                fromLastGrivateChangeTime = 0f;
             }
-            else if (godinput.GrivateDown.WasPressedThisFrame() && lastGrivateChangeTime > gravityChangeCoolTime)
+            else if (godinput.GrivateDown.WasPressedThisFrame() && fromLastGrivateChangeTime > gravityChangeCoolTime)
             {
                 stageManager.AddGrivate(-stageManager.gravitySize / 2, gravityChangeDuration);
-                lastGrivateChangeTime = 0f;
+                fromLastGrivateChangeTime = 0f;
             }
-            lastGravityRotateTime += Time.deltaTime;
-            lastGrivateChangeTime += Time.deltaTime;
+            fromLastGravityRotateTime += Time.deltaTime;
+            fromLastGrivateChangeTime += Time.deltaTime;
 
+        }
+        public void OnEnable()
+        {
+            playerInput._input.God.Enable();
+            playerAttribute.playerHealth.energy = 0;
+            playerAttribute.rb.bodyType = RigidbodyType2D.Static;
+            playerAttribute.playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
+        }
+        public void OnDisable()
+        {
         }
     }
 

@@ -12,17 +12,20 @@ namespace Player.Network
             public bool Jump;
             public float Horizontal;
             public float Vertical;
+            public bool specialKey;
             public InputSyncValue(FrameInput val)
             {
                 this.Jump = val.Jump;
                 this.Horizontal = val.Horizontal;
                 this.Vertical = val.Vertical;
+                this.specialKey = val.specialKey;
             }
             public void update(FrameInput val)
             {
                 this.Jump = val.Jump;
                 this.Horizontal = val.Horizontal;
                 this.Vertical = val.Vertical;
+                this.specialKey = val.specialKey;
             }
         }
         private FrameInput frameInput;
@@ -68,6 +71,7 @@ namespace Player.Network
                 frameInput.Jump = val.Jump;
                 frameInput.Horizontal = val.Horizontal;
                 frameInput.Vertical = val.Vertical;
+                frameInput.specialKey = val.specialKey;
             }
         }
     }

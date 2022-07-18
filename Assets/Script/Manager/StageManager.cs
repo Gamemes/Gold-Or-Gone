@@ -316,10 +316,6 @@ namespace Manager
             StartCoroutine(Utils.Utils.DelayInvoke(() => { AddGrivate(-val, 0f); }, duration));
         }
         #endregion
-        private void OnDisable()
-        {
-
-        }
         private void CheckPlayerInBorder()
         {
             foreach (var player in this.stagePlayers)
@@ -367,5 +363,16 @@ namespace Manager
             }, 4f));
         }
 
+        public static StageManager CurrentStageManager()
+        {
+            return Manager.MyGameManager.CurrentStageManager();
+        }
+        /// <summary>
+        /// This function is called when the behaviour becomes disabled or inactive.
+        /// </summary>
+        private void OnDisable()
+        {
+            Debug.Log($"tttt");
+        }
     }
 }

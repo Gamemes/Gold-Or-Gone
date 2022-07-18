@@ -77,23 +77,57 @@ namespace Player
         }
         void ChangeToHuman()
         {
-            this.frameInput._input.Player.Enable();
-            this.frameInput._input.God.Disable();
-            this.playerController.enabled = true;
-            this.playerController._activate = true;
-            this.godController.enabled = false;
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            stageManager.stageCamera.Follow = transform;
+            // this.frameInput._input.Player.Enable();
+            // this.frameInput._input.God.Disable();
+            // this.playerController.enabled = true;
+            // this.playerController._activate = true;
+            // this.godController.enabled = false;
+            // rb.bodyType = RigidbodyType2D.Kinematic;
+            // stageManager.stageCamera.Follow = transform;
+            if (playerController.enabled)
+            {
+                playerController.OnEnable();
+            }
+            else
+            {
+                playerController.enabled = true;
+            }
+            if (!godController.enabled)
+            {
+                godController.OnDisable();
+            }
+            else
+            {
+
+                godController.enabled = false;
+            }
         }
         void ChangeToGod()
         {
-            this.frameInput._input.Player.Disable();
-            this.frameInput._input.God.Enable();
-            this.playerController._activate = false;
-            this.godController.enabled = true;
-            this.playerHealth.energy = 0;
-            rb.bodyType = RigidbodyType2D.Static;
-            playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
+            // this.frameInput._input.Player.Disable();
+            // this.frameInput._input.God.Enable();
+            // this.playerController._activate = false;
+            // this.godController.enabled = true;
+            // this.playerHealth.energy = 0;
+            // rb.bodyType = RigidbodyType2D.Static;
+            // playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
+            if (!playerController.enabled)
+            {
+                playerController.OnDisable();
+            }
+            else
+            {
+                playerController.enabled = false;
+            }
+            if (godController.enabled)
+            {
+                godController.OnEnable();
+            }
+            else
+            {
+
+                godController.enabled = true;
+            }
         }
         private void OnDestroy()
         {

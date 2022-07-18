@@ -17,7 +17,15 @@ namespace GameUI
         }
         private void Start()
         {
+            StartCoroutine(Utils.Utils.DelayInvoke(() => { this.init(); }, 2f));
+        }
+        public void init()
+        {
             Manager.MyGameManager.CurrentStageManager().onAddPlayer += this.OnAddPlayer;
+            foreach (var player in Manager.StageManager.CurrentStageManager().stagePlayers)
+            {
+                OnAddPlayer(player);
+            }
         }
         void OnAddPlayer(GameObject player)
         {

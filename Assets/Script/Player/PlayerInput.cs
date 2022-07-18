@@ -321,17 +321,6 @@ namespace Player
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""7dcce696-6c99-48d6-9a4e-66487a633ece"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""GrivateUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""One Modifier"",
                     ""id"": ""0a1d3ce0-66e6-4421-9f50-103bf5f388d2"",
                     ""path"": ""OneModifier"",
@@ -345,7 +334,7 @@ namespace Player
                 {
                     ""name"": ""modifier"",
                     ""id"": ""b3bfa6d6-0ce7-430b-877d-a367211ab915"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -365,15 +354,37 @@ namespace Player
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""d90f1ed0-9e1a-41ac-be1f-c6a194d88fc0"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""name"": ""One Modifier"",
+                    ""id"": ""6370ec66-f889-4fdf-9cfe-7efddb9cd6a3"",
+                    ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""GrivateDown"",
-                    ""isComposite"": false,
+                    ""action"": ""GrivateUp"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""203239f5-d5c0-42e5-b1ea-fe76bbc7dae8"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""58ba6de6-b001-4dc9-bea6-edadc18915ca"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""One Modifier"",
@@ -389,7 +400,7 @@ namespace Player
                 {
                     ""name"": ""modifier"",
                     ""id"": ""9f392869-490f-453e-897b-18949a395d50"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -401,6 +412,39 @@ namespace Player
                     ""name"": ""binding"",
                     ""id"": ""4cb85685-ba30-4e08-b4f3-eefd04b30d20"",
                     ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""ca0f6651-d4bb-40b5-905d-24776b32467a"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateDown"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""d283de6f-a16a-4edf-b1f7-3f6ebb92d6d5"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrivateDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""e231abd4-a522-4712-b0d9-5e0fbe0e840e"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

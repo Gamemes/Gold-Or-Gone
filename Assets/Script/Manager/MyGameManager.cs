@@ -30,13 +30,25 @@ namespace Manager
             {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
+                SceneManager.activeSceneChanged += this.onSceneChange;
+                SceneManager.sceneLoaded += (scene, mode) =>
+                {
+                    Debug.Log($"auto find stage");
+                    var stage = GameObject.FindObjectOfType<StageManager>(true);
+                    if (stage == null)
+                    {
+                        Debug.Log($"场景stagemanager 为空");
+                        return;
+                    }
+                    this.setStageManager(stage);
+                };
             }
             else
                 Destroy(gameObject);
         }
-        void Start()
+        private void Start()
         {
-            SceneManager.activeSceneChanged += this.onSceneChange;
+
         }
         void onSceneChange(Scene pre, Scene now)
         {
@@ -45,6 +57,7 @@ namespace Manager
         }
         public void setStageManager(StageManager stage)
         {
+            Debug.Log($"set stage manager {stage.name} {SceneManager.GetActiveScene().name}");
             this.currentStage = stage;
         }
         void Update()

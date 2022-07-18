@@ -9,7 +9,7 @@ namespace Prop
     {
         public override void onPlayerEnter(PlayerAttribute playerAttribute)
         {
-            playerAttribute.playerController.maxJumpTime = 2;
+            playerAttribute.playerController.activeSprint = true;
         }
     }
 }

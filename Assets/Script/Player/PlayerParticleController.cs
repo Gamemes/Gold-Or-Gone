@@ -9,6 +9,7 @@ namespace Player
         public ParticleSystem walkParticle;
         private ParticleSystem.EmissionModule walkEmission;
         public ParticleSystem lanParticle;
+        public ParticleSystem godParticle;
         private ParticleSystem.EmissionModule landEmission;
         private PlayerAttribute playerAttribute;
         private PlayerController playerController;
@@ -19,6 +20,13 @@ namespace Player
             playerController = playerAttribute.playerController;
             walkEmission = walkParticle.emission;
             landEmission = lanParticle.emission;
+            Manager.StageManager.CurrentStageManager().onGlodPlayerChange += (player) =>
+            {
+                if (gameObject.Equals(player))
+                {
+                    godParticle.Play();
+                }
+            };
         }
 
         // Update is called once per frame

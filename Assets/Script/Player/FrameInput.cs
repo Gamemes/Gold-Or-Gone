@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,11 @@ namespace Player
 {
     public class FrameInput : MonoBehaviour
     {
+        /// <summary>
+        /// 特殊key, 保存特殊的状态, 可以是玩家准备状态等等
+        /// </summary>
+        public bool specialKey = false;
+        public Func<bool> specialKeyFunc;
         public float Horizontal;
         public float Vertical;
         public bool Jump;
@@ -46,9 +52,13 @@ namespace Player
                 Climb = _input.Player.Climb.IsPressed();
                 Sprint = _input.Player.Sprint.WasPressedThisFrame();
             }
-            else if (_input.God.enabled)
+            if (_input.God.enabled)
             {
                 Rotate = _input.God.Rotate.WasPressedThisFrame();
+            }
+            if (specialKeyFunc != null && specialKeyFunc.Invoke())
+            {
+                specialKey = !specialKey;
             }
         }
     }

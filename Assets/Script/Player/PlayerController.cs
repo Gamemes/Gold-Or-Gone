@@ -178,6 +178,8 @@ namespace Player
         public int maxJumpTime = 2;
         public float jumpHoverTime = 0.1f;
         private bool isHover = false;
+        [Tooltip("开启滑翔")]
+        public bool activeGliding = false;
 
         void CalculateJump()
         {
@@ -200,7 +202,7 @@ namespace Player
             }
             // 下落最大速度
             float tmaxfallspeed = maxFallSpeed;
-            if (playerInput.HoldJump)
+            if (playerInput.HoldJump && activeGliding)
                 tmaxfallspeed = glidingFallSpeed;
             speedThisFrame.y = Mathf.Max(speedThisFrame.y, -tmaxfallspeed);
         }
@@ -221,7 +223,9 @@ namespace Player
         public float climbJumpDurition = 0.3f;
         [Tooltip("水平移动对墙跳的横向影响")]
         public float climbJumpWalkInfluence = 1f;
-
+        [Tooltip("墙跳次数")]
+        public int maxClimbJumpTime = 3;
+        private int climbJumpTime = 0;
         void CalculateClimb()
         {
             if (!activeClimb)
@@ -229,14 +233,11 @@ namespace Player
             if ((colLef || colRig) && playerInput.Climb)
             {
                 climbTime += Time.deltaTime;
-                if (climbTime > maxClimbTime)
+                if (climbTime < maxClimbTime)
                 {
-
-                }
-                else
-                {
-                    if (JumpingThisFrame)
+                    if (playerInput.Jump && climbJumpTime < maxClimbJumpTime)
                     {
+                        climbJumpTime++;
                         if (colLef)
                         {
                             StartCoroutine(_ClimbJump(climbJumpHorSpeed));
@@ -259,7 +260,10 @@ namespace Player
                 Climbing = false;
             }
             if (colDow)
+            {
                 climbTime = 0f;
+                climbJumpTime = 0;
+            }
         }
         IEnumerator _ClimbJump(float speed)
         {
@@ -446,6 +450,17 @@ namespace Player
             activeClimb = false;
             activeSprint = false;
             maxJumpTime = 1;
+        }
+        public void OnEnable()
+        {
+            playerInput._input.Player.Enable();
+            _activate = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            Manager.StageManager.CurrentStageManager().stageCamera.Follow = this.transform;
+        }
+        public void OnDisable()
+        {
+            _activate = false;
         }
     }
 
