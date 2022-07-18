@@ -759,7 +759,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44da9d7625a59324aab6ac6cc9cced56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  propName: ene
 --- !u!212 &919848724
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1694,6 +1693,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1254816223611203399, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254816223611203399, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0029998
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254816223611203513, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
+      propertyPath: m_RendererIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254816225071403667, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254816225071403667, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.0029998
+      objectReference: {fileID: 0}
     - target: {fileID: 1254816225071403668, guid: cf97dbb4b36c9b2418247c5dd8b3568c, type: 3}
       propertyPath: m_Follow
       value: 

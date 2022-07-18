@@ -212,6 +212,7 @@ MonoBehaviour:
   onSprite: {fileID: -6368217085755079097, guid: 236587ec711348a4792e0060efb1bf73, type: 3}
   offSprite: {fileID: -6348383763934408530, guid: 236587ec711348a4792e0060efb1bf73, type: 3}
   ready: 0
+  target: {fileID: 0}
 --- !u!114 &2407322505548318588
 MonoBehaviour:
   m_ObjectHideFlags: 0
