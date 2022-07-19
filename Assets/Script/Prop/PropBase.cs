@@ -21,8 +21,6 @@ namespace Prop
                 Enable();
             };
             touchParticle = (from par in GetComponentsInChildren<ParticleSystem>() where par.name == "touch" select par).FirstOrDefault();
-            if (touchParticle != null)
-                Debug.Log($"{gameObject.name} get touchParticle");
         }
         /// <summary>
         /// 玩家走进触发
