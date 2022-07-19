@@ -367,12 +367,5 @@ namespace Manager
         {
             return Manager.MyGameManager.CurrentStageManager();
         }
-        /// <summary>
-        /// This function is called when the behaviour becomes disabled or inactive.
-        /// </summary>
-        private void OnDisable()
-        {
-            Debug.Log($"tttt");
-        }
     }
 }

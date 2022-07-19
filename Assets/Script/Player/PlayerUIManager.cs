@@ -1,35 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameUI;
 
 namespace Player
 {
     public class PlayerUIManager : MonoBehaviour
     {
-        public Vector3 offset = new(0, 0, 0);
-        public PlayerAttribute targetPlayer;
-        public Transform playerTransform;
-        // Start is called before the first frame update
-        void Start()
+        [Range(0, 1)]
+        public int playerIndex = 0;
+        public UIPlayerHeadName playerHeadName;
+        public UIBlood uIBlood;
+        public UIEnergy uIEnergy;
+        private void Start()
         {
-            Debug.Assert(targetPlayer != null);
+            playerHeadName = GetComponentInChildren<UIPlayerHeadName>();
+            uIBlood = GetComponentInChildren<UIBlood>();
+            uIEnergy = GetComponentInChildren<UIEnergy>();
+            init(playerIndex);
         }
-
-        private void Update()
+        public void init(int idx)
         {
-            if (playerTransform)
+            var stage = Manager.StageManager.CurrentStageManager();
+            if (stage.stagePlayers.Count <= playerIndex)
             {
-                this.transform.rotation = playerTransform.rotation;
-                this.transform.position = playerTransform.position + offset;
-
+                Debug.LogWarning("错误的 playerIndex, 场景玩家数量不足");
+                return;
             }
-        }
-        private void OnDrawGizmos()
-        {
-            if (playerTransform)
+            else
             {
-                this.transform.rotation = playerTransform.rotation;
-                this.transform.position = playerTransform.position + offset;
+                var player = stage.stagePlayerAttributes[stage.stagePlayers[playerIndex]];
+                playerHeadName.init(player);
+                uIBlood.init(player);
+                uIEnergy.init(player);
             }
         }
     }

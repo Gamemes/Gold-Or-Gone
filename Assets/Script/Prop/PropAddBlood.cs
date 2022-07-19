@@ -23,7 +23,6 @@ namespace Prop
             {
                 playerAttribute.playerHealth.addBlood(addBloodVal);
                 Debug.Log("Player blood is add");
-                Destroy(gameObject);
             }
         }
     }

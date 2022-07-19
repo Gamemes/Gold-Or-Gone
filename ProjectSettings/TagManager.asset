@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Player Network
   - StageManager
+  - ChatWindow
   layers:
   - Default
   - TransparentFX
@@ -41,6 +42,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: bback
+    uniqueID: 698844963
+    locked: 0
   - name: back
     uniqueID: 3932891579
     locked: 0

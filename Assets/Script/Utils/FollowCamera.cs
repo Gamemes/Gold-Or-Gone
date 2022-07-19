@@ -10,15 +10,21 @@ namespace Utils
         // Start is called before the first frame update
         private Camera follow;
         public Vector3 offset = new(0, 0, 10);
+        public float diff = 1;
+        private Vector3 cpos;
         void Start()
         {
             follow = Camera.main;
+            this.transform.position = follow.transform.position + offset;
+            cpos = follow.transform.position;
         }
 
         // Update is called once per frame
         void Update()
         {
-            this.transform.position = follow.transform.position + offset;
+            var step = follow.transform.position - cpos;
+            this.transform.position += step * diff;
+            cpos = follow.transform.position;
         }
         /// <summary>
         /// Callback to draw gizmos that are pickable and always drawn.

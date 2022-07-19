@@ -10,18 +10,10 @@ namespace Prop
     [RequireComponent(typeof(BoxCollider2D))]
     public class PropBase : MonoBehaviour
     {
-        /// <summary>
-        /// 道具名称
-        /// </summary>
-        private string propName;
         protected bool autoDelete = true;
         public virtual void Start()
         {
-            if (propName is null)
-            {
-                Debug.LogWarning($"{gameObject.name} propname is invaild, reset to gamobject name");
-                propName = gameObject.name;
-            }
+            Manager.StageManager.CurrentStageManager().onReGame += () => { this.gameObject.SetActive(true); };
         }
         /// <summary>
         /// 玩家走进触发
@@ -33,6 +25,7 @@ namespace Prop
         }
         public virtual void OnTriggerEnter2D(Collider2D other)
         {
+            Debug.Log($"player enter {this.gameObject.name}");
             if (other.tag.CompareTo("Player") == 0)
             {
                 var attribute = other.GetComponent<Player.PlayerAttribute>();
@@ -43,12 +36,15 @@ namespace Prop
                 }
                 onPlayerEnter(attribute);
                 if (autoDelete)
-                    Destroy(this.gameObject);
+                {
+                    this.gameObject.SetActive(false);
+                }
             }
-        }
-        public override int GetHashCode()
-        {
-            return propName.GetHashCode();
+            else if (other.tag.CompareTo("Player Network") == 0)
+            {
+                if (autoDelete)
+                    this.gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ namespace Prop
     {
         public override void onPlayerEnter(PlayerAttribute playerAttribute)
         {
-
             playerAttribute.playerHealth.energy++;
         }
     }

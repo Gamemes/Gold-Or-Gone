@@ -40,25 +40,7 @@ namespace Player
             if (playerName == "")
                 playerName = gameObject.name;
             stageManager.onGlodPlayerChange += this.OnGodPlayerChange;
-            CreatePlayerUI();
         }
-        void CreatePlayerUI()
-        {
-            Debug.Assert(playerUIObject != null);
-            if (playerUIObject == null)
-                return;
-            var pui = Instantiate(playerUIObject);
-            var uimanager = pui.GetComponent<Player.PlayerUIManager>();
-            uimanager.targetPlayer = this;
-            uimanager.playerTransform = transform;
-            pui.name = $"{this.playerName} UI(auto create by stageManager)";
-            // 重置ui object到生成的
-            playerUIObject = pui;
-        }
-        /// <summary>
-        /// Start is called on the frame when a script is enabled just before
-        /// any of the Update methods is called the first time.
-        /// </summary>
         private void Start()
         {
             playerHealth.onPlayerDead += this.OnPlayerDied;
@@ -77,13 +59,6 @@ namespace Player
         }
         void ChangeToHuman()
         {
-            // this.frameInput._input.Player.Enable();
-            // this.frameInput._input.God.Disable();
-            // this.playerController.enabled = true;
-            // this.playerController._activate = true;
-            // this.godController.enabled = false;
-            // rb.bodyType = RigidbodyType2D.Kinematic;
-            // stageManager.stageCamera.Follow = transform;
             if (playerController.enabled)
             {
                 playerController.OnEnable();
@@ -104,13 +79,6 @@ namespace Player
         }
         void ChangeToGod()
         {
-            // this.frameInput._input.Player.Disable();
-            // this.frameInput._input.God.Enable();
-            // this.playerController._activate = false;
-            // this.godController.enabled = true;
-            // this.playerHealth.energy = 0;
-            // rb.bodyType = RigidbodyType2D.Static;
-            // playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
             if (!playerController.enabled)
             {
                 playerController.OnDisable();
@@ -131,7 +99,6 @@ namespace Player
         }
         private void OnDestroy()
         {
-            Destroy(playerUIObject);
             stageManager.onRemovePlayer?.Invoke(this.gameObject);
             stageManager.onGlodPlayerChange -= this.OnGodPlayerChange;
         }
