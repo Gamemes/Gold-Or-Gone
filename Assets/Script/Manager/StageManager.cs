@@ -94,7 +94,9 @@ namespace Manager
             onAddPlayer += (GameObject player) =>
             {
                 this.stagePlayers.Add(player);
-                this.stagePlayerAttributes.Add(player, player.GetComponent<Player.PlayerAttribute>());
+                var playerAtt = player.GetComponent<Player.PlayerAttribute>();
+                playerAtt.playerName = $"Player-{stagePlayers.Count}";
+                this.stagePlayerAttributes.Add(player, playerAtt);
                 if (stagePlayers.Count >= 2)
                 {
                     //StartGame();
@@ -149,6 +151,8 @@ namespace Manager
         #region 设备控制
         void addPlayer(InputDevice inputDevice)
         {
+            if (inputDevice is not Gamepad && inputDevice is not Keyboard)
+                return;
             Debug.Log($"ADD PLAYER {inputDevice}");
             //建立新的Player
             GameObject newPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
