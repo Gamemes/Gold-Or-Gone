@@ -20,7 +20,7 @@ namespace Trap
         }
         public override void onPlayerEnter(Player.PlayerAttribute playerAttribute)
         {
-            playerAttribute.playerHealth.damageAction(damage);      //对玩家造成伤害
+            playerAttribute.playerHealth.CauseDamage(damage);      //对玩家造成伤害
         }
     }
 

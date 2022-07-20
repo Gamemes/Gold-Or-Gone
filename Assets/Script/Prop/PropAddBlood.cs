@@ -22,7 +22,6 @@ namespace Prop
             if (playerAttribute.playerHealth.blood < playerAttribute.playerHealth.MaxBlood)
             {
                 playerAttribute.playerHealth.addBlood(addBloodVal);
-                Debug.Log("Player blood is add");
             }
         }
     }

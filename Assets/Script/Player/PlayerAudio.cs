@@ -8,24 +8,31 @@ namespace Player
         public AudioClip walkClip;
         public AudioClip jumpClip;
         public AudioClip landClip;
+        public AudioClip healClip;
         private PlayerController playerController;
+        private PlayerAttribute playerAttribute;
         private AudioSource audioSource;
         private void Start()
         {
-            playerController = GetComponent<PlayerController>();
+            playerAttribute = GetComponent<PlayerAttribute>();
+            playerController = playerAttribute.playerController;
+            playerAttribute.playerHealth.healAction += (blood) =>
+            {
+                this.Play(healClip);
+            };
             audioSource = GetComponent<AudioSource>();
             audioSource.loop = false;
-            Debug.Assert(playerController != null);
         }
         void Play(AudioClip clip)
         {
             if (clip == null)
                 return;
+            Debug.Log($"play {clip}");
             if (clip == audioSource.clip)
             {
                 if (audioSource.isPlaying)
                     return;
-                audioSource.PlayOneShot(clip);
+                audioSource.Play();
                 return;
             }
             audioSource.clip = clip;
@@ -40,10 +47,6 @@ namespace Player
             else if (playerController.JumpingThisFrame)
             {
                 Play(jumpClip);
-            }
-            else if (playerController.colDow && playerController.Velocity.x != 0)
-            {
-                audioSource.Stop();
             }
         }
     }

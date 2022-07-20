@@ -21,5 +21,6 @@ public class ShowPlayerStatus : Editor
         GUI.Label(new Rect(new Vector2(10, 45), size), $"colLef : {tar.colLef}");
         GUI.Label(new Rect(new Vector2(10, 60), size), $"colUp : {tar.colUp}");
         GUI.Label(new Rect(new Vector2(10, 75), size), $"colRig : {tar.colRig}");
+        GUI.Label(new Rect(new Vector2(10, 90), size), $"jumping this frame : {tar.JumpingThisFrame}");
     }
 }

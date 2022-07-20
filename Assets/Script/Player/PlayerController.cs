@@ -46,10 +46,7 @@ namespace Player
         }
         #endregion
 
-        #region 行走参数
-        [Header("行走参数")]
-        public float walkSpeed = 11f;
-        #endregion
+
         #region 碰撞
         [Header("碰撞")]
         public Bounds playerSize;
@@ -149,16 +146,23 @@ namespace Player
                 Grounded = colDow;
             }
         }
+        #region 行走参数
+        [Header("行走参数")]
+        public float walkSpeed = 11f;
+        public float acceleration = 90f;
+        public float deAcceleration = 60f;
         void CalculateMove()
         {
             if (playerInput.Horizontal != 0f)
             {
-                if (!sprintThisFrame)
-                    speedThisFrame.x = playerInput.Horizontal * walkSpeed;
+                // if (!sprintThisFrame)
+                //     speedThisFrame.x = playerInput.Horizontal * walkSpeed;
+                speedThisFrame.x += playerInput.Horizontal * Time.deltaTime * acceleration;
+                speedThisFrame.x = Mathf.Clamp(speedThisFrame.x, -walkSpeed, walkSpeed);
             }
             else
             {
-                speedThisFrame.x = Mathf.MoveTowards(speedThisFrame.x, 0, 120 * Time.deltaTime);
+                speedThisFrame.x = Mathf.MoveTowards(speedThisFrame.x, 0, deAcceleration * Time.deltaTime);
             }
             if (speedThisFrame.x * transform.localScale.x < 0)
             {
@@ -166,6 +170,7 @@ namespace Player
                 transform.localScale = new Vector3(-1 * tscale.x, tscale.y, tscale.z);
             }
         }
+        #endregion
         #region 跳跃
         [Header("跳跃参数")]
         public float fallMultiplier = 4f;
@@ -238,6 +243,7 @@ namespace Player
                     if (playerInput.Jump && climbJumpTime < maxClimbJumpTime)
                     {
                         climbJumpTime++;
+                        JumpingThisFrame = true;
                         if (colLef)
                         {
                             StartCoroutine(_ClimbJump(climbJumpHorSpeed));
@@ -276,12 +282,11 @@ namespace Player
                     break;
                 t += Time.deltaTime;
                 k = (t / climbJumpDurition);
-                Debug.Log($"{k}");
                 s = speed * (1 - k);
-                if (speedThisFrame.x * speed < 0)
-                    s += k * climbJumpWalkInfluence * speedThisFrame.x;
+                if (playerInput.Horizontal * speed < 0)
+                    s += k * climbJumpWalkInfluence * walkSpeed * playerInput.Horizontal;
                 else
-                    s += k * climbJumpWalkInfluence * speedThisFrame.x;
+                    s += k * climbJumpWalkInfluence * walkSpeed * playerInput.Horizontal;
                 speedThisFrame.x = s;
                 yield return null;
             }

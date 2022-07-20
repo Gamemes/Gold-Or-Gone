@@ -20,12 +20,21 @@ namespace Player
             get => _blood;
             set
             {
+                if (value < 0)
+                    value = 0;
+                if (value > maxBlood)
+                    value = maxBlood;
                 if (value == blood)
                     return;
-                if (value < 0 || value > maxBlood)
-                    return;
                 if (value < blood)
+                {
                     StartCoroutine(DamageEffect());
+                    damageAction?.Invoke(value);
+                }
+                if (value > blood)
+                {
+                    healAction?.Invoke(value);
+                }
                 if (value == 0)
                 {
                     Manager.MyGameManager.ShowInfoInCurrentStage($"{playerAttribute.playerName} died");
@@ -33,13 +42,13 @@ namespace Player
                 }
                 _blood = value;
                 onPlayerBloodChange?.Invoke(value);
-                Debug.Log($"{gameObject} change blood {value}");
             }
         }
         /// <summary>
         /// 对玩家造成伤害
         /// </summary>
         public Action<int> damageAction;
+        public Action<int> healAction;
         /// <summary>
         /// 当玩家生命值变化, 传输玩家生命值作为参数
         /// </summary>
@@ -66,7 +75,6 @@ namespace Player
                 if (value == 3)
                 {
                     Manager.MyGameManager.instance.currentStage.ChangeGloadPlayer(gameObject);
-
                 }
                 _energy = value % 3;
                 onEneryChange?.Invoke(_energy);
@@ -90,9 +98,9 @@ namespace Player
             this.gameObject.tag = "Player";
             spriteRenderer = GetComponent<SpriteRenderer>();
             _color = spriteRenderer.color;
-            damageAction += CauseDamage;
-            Manager.MyGameManager.CurrentStageManager().onGameStart += () => { onPlayerBloodChange?.Invoke(blood); };
-            Manager.MyGameManager.CurrentStageManager().onGameStart += () => onEneryChange?.Invoke(energy);
+            //damageAction += CauseDamage;
+            // Manager.MyGameManager.CurrentStageManager().onGameStart += () => { onPlayerBloodChange?.Invoke(blood); };
+            // Manager.MyGameManager.CurrentStageManager().onGameStart += () => onEneryChange?.Invoke(energy);
         }
 
         public void CauseDamage(int hurtValue)
@@ -101,7 +109,6 @@ namespace Player
             if (Manager.MyGameManager.CurrentStageManager().isdebug)
                 return;
             blood -= hurtValue;
-            blood = Mathf.Max(0, blood);
         }
         IEnumerator DamageEffect()
         {
