@@ -19,11 +19,14 @@ namespace Player
         }
         void Play(AudioClip clip)
         {
+            if (clip == null)
+                return;
             if (clip == audioSource.clip)
             {
-                // if (audioSource.isPlaying)
-                //     return;
+                if (audioSource.isPlaying)
+                    return;
                 audioSource.PlayOneShot(clip);
+                return;
             }
             audioSource.clip = clip;
             audioSource.PlayOneShot(clip);
