@@ -21,7 +21,7 @@ namespace GameEvent
         /// </summary>
         public GameEvent currentGameEvent { get; private set; } = null;
         public bool hasEvent => currentGameEvent != null;
-
+        public GameUI.UITimer eventTimer;
         public Action<int> onTacitValueChange;
         public int tacitValue
         {
@@ -57,6 +57,16 @@ namespace GameEvent
             currentGameEvent.enabled = false;
             onGameEventEnd?.Invoke(currentGameEvent);
             this.currentGameEvent = null;
+        }
+        private void OnGUI()
+        {
+            if (GUI.Button(new Rect(20, 40, 80, 20), "开启计时77秒"))
+            {
+                eventTimer.startTiming(36, () =>
+                {
+                    Debug.Log($"time up");
+                });
+            }
         }
     }
 }

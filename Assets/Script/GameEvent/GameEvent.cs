@@ -22,5 +22,9 @@ namespace GameEvent
                 this.enabled = false;
             stageManager = Manager.StageManager.CurrentStageManager();
         }
+        private void OnDisable()
+        {
+
+        }
     }
 }
