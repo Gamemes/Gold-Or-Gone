@@ -11,5 +11,15 @@ namespace Utils
             yield return new WaitForSeconds(time);
             func?.Invoke();
         }
+        public static int countChar(this string str, char tar)
+        {
+            int res = 0;
+            foreach (var s in str)
+            {
+                if (s == tar)
+                    ++res;
+            }
+            return res;
+        }
     }
 }

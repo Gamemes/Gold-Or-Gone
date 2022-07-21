@@ -71,12 +71,17 @@ namespace Manager
         private PolygonCollider2D polygonCollider;
         //场景信息UI
         public UIStageInfo stageInfo;
+        public GameEvent.GameEventManager gameEventManager;
         void Awake()
         {
             //初始化设置
             MyGameManager.instance.setStageManager(this);
             stagePlayers = new List<GameObject>();
             stagePlayerAttributes = new Dictionary<GameObject, Player.PlayerAttribute>();
+
+            gameEventManager = GameObject.FindObjectOfType<GameEvent.GameEventManager>();
+            if (gameEventManager is null)
+                Debug.LogWarning($"未能在场景找到 GameEventManager.");
 
             gravityDirection = gravity.normalized;
             initalGrivateSize = gravity.magnitude;
@@ -141,7 +146,8 @@ namespace Manager
             else
             {
                 GodPlayer = player;
-                stageInfo.ShowInfo($"Change God to {player}");
+                var name = stagePlayerAttributes[player].playerName;
+                stageInfo.ShowInfo($"Change God to {name}");
             }
 
         }
