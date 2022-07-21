@@ -104,7 +104,7 @@ namespace Manager
                 this.stagePlayerAttributes.Add(player, playerAtt);
                 if (stagePlayers.Count >= 2)
                 {
-                    //StartGame();
+                    StartGame();
                 }
             };
             onRemovePlayer += (player) =>
@@ -145,15 +145,16 @@ namespace Manager
             }
             else
             {
+
                 GodPlayer = player;
-                var name = stagePlayerAttributes[player].playerName;
-                stageInfo.ShowInfo($"Change God to {name}");
+                if (player != null)
+                {
+                    var name = stagePlayerAttributes[player].playerName;
+                    stageInfo.ShowInfo($"Change God to {name}");
+                }
             }
 
         }
-
-
-
         #region 设备控制
         void addPlayer(InputDevice inputDevice)
         {
@@ -376,6 +377,18 @@ namespace Manager
         public static StageManager CurrentStageManager()
         {
             return Manager.MyGameManager.CurrentStageManager();
+        }
+
+        /// <summary>
+        /// OnGUI is called for rendering and handling GUI events.
+        /// This function can be called multiple times per frame (one call per event).
+        /// </summary>
+        private void OnGUI()
+        {
+            if (GUI.Button(new Rect(20, 400, 100, 20), "切换上帝"))
+            {
+                ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
+            }
         }
     }
 }

@@ -8,7 +8,15 @@ namespace Player
     {
         [SerializeField]
         private int maxBlood = 3;
-        public int MaxBlood { get => maxBlood; }
+        public int MaxBlood
+        {
+            get => maxBlood;
+            set
+            {
+                value = Mathf.Clamp(value, 1, 10);
+                maxBlood = value;
+            }
+        }
         private int _blood;
         /// <summary>
         /// 玩家的当前血量.
@@ -20,20 +28,15 @@ namespace Player
             get => _blood;
             set
             {
-                if (value < 0)
-                    value = 0;
-                if (value > maxBlood)
-                    value = maxBlood;
-                if (value == blood)
-                    return;
+                value = Mathf.Clamp(value, 0, maxBlood);
                 if (value < blood)
                 {
                     StartCoroutine(DamageEffect());
-                    damageAction?.Invoke(value);
+                    damageAction?.Invoke(blood - value);
                 }
                 if (value > blood)
                 {
-                    healAction?.Invoke(value);
+                    healAction?.Invoke(value - blood);
                 }
                 if (value == 0)
                 {

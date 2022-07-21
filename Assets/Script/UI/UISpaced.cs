@@ -9,6 +9,7 @@ public class UISpaced : MonoBehaviour
     public Sprite OnImage;
     public Sprite OffImage;
     public float space = 0.5f;
+    public float offsetX = 0f;
     protected List<Image> images;
     protected virtual void Awake()
     {
@@ -19,7 +20,7 @@ public class UISpaced : MonoBehaviour
     {
         for (int i = 0; i < images.Count; ++i)
         {
-            images[i].transform.localPosition = new Vector3(i * space, 0, 0);
+            images[i].transform.localPosition = new Vector3(i * space + offsetX, 0, 0);
         }
     }
     protected virtual void OnDrawGizmos()
@@ -34,7 +35,7 @@ public class UISpaced : MonoBehaviour
         }
         for (int i = 0; i < images.Count; ++i)
         {
-            images[i].transform.localPosition = new Vector3(i * space, 0, 0);
+            images[i].transform.localPosition = new Vector3(i * space + offsetX, 0, 0);
         }
     }
 }

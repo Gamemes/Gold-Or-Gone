@@ -20,6 +20,7 @@ namespace GameUI
         {
             if (timing)
                 return false;
+            this.gameObject.SetActive(true);
             countSeconds = seconds;
             if (seconds > 30)
                 textUI.color = Color.white;
@@ -37,6 +38,7 @@ namespace GameUI
             timing = false;
             timeUpAction?.Invoke();
             audioSource.Stop();
+            this.gameObject.SetActive(false);
             return true;
         }
         private void Update()

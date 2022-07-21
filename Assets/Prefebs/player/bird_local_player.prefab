@@ -4838,7 +4838,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1981440267
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 24
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -14640,7 +14640,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1981440267
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1220948830, guid: 0e78598c4581c1946a4c20a4fed23f65, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -14712,7 +14712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a4eaf34aa38e64eb27a4c67bb95382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 20
   playerSize:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.67, y: 0.7, z: 0}
@@ -14724,6 +14723,9 @@ MonoBehaviour:
   speedThisFrame: {x: 0, y: 0}
   speedPreFrame: {x: 0, y: 0}
   _activate: 1
+  walkSpeed: 20
+  acceleration: 90
+  deAcceleration: 100
   fallMultiplier: 6
   lowJumpMultiplier: 8
   jumpSpeed: 35
@@ -15093,5 +15095,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkClip: {fileID: 0}
-  jumpClip: {fileID: 8300000, guid: 16bb26916783ea74c8946e131ad17ee0, type: 3}
-  landClip: {fileID: 8300000, guid: 6ba0ce3fb118a3a4bacada3e0a9d8fec, type: 3}
+  jumpClip: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
+  landClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+  healClip: {fileID: 8300000, guid: c48a972d3d024c2408a3331750786a29, type: 3}

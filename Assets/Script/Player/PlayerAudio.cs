@@ -27,7 +27,6 @@ namespace Player
         {
             if (clip == null)
                 return;
-            Debug.Log($"play {clip}");
             if (clip == audioSource.clip)
             {
                 if (audioSource.isPlaying)

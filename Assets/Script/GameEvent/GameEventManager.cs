@@ -60,12 +60,10 @@ namespace GameEvent
         }
         private void OnGUI()
         {
-            if (GUI.Button(new Rect(20, 40, 80, 20), "开启计时77秒"))
+            int idx = int.Parse(GUI.TextField(new Rect(20, 90, 100, 20), "0"));
+            if (GUI.Button(new Rect(20, 60, 160, 20), "start event"))
             {
-                eventTimer.startTiming(36, () =>
-                {
-                    Debug.Log($"time up");
-                });
+                InvokeGameEvent(gameEvents[idx]);
             }
         }
     }

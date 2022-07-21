@@ -28,10 +28,8 @@ namespace Player
             godinput = playerInput._input.God;
             stageManager = Manager.MyGameManager.instance.currentStage;
         }
-        // Update is called once per frame
         void Update()
         {
-            //playerInput.update();
             if (playerInput.Rotate && fromLastGravityRotateTime > gravityRotateCoolTime)
             {
                 int dir = (int)godinput.RotateDir.ReadValue<float>();

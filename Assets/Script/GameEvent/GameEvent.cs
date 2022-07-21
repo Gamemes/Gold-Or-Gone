@@ -15,16 +15,16 @@ namespace GameEvent
         /// </summary>
         public EventType eventType = EventType.combat;
         public bool invokeOnAwake = false;
-        protected Manager.StageManager stageManager;
-        private void Awake()
+        protected Manager.StageManager stageManager => Manager.StageManager.CurrentStageManager();
+        protected GameEventManager gameEventManager => stageManager.gameEventManager;
+        protected void Awake()
         {
             if (!invokeOnAwake)
                 this.enabled = false;
-            stageManager = Manager.StageManager.CurrentStageManager();
         }
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
-
+            gameEventManager.StopCurrentEvent();
         }
     }
 }
