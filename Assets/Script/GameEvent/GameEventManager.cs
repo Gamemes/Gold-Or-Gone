@@ -22,6 +22,21 @@ namespace GameEvent
         public GameEvent currentGameEvent { get; private set; } = null;
         public bool hasEvent => currentGameEvent != null;
 
+        public Action<int> onTacitValueChange;
+        public int tacitValue
+        {
+            get => _tacitValue;
+            set
+            {
+                value = Mathf.Clamp(value, 0, 100);
+                if (value != _tacitValue)
+                {
+                    onTacitValueChange?.Invoke(value);
+                    _tacitValue = value;
+                }
+            }
+        }
+        private int _tacitValue = 0;
         private void Start()
         {
             gameEvents.AddRange(GameObject.FindObjectsOfType<GameEvent>());
