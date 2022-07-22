@@ -31,14 +31,15 @@ namespace GameUI
             audioSource.Play();
             return true;
         }
-        public bool stopTiming()
+        public bool stopTiming(bool invokeTimeUpAction = true)
         {
             if (!timing)
                 return false;
             timing = false;
-            timeUpAction?.Invoke();
-            audioSource.Stop();
             this.gameObject.SetActive(false);
+            audioSource.Stop();
+            if (invokeTimeUpAction)
+                timeUpAction?.Invoke();
             return true;
         }
         private void Update()

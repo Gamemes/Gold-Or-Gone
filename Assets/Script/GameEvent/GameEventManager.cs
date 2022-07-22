@@ -71,10 +71,14 @@ namespace GameEvent
             text = GUI.TextField(new Rect(20, 90, 100, 20), text);
             int idx = 0;
             if (text.Length > 0)
-                idx = int.Parse(text);
+                int.TryParse(text, out idx);
             if (GUI.Button(new Rect(20, 60, 160, 20), "start event"))
             {
                 InvokeGameEvent(gameEvents[idx]);
+            }
+            if (GUI.Button(new Rect(20, 120, 160, 20), "stop event"))
+            {
+                StopCurrentEvent();
             }
         }
     }

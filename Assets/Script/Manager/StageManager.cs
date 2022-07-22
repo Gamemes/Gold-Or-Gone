@@ -47,6 +47,8 @@ namespace Manager
         {
             get
             {
+                if (_godPlayer is null)
+                    Debug.LogWarning($"尝试获得空godplayer");
                 return _godPlayer;
             }
             set

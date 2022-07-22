@@ -11,6 +11,7 @@ namespace Trap
     {
         public Action<PlayerAttribute> stayAction;
         public Action<PlayerAttribute> enterAction;
+        public Action everyFrameAction;
         public override void onPlayerEnter(PlayerAttribute playerAttribute)
         {
             enterAction?.Invoke(playerAttribute);
@@ -18,6 +19,10 @@ namespace Trap
         public override void onPlayerStay(PlayerAttribute playerAttribute)
         {
             stayAction?.Invoke(playerAttribute);
+        }
+        private void Update()
+        {
+            everyFrameAction?.Invoke();
         }
     }
 }

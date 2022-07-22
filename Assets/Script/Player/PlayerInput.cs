@@ -295,6 +295,15 @@ namespace Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Flip"",
+                    ""type"": ""Button"",
+                    ""id"": ""839874f3-9c67-4b56-9041-3c5f7f764690"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -517,6 +526,28 @@ namespace Player
                     ""action"": ""RotateDir"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d258e7fe-a69b-4794-9f6b-081f14c17563"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7d34d2e-1e21-414b-95a3-452189109c75"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -596,6 +627,7 @@ namespace Player
             m_God_RotateDir = m_God.FindAction("RotateDir", throwIfNotFound: true);
             m_God_GrivateUp = m_God.FindAction("GrivateUp", throwIfNotFound: true);
             m_God_GrivateDown = m_God.FindAction("GrivateDown", throwIfNotFound: true);
+            m_God_Flip = m_God.FindAction("Flip", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -716,6 +748,7 @@ namespace Player
         private readonly InputAction m_God_RotateDir;
         private readonly InputAction m_God_GrivateUp;
         private readonly InputAction m_God_GrivateDown;
+        private readonly InputAction m_God_Flip;
         public struct GodActions
         {
             private @PlayerInput m_Wrapper;
@@ -724,6 +757,7 @@ namespace Player
             public InputAction @RotateDir => m_Wrapper.m_God_RotateDir;
             public InputAction @GrivateUp => m_Wrapper.m_God_GrivateUp;
             public InputAction @GrivateDown => m_Wrapper.m_God_GrivateDown;
+            public InputAction @Flip => m_Wrapper.m_God_Flip;
             public InputActionMap Get() { return m_Wrapper.m_God; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -745,6 +779,9 @@ namespace Player
                     @GrivateDown.started -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateDown;
                     @GrivateDown.performed -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateDown;
                     @GrivateDown.canceled -= m_Wrapper.m_GodActionsCallbackInterface.OnGrivateDown;
+                    @Flip.started -= m_Wrapper.m_GodActionsCallbackInterface.OnFlip;
+                    @Flip.performed -= m_Wrapper.m_GodActionsCallbackInterface.OnFlip;
+                    @Flip.canceled -= m_Wrapper.m_GodActionsCallbackInterface.OnFlip;
                 }
                 m_Wrapper.m_GodActionsCallbackInterface = instance;
                 if (instance != null)
@@ -761,6 +798,9 @@ namespace Player
                     @GrivateDown.started += instance.OnGrivateDown;
                     @GrivateDown.performed += instance.OnGrivateDown;
                     @GrivateDown.canceled += instance.OnGrivateDown;
+                    @Flip.started += instance.OnFlip;
+                    @Flip.performed += instance.OnFlip;
+                    @Flip.canceled += instance.OnFlip;
                 }
             }
         }
@@ -823,6 +863,7 @@ namespace Player
             void OnRotateDir(InputAction.CallbackContext context);
             void OnGrivateUp(InputAction.CallbackContext context);
             void OnGrivateDown(InputAction.CallbackContext context);
+            void OnFlip(InputAction.CallbackContext context);
         }
     }
 }

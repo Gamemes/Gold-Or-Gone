@@ -19,6 +19,7 @@ namespace Player
         public float gravityRotateCoolTime = 5f;
         public float fromLastGrivateChangeTime = 100f;
         public float fromLastGravityRotateTime = 100f;
+        public bool activeFlip = false;
         private PlayerAttribute playerAttribute;
         private void Awake()
         {
@@ -33,6 +34,12 @@ namespace Player
             {
                 int dir = (int)godinput.RotateDir.ReadValue<float>();
                 Manager.MyGameManager.instance.currentStage.RotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
+                fromLastGravityRotateTime = 0f;
+            }
+            if (activeFlip && godinput.Flip.WasPerformedThisFrame() && fromLastGravityRotateTime > gravityRotateCoolTime)
+            {
+                int dir = UnityEngine.Random.Range(1, 10) % 2 == 0 ? 1 : -1;
+                Manager.MyGameManager.instance.currentStage.RotateGravityDuration(dir * 180f, (float)90 / rotateSpeed);
                 fromLastGravityRotateTime = 0f;
             }
             if (godinput.GrivateUp.WasPressedThisFrame() && fromLastGrivateChangeTime > gravityChangeCoolTime)

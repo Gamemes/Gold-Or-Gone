@@ -100,7 +100,7 @@ namespace GameEvent
                     }, 180);
                 }
             }
-            gameEventManager.eventTimer.stopTiming();
+            gameEventManager.eventTimer.stopTiming(false);
         }
         private void Update()
         {

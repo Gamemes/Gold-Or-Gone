@@ -73,7 +73,7 @@ namespace GameEvent
             {
                 item.playerHealth.damageAction -= this.onPlayerDamage;
             }
-            gameEventManager.eventTimer.stopTiming();
+            gameEventManager.eventTimer.stopTiming(false);
         }
         private void onPlayerDamage(int causeDamage)
         {
