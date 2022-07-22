@@ -23,6 +23,7 @@ namespace GameEvent
         public bool hasEvent => currentGameEvent != null;
         public GameUI.UITimer eventTimer;
         public Action<int> onTacitValueChange;
+        private Manager.StageManager stageManager => Manager.StageManager.CurrentStageManager();
         public int tacitValue
         {
             get => _tacitValue;
@@ -58,9 +59,19 @@ namespace GameEvent
             onGameEventEnd?.Invoke(currentGameEvent);
             this.currentGameEvent = null;
         }
+        public void DelayInvoke(Action func, float seconds)
+        {
+            StartCoroutine(Utils.Utils.DelayInvoke(func, seconds));
+        }
+        private string text = "0";
         private void OnGUI()
         {
-            int idx = int.Parse(GUI.TextField(new Rect(20, 90, 100, 20), "0"));
+            if (!stageManager.isdebug)
+                return;
+            text = GUI.TextField(new Rect(20, 90, 100, 20), text);
+            int idx = 0;
+            if (text.Length > 0)
+                idx = int.Parse(text);
             if (GUI.Button(new Rect(20, 60, 160, 20), "start event"))
             {
                 InvokeGameEvent(gameEvents[idx]);

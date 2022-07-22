@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class UIBlood : UISpaced
 {
-    private bool initd = false;
+    //private bool initd = false;
     public void init(Player.PlayerAttribute playerAttribute)
     {
         if (playerAttribute == null)
             return;
         playerAttribute.playerHealth.onPlayerBloodChange += this.OnBloodChange;
         this.OnBloodChange(playerAttribute.playerHealth.blood);
-        initd = true;
+        //initd = true;
     }
     void OnBloodChange(int blood)
     {

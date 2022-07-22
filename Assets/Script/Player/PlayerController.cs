@@ -181,8 +181,8 @@ namespace Player
         public float maxFallSpeed = 25f;
         public float glidingFallSpeed = 5f;
         public int maxJumpTime = 2;
-        public float jumpHoverTime = 0.1f;
-        private bool isHover = false;
+        // public float jumpHoverTime = 0.1f;
+        // private bool isHover = false;
         [Tooltip("开启滑翔")]
         public bool activeGliding = false;
 

@@ -9,7 +9,6 @@ namespace Player
         public FrameInput playerInput { get; private set; }
         public bool RotatingThisFrame { get; private set; } = false;
         public float rotateSpeed = 10f;
-        private float adjustSpeed = 0f;
         private PlayerInput.GodActions godinput;
         private Manager.StageManager stageManager;
         [Tooltip("重力改变的持续时间")]

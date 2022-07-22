@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class UIEnergy : UISpaced
 {
-    private bool initd = false;
+    //private bool initd = false;
     public void init(Player.PlayerAttribute playerAttribute)
     {
         if (playerAttribute == null)
             return;
         playerAttribute.playerHealth.onEneryChange += this.OnChangeEnergy;
         this.OnChangeEnergy(playerAttribute.playerHealth.energy);
-        initd = true;
+        //initd = true;
     }
     void OnChangeEnergy(int energy)
     {

@@ -65,7 +65,7 @@ namespace Manager
         public Action<GameObject> onGlodPlayerChange;
         public Cinemachine.CinemachineVirtualCamera stageCamera = null;
         public NetworkStageManager networkStage = null;
-        public bool isOnline = false;
+        public bool isOnline { get; private set; } = false;
         public bool isdebug = true;
         //边界范围
         private PolygonCollider2D polygonCollider;
@@ -127,7 +127,7 @@ namespace Manager
                 onAddPlayer?.Invoke(player);
             }
             //如果不是线上模式, 需要同步输入设备到玩家.
-            if (!isOnline && !isdebug)
+            if (!isOnline)
             {
                 synchroPlayerAndDevice();
             }
@@ -378,13 +378,10 @@ namespace Manager
         {
             return Manager.MyGameManager.CurrentStageManager();
         }
-
-        /// <summary>
-        /// OnGUI is called for rendering and handling GUI events.
-        /// This function can be called multiple times per frame (one call per event).
-        /// </summary>
         private void OnGUI()
         {
+            if (!isdebug)
+                return;
             if (GUI.Button(new Rect(20, 400, 100, 20), "切换上帝"))
             {
                 ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);

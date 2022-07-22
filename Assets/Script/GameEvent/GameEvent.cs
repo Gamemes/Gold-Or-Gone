@@ -17,7 +17,7 @@ namespace GameEvent
         public bool invokeOnAwake = false;
         protected Manager.StageManager stageManager => Manager.StageManager.CurrentStageManager();
         protected GameEventManager gameEventManager => stageManager.gameEventManager;
-        protected void Awake()
+        protected virtual void Awake()
         {
             if (!invokeOnAwake)
                 this.enabled = false;

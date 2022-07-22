@@ -10,7 +10,7 @@ namespace Trap
     public class TrapThorn : TrapBase
     {
         [Range(1, 10)]
-        [SerializeField] int damage = 1;            //伤害数值（在外面手动输入）
+        public int damage = 1;            //伤害数值（在外面手动输入）
         private void Awake()
         {
             if (damage == 0)

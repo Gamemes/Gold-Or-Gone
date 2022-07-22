@@ -17,6 +17,10 @@ namespace Player
                 maxBlood = value;
             }
         }
+        /// <summary>
+        /// 免伤
+        /// </summary>
+        public bool injuryFree = false;
         private int _blood;
         /// <summary>
         /// 玩家的当前血量.
@@ -31,6 +35,8 @@ namespace Player
                 value = Mathf.Clamp(value, 0, maxBlood);
                 if (value < blood)
                 {
+                    if (injuryFree)
+                        return;
                     StartCoroutine(DamageEffect());
                     damageAction?.Invoke(blood - value);
                 }
@@ -48,7 +54,7 @@ namespace Player
             }
         }
         /// <summary>
-        /// 对玩家造成伤害
+        /// 对玩家造成伤害, 传入造成的伤害
         /// </summary>
         public Action<int> damageAction;
         public Action<int> healAction;
@@ -109,8 +115,6 @@ namespace Player
         public void CauseDamage(int hurtValue)
         {
             Debug.Assert(hurtValue > 0);
-            if (Manager.MyGameManager.CurrentStageManager().isdebug)
-                return;
             blood -= hurtValue;
         }
         IEnumerator DamageEffect()

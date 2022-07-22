@@ -20,7 +20,9 @@ namespace Player
         public Rigidbody2D rb { get; private set; }
         public SpriteRenderer spriteRenderer { get; private set; }
         public string playerName = "";
-        private Manager.StageManager stageManager;
+        private Manager.StageManager stageManager => Manager.StageManager.CurrentStageManager();
+        public bool isGod => this.gameObject.Equals(stageManager.GodPlayer);
+        public bool isHuman => !isGod;
         /// <summary>
         /// 玩家的ui对象, 为玩家提供了 血量|能量|名称 的显示
         /// </summary>
@@ -36,7 +38,6 @@ namespace Player
             rb = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             networkIdentity = GetComponent<Mirror.NetworkIdentity>();
-            stageManager = Manager.MyGameManager.instance.currentStage;
             if (playerName == "")
                 playerName = gameObject.name;
             stageManager.onGlodPlayerChange += this.OnGodPlayerChange;

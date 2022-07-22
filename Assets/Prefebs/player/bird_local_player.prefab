@@ -14697,7 +14697,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 702f4a80d5e579741afd440e76aaa1bb, type: 2}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &8258579443823930183
@@ -14732,7 +14732,6 @@ MonoBehaviour:
   maxFallSpeed: 50
   glidingFallSpeed: 5
   maxJumpTime: 2
-  jumpHoverTime: 0.1
   activeGliding: 0
   activeClimb: 1
   maxClimbTime: 2

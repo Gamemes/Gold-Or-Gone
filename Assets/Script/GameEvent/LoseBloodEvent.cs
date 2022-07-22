@@ -38,6 +38,8 @@ namespace GameEvent
         }
         protected override void OnDisable()
         {
+            if (!gameEventManager.hasEvent)
+                return;
             base.OnDisable();
             //取消增益
             foreach (var item in stageManager.stagePlayers)
@@ -54,7 +56,7 @@ namespace GameEvent
                 Debug.Log($"god win");
                 stageManager.stagePlayerAttributes[stageManager.GodPlayer].godController.gravityRotateCoolTime -= coolDown;
             }
-            else
+            else if (gameEventManager.eventTimer.countSeconds <= 0)
             {
                 Debug.Log($"human win");
                 foreach (var item in stageManager.stagePlayers)
@@ -71,6 +73,7 @@ namespace GameEvent
             {
                 item.playerHealth.damageAction -= this.onPlayerDamage;
             }
+            gameEventManager.eventTimer.stopTiming();
         }
         private void onPlayerDamage(int causeDamage)
         {
