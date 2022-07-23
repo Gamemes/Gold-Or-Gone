@@ -110,7 +110,7 @@ namespace Player
             this.playerController.enabled = false;
             this.godController.enabled = false;
             playerAnimation.changeState(PlayerAnimationController.PlayerState.Death);
-            StartCoroutine(Utils.Utils.DelayInvoke(() => { stageManager.ReGame(); }, 2f));
+            stageManager.GameOver();
         }
         // Update is called once per frame
         void Update()

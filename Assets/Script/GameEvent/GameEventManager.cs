@@ -24,6 +24,9 @@ namespace GameEvent
         public GameUI.UITimer eventTimer;
         public Action<int> onTacitValueChange;
         private Manager.StageManager stageManager => Manager.StageManager.CurrentStageManager();
+        /// <summary>
+        /// 默契值
+        /// </summary>
         public int tacitValue
         {
             get => _tacitValue;
@@ -50,6 +53,8 @@ namespace GameEvent
             gameEvent.enabled = true;
             this.currentGameEvent = gameEvent;
             onGameEventInvoke?.Invoke(gameEvent);
+            stageManager.stageInfo.ShowInfo($"{gameEvent.eventName} start!!", Color.red, Color.black);
+            stageManager.onGameOver += () => this.StopCurrentEvent();
         }
         public void StopCurrentEvent()
         {

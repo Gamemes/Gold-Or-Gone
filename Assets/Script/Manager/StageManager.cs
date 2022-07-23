@@ -41,6 +41,10 @@ namespace Manager
         /// </summary>
         public Action onReGame;
         /// <summary>
+        /// 游戏结束
+        /// </summary>
+        public Action onGameOver;
+        /// <summary>
         /// 当前的上帝玩家, 调用<see cref="ChangeGloadPlayer"/>,而不是直接调用setter除非你知道这样做会出现的问题. 
         /// </summary>
         public GameObject GodPlayer
@@ -202,8 +206,6 @@ namespace Manager
         }
         #endregion
 
-
-
         #region 重力控制
         public Vector2 gravity
         {
@@ -329,6 +331,9 @@ namespace Manager
             StartCoroutine(Utils.Utils.DelayInvoke(() => { AddGrivate(-val, 0f); }, duration));
         }
         #endregion
+        /// <summary>
+        /// 检查玩家是否在限制范围内
+        /// </summary>
         private void CheckPlayerInBorder()
         {
             foreach (var player in this.stagePlayers)
@@ -348,6 +353,7 @@ namespace Manager
         {
             CheckPlayerInBorder();
         }
+
         /// <summary>
         /// 开始游戏
         /// </summary>
@@ -375,7 +381,12 @@ namespace Manager
                 ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
             }, 4f));
         }
-
+        public void GameOver()
+        {
+            onGameOver?.Invoke();
+            //2s后重新游戏
+            StartCoroutine(Utils.Utils.DelayInvoke(() => { ReGame(); }, 2f));
+        }
         public static StageManager CurrentStageManager()
         {
             return Manager.MyGameManager.CurrentStageManager();
