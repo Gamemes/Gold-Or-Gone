@@ -29,7 +29,6 @@ namespace GameEvent
                 trigger.gameObject.SetActive(false);
                 trigger.enterAction = (player) =>
                 {
-                    Debug.Log($"enter trigger");
                     trigger.gameObject.SetActive(false);
                     collidedNums++;
                 };

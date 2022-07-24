@@ -30,7 +30,7 @@ namespace GameEvent
                 triggerList.Add(trigger);
             }
         }
-        private Vector2 GetPos()
+        protected Vector2 GetPos()
         {
             Vector2 res = new Vector2(0, 0);
             do
@@ -102,7 +102,7 @@ namespace GameEvent
             }
             gameEventManager.eventTimer.stopTiming(false);
         }
-        private void Update()
+        protected void Update()
         {
             if (isPlayerStay)
             {
@@ -114,12 +114,14 @@ namespace GameEvent
                 this.enabled = false;
             }
         }
-        private void TimeUp()
+        protected void TimeUp()
         {
             this.enabled = false;
         }
-        private void OnGUI()
+        protected void OnGUI()
         {
+            if (!gameEventManager.debug)
+                return;
             GUI.Label(new Rect(uiPos, new Vector2(100, 20)), $"{playerStayTime}");
         }
 

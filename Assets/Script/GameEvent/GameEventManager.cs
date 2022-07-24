@@ -46,6 +46,18 @@ namespace GameEvent
         public float eventInvokeInterval = 180;
         public float fromLastInvoke = 60;
         public bool activeAutoInvoke = false;
+        /// <summary>
+        /// 下一个事件, 会在事件开始时重置.
+        /// </summary>
+        public GameEvent nextEvent = null;
+        public GameUI.GameEventUI gameEventUI { get; private set; }
+        /// <summary>
+        /// Awake is called when the script instance is being loaded.
+        /// </summary>
+        private void Awake()
+        {
+            gameEventUI = GetComponentInChildren<GameUI.GameEventUI>();
+        }
         private void Start()
         {
             gameEvents.AddRange(GameObject.FindObjectsOfType<GameEvent>());
@@ -93,9 +105,15 @@ namespace GameEvent
             if (!activeAutoInvoke)
                 return;
             fromLastInvoke += Time.deltaTime;
-            if (fromLastInvoke >= eventInvokeInterval)
+            if (fromLastInvoke >= eventInvokeInterval - 10f)
             {
-                InvokeGameEvent(UnityEngine.Random.Range(0, gameEvents.Count - 1));
+                nextEvent = gameEvents[UnityEngine.Random.Range(0, gameEvents.Count - 1)];
+                gameEventUI.ShowDetail(nextEvent.eventName, nextEvent.detailInfo);
+                this.DelayInvoke(() =>
+                {
+                    InvokeGameEvent(nextEvent);
+                    nextEvent = null;
+                }, 10f);
                 fromLastInvoke = 0f;
             }
         }
@@ -119,6 +137,10 @@ namespace GameEvent
             if (GUI.Button(new Rect(20, 120, 160, 20), "stop event"))
             {
                 StopCurrentEvent();
+            }
+            if (GUI.Button(new Rect(20, 160, 160, 20), "tacit add"))
+            {
+                tacitValue += 10;
             }
         }
     }

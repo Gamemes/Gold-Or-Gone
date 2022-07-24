@@ -15,6 +15,8 @@ namespace GameEvent
         /// </summary>
         public EventType eventType = EventType.combat;
         public string eventName = "";
+        [TextArea(5, 20)]
+        public string detailInfo = "";
         public bool invokeOnAwake = false;
         protected Manager.StageManager stageManager => Manager.StageManager.CurrentStageManager();
         protected GameEventManager gameEventManager => stageManager.gameEventManager;
@@ -23,8 +25,6 @@ namespace GameEvent
         {
             if (!invokeOnAwake)
                 this.enabled = false;
-            if (eventName.Length == 0)
-                eventName = gameObject.name;
         }
         protected virtual void OnDisable()
         {
