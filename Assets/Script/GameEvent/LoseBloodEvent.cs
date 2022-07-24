@@ -49,7 +49,8 @@ namespace GameEvent
                     stageManager.stagePlayerAttributes[item].playerController.walkSpeed -= speedUp;
                 }
             }
-            stageManager.stagePlayerAttributes[stageManager.GodPlayer].godController.gravityRotateCoolTime += coolDown;
+            if (stageManager.GodPlayer)
+                stageManager.stagePlayerAttributes[stageManager.GodPlayer].godController.gravityRotateCoolTime += coolDown;
             //如果达到目标
             if (damage >= damageTarget)
             {

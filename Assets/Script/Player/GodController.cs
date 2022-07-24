@@ -33,8 +33,11 @@ namespace Player
             if (playerInput.Rotate && fromLastGravityRotateTime > gravityRotateCoolTime)
             {
                 int dir = (int)godinput.RotateDir.ReadValue<float>();
-                Manager.MyGameManager.instance.currentStage.RotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
-                fromLastGravityRotateTime = 0f;
+                if (dir != 0f)
+                {
+                    Manager.MyGameManager.instance.currentStage.RotateGravityDuration(dir * 90f, (float)90 / rotateSpeed);
+                    fromLastGravityRotateTime = 0f;
+                }
             }
             if (activeFlip && godinput.Flip.WasPerformedThisFrame() && fromLastGravityRotateTime > gravityRotateCoolTime)
             {

@@ -51,7 +51,7 @@ namespace GameEvent
             gameEventManager.eventTimer.startTiming(duration, this.TimeUp);
             foreach (var trap in GameObject.FindObjectsOfType<Trap.TrapThorn>())
             {
-                trap.gameObject.SetActive(false);
+                trap.activeDamage = false;
             }
         }
         protected override void OnDisable()
@@ -68,7 +68,7 @@ namespace GameEvent
             }
             foreach (var trap in GameObject.FindObjectsOfType<Trap.TrapThorn>(true))
             {
-                trap.gameObject.SetActive(true);
+                trap.activeDamage = true;
             }
             //玩家获胜
             if (playerStayTime >= playerStayTimeTarget)

@@ -58,6 +58,8 @@ namespace Player
                 ChangeToHuman();
             }
         }
+        public Action onPlayerChangeToHuman;
+        public Action onPlayerChangeToGod;
         void ChangeToHuman()
         {
             if (playerController.enabled)
@@ -77,6 +79,7 @@ namespace Player
 
                 godController.enabled = false;
             }
+            onPlayerChangeToHuman?.Invoke();
         }
         void ChangeToGod()
         {
@@ -97,6 +100,7 @@ namespace Player
 
                 godController.enabled = true;
             }
+            onPlayerChangeToGod?.Invoke();
         }
         private void OnDestroy()
         {

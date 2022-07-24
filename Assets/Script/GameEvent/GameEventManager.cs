@@ -41,9 +41,16 @@ namespace GameEvent
             }
         }
         private int _tacitValue = 0;
+        public bool debug = true;
+        [Header("触发间隔")]
+        public float eventInvokeInterval = 180;
+        public float fromLastInvoke = 60;
+        public bool activeAutoInvoke = false;
         private void Start()
         {
             gameEvents.AddRange(GameObject.FindObjectsOfType<GameEvent>());
+            Prop.PropBase.onPropPicked += this.ReSetPickProp;
+            stageManager.onGameStart += () => { activeAutoInvoke = true; };
             Debug.Log($"find {gameEvents.Count} events");
         }
         public void InvokeGameEvent(GameEvent gameEvent)
@@ -53,8 +60,15 @@ namespace GameEvent
             gameEvent.enabled = true;
             this.currentGameEvent = gameEvent;
             onGameEventInvoke?.Invoke(gameEvent);
+            Debug.Log($"{gameEvent.eventName} start");
             stageManager.stageInfo.ShowInfo($"{gameEvent.eventName} start!!", Color.red, Color.black);
             stageManager.onGameOver += () => this.StopCurrentEvent();
+        }
+        public void InvokeGameEvent(int eventIdx)
+        {
+            if (eventIdx >= gameEvents.Count)
+                return;
+            InvokeGameEvent(this.gameEvents[eventIdx]);
         }
         public void StopCurrentEvent()
         {
@@ -68,10 +82,31 @@ namespace GameEvent
         {
             StartCoroutine(Utils.Utils.DelayInvoke(func, seconds));
         }
+
+        private void ReSetPickProp(Prop.PropBase prop, GameObject gameObject)
+        {
+            fromLastInvoke = Mathf.Max(fromLastInvoke, eventInvokeInterval - 60f);
+        }
+
+        private void Update()
+        {
+            if (!activeAutoInvoke)
+                return;
+            fromLastInvoke += Time.deltaTime;
+            if (fromLastInvoke >= eventInvokeInterval)
+            {
+                InvokeGameEvent(UnityEngine.Random.Range(0, gameEvents.Count - 1));
+                fromLastInvoke = 0f;
+            }
+        }
+        private void OnDestroy()
+        {
+            Prop.PropBase.onPropPicked -= this.ReSetPickProp;
+        }
         private string text = "0";
         private void OnGUI()
         {
-            if (!stageManager.isdebug)
+            if (!this.debug)
                 return;
             text = GUI.TextField(new Rect(20, 90, 100, 20), text);
             int idx = 0;

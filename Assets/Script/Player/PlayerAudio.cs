@@ -9,6 +9,7 @@ namespace Player
         public AudioClip jumpClip;
         public AudioClip landClip;
         public AudioClip healClip;
+        public AudioClip hurtClip;
         private PlayerController playerController;
         private PlayerAttribute playerAttribute;
         private AudioSource audioSource;
@@ -22,6 +23,10 @@ namespace Player
             };
             audioSource = GetComponent<AudioSource>();
             audioSource.loop = false;
+            playerAttribute.playerHealth.damageAction += (val) =>
+            {
+                Play(hurtClip);
+            };
         }
         void Play(AudioClip clip)
         {

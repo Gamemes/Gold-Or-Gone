@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed095dce33bf9941bdd502875a52ee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backImg: {fileID: 1560612749}
 --- !u!1 &1466455770
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,9 +354,9 @@ MonoBehaviour:
   playerPrefab: {fileID: 8258579443823930206, guid: dbe0d59d79f782b4ead6b22acc939ed5, type: 3}
   stageCamera: {fileID: 0}
   networkStage: {fileID: 0}
-  isOnline: 0
   isdebug: 0
   stageInfo: {fileID: 0}
+  gameEventManager: {fileID: 0}
 --- !u!60 &1970259496
 PolygonCollider2D:
   m_ObjectHideFlags: 0

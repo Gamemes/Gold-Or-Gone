@@ -108,10 +108,10 @@ namespace Manager
                 var playerAtt = player.GetComponent<Player.PlayerAttribute>();
                 playerAtt.playerName = $"Player-{stagePlayers.Count}";
                 this.stagePlayerAttributes.Add(player, playerAtt);
-                if (stagePlayers.Count >= 2)
-                {
-                    StartGame();
-                }
+                // if (stagePlayers.Count >= 2)
+                // {
+                //     StartGame();
+                // }
             };
             onRemovePlayer += (player) =>
             {

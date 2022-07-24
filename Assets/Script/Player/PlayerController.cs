@@ -301,7 +301,7 @@ namespace Player
         public bool sprintThisFrame = false;
         private bool canSprint = true;
         public float sprintCoolTime = 3f;
-        public float fromLastSprintTime = 0f;
+        public float fromLastSprintTime { get; private set; } = 0f;
         void CalculateSprint()
         {
             if (!activeSprint)

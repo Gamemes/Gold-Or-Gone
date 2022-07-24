@@ -14768,6 +14768,7 @@ MonoBehaviour:
   gravityRotateCoolTime: 5
   fromLastGrivateChangeTime: 100
   fromLastGravityRotateTime: 100
+  activeFlip: 0
 --- !u!114 &8258579443823930180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14781,6 +14782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxBlood: 3
+  injuryFree: 0
 --- !u!114 &8258579443823930181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15097,3 +15099,4 @@ MonoBehaviour:
   jumpClip: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
   landClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   healClip: {fileID: 8300000, guid: c48a972d3d024c2408a3331750786a29, type: 3}
+  hurtClip: {fileID: 8300000, guid: b1b59afc44b1d0e4a89e75ff424e1f65, type: 3}

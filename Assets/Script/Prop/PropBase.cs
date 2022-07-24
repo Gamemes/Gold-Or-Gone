@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace Prop
         protected bool autoDelete = true;
         protected ParticleSystem touchParticle;
         protected bool active = true;
+        public static Action<PropBase, GameObject> onPropPicked;
+        public GameObject objPicked = null;
         public virtual void Start()
         {
             Manager.StageManager.CurrentStageManager().onReGame += () =>
@@ -33,11 +36,13 @@ namespace Prop
         private void Enable()
         {
             active = true;
+            objPicked = null;
             this.gameObject.SetActive(true);
         }
         private void Disable()
         {
             active = false;
+            onPropPicked?.Invoke(this, objPicked);
             StartCoroutine(Utils.Utils.DelayInvoke(() => { this.gameObject.SetActive(false); }, 1f));
         }
         public virtual void OnTriggerEnter2D(Collider2D other)
@@ -47,6 +52,7 @@ namespace Prop
             Debug.Log($"player enter {this.gameObject.name}");
             if (other.tag.CompareTo("Player") == 0)
             {
+                objPicked = other.gameObject;
                 var attribute = other.GetComponent<Player.PlayerAttribute>();
                 if (attribute == null)
                 {
@@ -65,6 +71,7 @@ namespace Prop
             }
             else if (other.tag.CompareTo("Player Network") == 0)
             {
+                objPicked = other.gameObject;
                 if (autoDelete)
                     Disable();
             }

@@ -17,7 +17,8 @@ namespace GameUI
         }
         private void Start()
         {
-            StartCoroutine(Utils.Utils.DelayInvoke(() => { this.init(); }, 2f));
+            this.init();
+            //StartCoroutine(Utils.Utils.DelayInvoke(() => { }, 0.5f));
         }
         public void init()
         {
