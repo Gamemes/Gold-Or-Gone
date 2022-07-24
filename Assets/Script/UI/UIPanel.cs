@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 /// <summary>
 /// UI面板脚本
@@ -23,6 +25,7 @@ public class UIPanel : MonoBehaviour
         UIChild = GameObject.Find("ESCCanvas/Panel/UI");
         UIChildBase = GameObject.Find("ESCCanvas/Panel/UI/Base");
         UIChildSetting = GameObject.Find("ESCCanvas/Panel/UI/Setting");
+        UIChild.SetActive(false);
     }
     IEnumerator ShowPanel()
     {
@@ -49,23 +52,35 @@ public class UIPanel : MonoBehaviour
             yield return null;
         }
     }
-    public void OnESC()
+    public void OnESC(InputAction.CallbackContext context)
     {
-        if (isShow == false)
+        switch (context.phase)
         {
-            isShow = true;
-            UIChild.SetActive(true);
-            StopAllCoroutines();            //停止当前动画
-            StartCoroutine(ShowPanel());    //开始弹出动画
+            case InputActionPhase.Performed:
+                if (context.interaction is PressInteraction)
+                {
+                    if (isShow == false)
+                    {
+                        isShow = true;
+                        UIChild.SetActive(true);
+                        StopAllCoroutines();            //停止当前动画
+                        StartCoroutine(ShowPanel());    //开始弹出动画
+                    }
+                    else if (isShow == true)
+                    {
+                        isShow = false;
+                        StopAllCoroutines();            //停止当前动画
+                        StartCoroutine(HidePanel());    //开始关闭动画
+                    }
+                    UIChildBase.SetActive(true);
+                    UIChildSetting.SetActive(false);
+                }
+                break;
+            case InputActionPhase.Started:
+                break;
+            case InputActionPhase.Canceled:
+                break;
         }
-        else if (isShow == true)
-        {
-            isShow = false;
-            StopAllCoroutines();            //停止当前动画
-            StartCoroutine(HidePanel());    //开始关闭动画
-        }
-        UIChildBase.SetActive(true);
-        UIChildSetting.SetActive(false);
     }
 
     public void BaseBack()      //返回按钮
