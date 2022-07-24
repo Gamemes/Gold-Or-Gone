@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// UI面板脚本
@@ -39,7 +40,7 @@ public class UIPanel : MonoBehaviour
         float timer = 0;                //初始化计时器
         while (panelImage.alpha > 0)
         {
-            panelImage.alpha = showCurve.Evaluate(timer);
+            panelImage.alpha = hideCurve.Evaluate(timer);
             timer += Time.deltaTime * animationSpeed;
             if (panelImage.alpha == 0)
             {
@@ -52,17 +53,19 @@ public class UIPanel : MonoBehaviour
     {
         if (isShow == false)
         {
+            isShow = true;
             UIChild.SetActive(true);
             StopAllCoroutines();            //停止当前动画
             StartCoroutine(ShowPanel());    //开始弹出动画
-            isShow = true;
         }
         else if (isShow == true)
         {
+            isShow = false;
             StopAllCoroutines();            //停止当前动画
             StartCoroutine(HidePanel());    //开始关闭动画
-            isShow = false;
         }
+        UIChildBase.SetActive(true);
+        UIChildSetting.SetActive(false);
     }
 
     public void BaseBack()      //返回按钮
@@ -89,7 +92,7 @@ public class UIPanel : MonoBehaviour
 
     public void MainMenu()      //退出按钮
     {
-        Application.Quit();
-        //SceneManager.LoadScene("Start")
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
+
 }

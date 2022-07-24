@@ -6,19 +6,25 @@ using UnityEngine.UI;
 
 public class UIStart : MonoBehaviour
 {
-    public void UIButtonStart()            //开始菜单
+
+    [SerializeField] public GameObject UIBase;
+    [SerializeField] public GameObject UISetting;
+
+    private void Awake()
     {
-        
+        UIBase = GameObject.Find("UI/Base");
+        UISetting = GameObject.Find("UI/Setting");
+        UISetting.SetActive(false);
+    }
+    public void StartGame()                //开始游戏
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void UIButtonSetting()          //设置菜单
     {
-
-    }
-
-    public void StartGame()                //开始游戏
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        UIBase.SetActive(false);
+        UISetting.SetActive(true);
     }
 
     public void UIButtonQuit()             //退出游戏
@@ -27,4 +33,9 @@ public class UIStart : MonoBehaviour
         Application.Quit();
     }
 
+    public void UIButtonBack()          //返回菜单
+    {
+        UIBase.SetActive(true);
+        UISetting.SetActive(false);
+    }
 }
