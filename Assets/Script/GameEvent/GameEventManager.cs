@@ -73,7 +73,7 @@ namespace GameEvent
             this.currentGameEvent = gameEvent;
             onGameEventInvoke?.Invoke(gameEvent);
             Debug.Log($"{gameEvent.eventName} start");
-            stageManager.stageInfo.ShowInfo($"{gameEvent.eventName} start!!", Color.red, Color.black);
+            stageManager.stageInfo.ShowInfo($"{gameEvent.eventName} 事件开始!", Color.red, Color.black);
             stageManager.onGameOver += () => this.StopCurrentEvent();
         }
         public void InvokeGameEvent(int eventIdx)
@@ -104,7 +104,8 @@ namespace GameEvent
         {
             if (!activeAutoInvoke)
                 return;
-            fromLastInvoke += Time.deltaTime;
+            if (!hasEvent)
+                fromLastInvoke += Time.deltaTime;
             if (fromLastInvoke >= eventInvokeInterval - 10f)
             {
                 nextEvent = gameEvents[UnityEngine.Random.Range(0, gameEvents.Count - 1)];

@@ -19,6 +19,7 @@ namespace GameEvent
         private Vector3 followPos = Vector3.zero;
         private float updatePosTime = 100f;
         public float delayUpdatePos = 0.2f;
+        public string specialIInfo => $"已经触碰了:\n{collidedNums}/{collideNumTarget}";
         protected override void Awake()
         {
             base.Awake();
@@ -31,6 +32,7 @@ namespace GameEvent
                 {
                     trigger.gameObject.SetActive(false);
                     collidedNums++;
+                    gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
                 };
                 trigger.everyFrameAction = () =>
                 {
@@ -60,6 +62,7 @@ namespace GameEvent
                 trigger.gameObject.SetActive(true);
             }
             gameEventManager.eventTimer.startTiming(duration, this.TimeUp);
+            gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
         }
         private void TimeUp()
         {

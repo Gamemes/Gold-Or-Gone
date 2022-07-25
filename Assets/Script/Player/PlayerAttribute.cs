@@ -124,6 +124,7 @@ namespace Player
         {
             Debug.Log($"{gameObject} regame");
             ChangeToHuman();
+            this.transform.position = new Vector3(0, 0, 0);
             this.playerHealth.ReSetHealth();
             playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
         }

@@ -28,6 +28,7 @@ namespace GameEvent
         }
         protected virtual void OnDisable()
         {
+            gameEventManager.gameEventUI.CloseSpecialInfo();
             gameEventManager.StopCurrentEvent();
         }
     }

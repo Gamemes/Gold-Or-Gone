@@ -156,7 +156,7 @@ namespace Manager
                 if (player != null)
                 {
                     var name = stagePlayerAttributes[player].playerName;
-                    stageInfo.ShowInfo($"Change God to {name}");
+                    stageInfo.ShowInfo($"{name} 成为新的上帝!");
                 }
             }
 
