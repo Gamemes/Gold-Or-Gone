@@ -12,6 +12,7 @@ namespace GameEvent
         public int damageTarget = 3;
         private int causedDamage = 0;
         private Player.PlayerAttribute human;
+        public string specialIInfo => $"玩家已经受到了:\n{causedDamage}/{damageTarget}";
         protected override void EnterEvent()
         {
             causedDamage = 0;
@@ -23,10 +24,12 @@ namespace GameEvent
                 return;
             }
             human.playerHealth.damageAction += this.onPlayerDamage;
+            gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
         }
         void onPlayerDamage(int val)
         {
             causedDamage += val;
+            gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
         }
         protected override void ReleaseEvent()
         {

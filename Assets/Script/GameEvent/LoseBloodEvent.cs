@@ -12,6 +12,7 @@ namespace GameEvent
         public float speedUp = 10f;
         [Header("重力旋转冷却减少")]
         public float coolDown = 0.5f;
+        public string specialIInfo => $"收到伤害:\n{damage}/{damageTarget}";
         protected override void EnterEvent()
         {
             damage = 0;
@@ -28,6 +29,7 @@ namespace GameEvent
                     stageManager.stagePlayerAttributes[item].playerController.walkSpeed += speedUp;
                 }
             }
+            gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
         }
         protected override void ReleaseEvent()
         {
@@ -72,6 +74,7 @@ namespace GameEvent
         private void onPlayerDamage(int causeDamage)
         {
             damage += causeDamage;
+            gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
         }
         private void Update()
         {

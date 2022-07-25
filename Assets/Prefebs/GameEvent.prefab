@@ -1254,7 +1254,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1392,8 +1392,8 @@ MonoBehaviour:
   gameEvents: []
   eventTimer: {fileID: 7275167040725141378}
   debug: 1
-  eventInvokeInterval: 180
-  fromLastInvoke: 160
+  eventInvokeInterval: 140
+  fromLastInvoke: 130
   activeAutoInvoke: 0
   nextEvent: {fileID: 0}
 --- !u!1001 &4131042227617060735
@@ -1458,6 +1458,10 @@ PrefabInstance:
     - target: {fileID: 6747233248155379351, guid: 6eccaff78b5863d41b6eef31bec5310b, type: 3}
       propertyPath: detailInfo
       value: "\u91CD\u529B\u4F1A\u5F00\u59CB\u968F\u673A\u7FFB\u8F6C,\u8BF7\u5408\u4F5C\u4F7FHUMAN\u572860\u79D2\u5185\u53D7\u5230\u4F24\u5BB3\u5C0F\u4E8E3\u70B9\n\u6210\u529F\u5956\u52B1:20\u70B9\u9ED8\u5951\u503C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747233248155379351, guid: 6eccaff78b5863d41b6eef31bec5310b, type: 3}
+      propertyPath: godWinInfo
+      value: "\u53CC\u65B9\u83B7\u5F9720\u70B9\u9ED8\u5951\u503C"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6eccaff78b5863d41b6eef31bec5310b, type: 3}
@@ -1569,6 +1573,14 @@ PrefabInstance:
       propertyPath: detailInfo
       value: "\u4E0A\u5E1D\u9700\u8981\u963B\u6B62HUMAN\u5728\u9EC4\u5708\u5185\u505C\u7559\u8D85\u8FC730s,\u4E8B\u4EF6\u671F\u95F4HUMAN\u4E0D\u4F1A\u53D7\u5230\u4F24\u5BB3\n\u6210\u529F\u5956\u52B1:\u5730\u56FE\u4E2D\u7684\u9677\u9631\u65B9\u5757\u4F24\u5BB3\u63D0\u9AD8\u4E00\u70B9\r\n\u5931\u8D25\u60E9\u7F5A:HUMAN\u83B7\u5F97\u8DF3\u8DC3\u9AD8\u5EA6\u53CA\u79FB\u52A8\u901F\u5EA6\u589E\u76CA"
       objectReference: {fileID: 0}
+    - target: {fileID: 2393049151429877311, guid: 74d0ff8ef73449c48bf637060bf4754f, type: 3}
+      propertyPath: godWinInfo
+      value: "\u5730\u56FE\u4E2D\u7684\u9677\u9631\u65B9\u5757\u4F24\u5BB3\u63D0\u9AD8\u4E00\u70B9"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393049151429877311, guid: 74d0ff8ef73449c48bf637060bf4754f, type: 3}
+      propertyPath: humanWinInfo
+      value: "Human\u83B7\u5F97\u8DF3\u8DC3\u9AD8\u5EA6\u53CA\u79FB\u52A8\u901F\u5EA6\u589E\u76CA"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74d0ff8ef73449c48bf637060bf4754f, type: 3}
 --- !u!4 &7275167041545549451 stripped
@@ -1590,6 +1602,14 @@ PrefabInstance:
     - target: {fileID: 4052016578838571910, guid: 2c30f0a9e59e0c24c946668e7767a705, type: 3}
       propertyPath: detailInfo
       value: "\u4E0A\u5E1D\u987B\u5E2E\u52A9\u81F3\u5C115\u4E2A\u751F\u6210\u7684\u5706\u7403\u63A5\u89E6\u5230HUMAN,\u5706\u7403\u4F1A\u81EA\u52A8\u9760\u8FD1HUMAN\u4E14\u65E0\u89C6\u78B0\u649E\u4F53\u79EF\n\u6210\u529F\u5956\u52B1:\u4E0A\u5E1D\u83B7\u5F97\u76F4\u63A5\u5C06\u91CD\u529B\u7FFB\u8F6C180\u5EA6\u7684\u80FD\u529B\n\u5931\u8D25\u60E9\u7F5A:HUMAN\u83B7\u5F97\u8E6C\u5899\u8DF3\u8DF3\u8DC3\u6B21\u6570+1\u7684\u5956\u52B1"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052016578838571910, guid: 2c30f0a9e59e0c24c946668e7767a705, type: 3}
+      propertyPath: godWinInfo
+      value: "\u4E0A\u5E1D\u83B7\u5F97\u76F4\u63A5\u5C06\u91CD\u529B\u7FFB\u8F6C180\u5EA6\u7684\u80FD\u529B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052016578838571910, guid: 2c30f0a9e59e0c24c946668e7767a705, type: 3}
+      propertyPath: humanWinInfo
+      value: "HUMAN\u83B7\u5F97\u8E6C\u5899\u8DF3\u8DF3\u8DC3\u6B21\u6570+1\u7684\u5956\u52B1"
       objectReference: {fileID: 0}
     - target: {fileID: 4052016578838571910, guid: 2c30f0a9e59e0c24c946668e7767a705, type: 3}
       propertyPath: triggerMoveSpeed
@@ -1712,6 +1732,14 @@ PrefabInstance:
     - target: {fileID: 2258615697971098436, guid: db2507ccb24aafc429a3aab3679f9481, type: 3}
       propertyPath: detailInfo
       value: "\u4E0A\u5E1D\u9700\u8981\u572860s\u5185\u4F7FHUMAN\u53D7\u52302\u70B9\u4F24\u5BB3,\u4E8B\u4EF6\u671F\u95F4HUMAN\u83B7\u5F97\u79FB\u901F\u52A0\u6210\uFF0C\u4E0A\u5E1D\u83B7\u5F97\u51B7\u5374\u7F29\u51CF\n\u6210\u529F\u5956\u52B1:\u7FFB\u8F6C\u91CD\u529B\u6280\u80FDCD\u51CF\u5C110.5\u79D2\n\u5931\u8D25\u60E9\u7F5A:HUMAN\u6700\u5927\u751F\u547D\u503C+2\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258615697971098436, guid: db2507ccb24aafc429a3aab3679f9481, type: 3}
+      propertyPath: godWinInfo
+      value: "\u7FFB\u8F6C\u91CD\u529B\u6280\u80FDCD\u51CF\u5C110.5\u79D2"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258615697971098436, guid: db2507ccb24aafc429a3aab3679f9481, type: 3}
+      propertyPath: humanWinInfo
+      value: "HUMAN\u6700\u5927\u751F\u547D\u503C+2"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db2507ccb24aafc429a3aab3679f9481, type: 3}

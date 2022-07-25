@@ -22,6 +22,10 @@ namespace GameEvent
         public string eventName = "";
         [TextArea(5, 20)]
         public string detailInfo = "";
+        [TextArea]
+        public string godWinInfo = "";
+        [TextArea]
+        public string humanWinInfo = "";
         public bool invokeOnAwake = false;
         [Header("持续时间")]
         public float duration = 90f;
@@ -70,15 +74,15 @@ namespace GameEvent
             {
                 case EventResult.human:
                     Debug.Log($"human win");
-                    stageManager.stageInfo.ShowInfo("Human胜利");
+                    stageManager.stageInfo.ShowInfo($"Human胜利\n{humanWinInfo}");
                     break;
                 case EventResult.god:
                     Debug.Log($"god win");
-                    stageManager.stageInfo.ShowInfo("上帝胜利");
+                    stageManager.stageInfo.ShowInfo($"上帝胜利\n{godWinInfo}");
                     break;
                 case EventResult.both:
                     Debug.Log("双方胜利");
-                    stageManager.stageInfo.ShowInfo("玩家胜利");
+                    stageManager.stageInfo.ShowInfo($"玩家胜利\n{humanWinInfo}\n{godWinInfo}");
                     break;
                 default:
                     Debug.Log($"玩家失败");

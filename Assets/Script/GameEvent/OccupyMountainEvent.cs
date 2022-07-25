@@ -14,6 +14,7 @@ namespace GameEvent
         public float playerStayTimeTarget = 30f;
         private bool isPlayerStay = false;
         public Vector2 uiPos;
+        public string specialIInfo => $"玩家在圈里待了:\n{(int)playerStayTime}/{playerStayTimeTarget}";
         protected override void InitEvent()
         {
             triggerList = new List<RangeTrigger>();
@@ -50,6 +51,7 @@ namespace GameEvent
             {
                 trap.activeDamage = false;
             }
+            gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
         }
         protected override void ReleaseEvent()
         {
@@ -97,11 +99,12 @@ namespace GameEvent
             }
             return EventResult.none;
         }
-        protected void Update()
+        protected virtual void Update()
         {
             if (isPlayerStay)
             {
                 playerStayTime += Time.deltaTime;
+                gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
             }
             isPlayerStay = false;
             if (playerStayTime >= playerStayTimeTarget)
