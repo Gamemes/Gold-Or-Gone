@@ -11,6 +11,10 @@ namespace Utils
             yield return new WaitForSeconds(time);
             func?.Invoke();
         }
+        public static void DelayInvoke(this MonoBehaviour obj, Action func, float time)
+        {
+            obj.StartCoroutine(DelayInvoke(func, time));
+        }
         public static int countChar(this string str, char tar)
         {
             int res = 0;

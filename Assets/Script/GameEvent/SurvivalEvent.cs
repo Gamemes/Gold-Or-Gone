@@ -11,14 +11,10 @@ namespace GameEvent
         [Header("玩家收到伤害小于这个数就胜利")]
         public int damageTarget = 3;
         private int causedDamage = 0;
-        public float duration = 90;
         private Player.PlayerAttribute human;
-        private void OnEnable()
+        public string specialIInfo => $"玩家已经受到了:\n{causedDamage}/{damageTarget}";
+        protected override void EnterEvent()
         {
-            gameEventManager.eventTimer.startTiming(duration, () =>
-            {
-                this.enabled = false;
-            });
             causedDamage = 0;
             human = stageManager.stagePlayerAttributes.Values.Single((player) => player.isHuman);
             if (human == null)
@@ -28,26 +24,28 @@ namespace GameEvent
                 return;
             }
             human.playerHealth.damageAction += this.onPlayerDamage;
-
+            gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
         }
         void onPlayerDamage(int val)
         {
             causedDamage += val;
+            gameEventManager.gameEventUI.ShowSpecialInfo(specialIInfo);
         }
-        protected override void OnDisable()
+        protected override void ReleaseEvent()
         {
-            if (!gameEventManager.hasEvent)
-                return;
-            base.OnDisable();
-            if (causedDamage < damageTarget && eventTimer.countSeconds <= 0f)
-            {
-                gameEventManager.tacitValue += 20;
-            }
             if (human)
             {
                 human.playerHealth.damageAction -= this.onPlayerDamage;
             }
-            eventTimer.stopTiming(false);
+        }
+        protected override EventResult Judge()
+        {
+            if (causedDamage < damageTarget && eventTimer.countSeconds <= 0f)
+            {
+                gameEventManager.tacitValue += 20;
+                return EventResult.both;
+            }
+            return EventResult.none;
         }
         private void Update()
         {
