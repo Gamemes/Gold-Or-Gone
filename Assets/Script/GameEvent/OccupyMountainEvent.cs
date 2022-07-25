@@ -6,7 +6,6 @@ namespace GameEvent
     using Trap;
     public class OccupyMountainEvent : GameEvent
     {
-        public float duration = 180;
         public RangeTrigger rangeTrigger;
         public int triggerNums;
         private List<RangeTrigger> triggerList;
@@ -15,9 +14,8 @@ namespace GameEvent
         public float playerStayTimeTarget = 30f;
         private bool isPlayerStay = false;
         public Vector2 uiPos;
-        protected override void Awake()
+        protected override void InitEvent()
         {
-            base.Awake();
             triggerList = new List<RangeTrigger>();
             for (var i = 0; i < triggerNums; i++)
             {
@@ -39,7 +37,7 @@ namespace GameEvent
             } while (!polygonCollider.OverlapPoint(res));
             return res;
         }
-        private void OnEnable()
+        protected override void EnterEvent()
         {
             //init
             playerStayTime = 0;
@@ -48,20 +46,13 @@ namespace GameEvent
                 trigger.transform.position = GetPos();
                 trigger.gameObject.SetActive(true);
             }
-            gameEventManager.eventTimer.startTiming(duration, this.TimeUp);
             foreach (var trap in GameObject.FindObjectsOfType<Trap.TrapThorn>())
             {
                 trap.activeDamage = false;
             }
         }
-        protected override void OnDisable()
+        protected override void ReleaseEvent()
         {
-            if (!gameEventManager.hasEvent)
-            {
-                return;
-            }
-            //收尾
-            base.OnDisable();
             foreach (var trigger in triggerList)
             {
                 trigger.gameObject.SetActive(false);
@@ -70,10 +61,12 @@ namespace GameEvent
             {
                 trap.activeDamage = true;
             }
-            //玩家获胜
+        }
+        protected override EventResult Judge()
+        {
             if (playerStayTime >= playerStayTimeTarget)
             {
-                Debug.Log($"human win");
+                //human win
                 foreach (var player in stageManager.stagePlayerAttributes.Values)
                 {
                     if (player.isHuman)
@@ -86,10 +79,11 @@ namespace GameEvent
                         }, 180);
                     }
                 }
+                return EventResult.human;
             }
             else if (gameEventManager.eventTimer.countSeconds <= 0)
             {
-                Debug.Log($"god win");
+                //god win
                 foreach (var trap in GameObject.FindObjectsOfType<Trap.TrapThorn>())
                 {
                     trap.damage += 1;
@@ -99,8 +93,9 @@ namespace GameEvent
                         trap.damage -= 1;
                     }, 180);
                 }
+                return EventResult.god;
             }
-            gameEventManager.eventTimer.stopTiming(false);
+            return EventResult.none;
         }
         protected void Update()
         {
@@ -113,10 +108,6 @@ namespace GameEvent
             {
                 this.enabled = false;
             }
-        }
-        protected void TimeUp()
-        {
-            this.enabled = false;
         }
         protected void OnGUI()
         {
