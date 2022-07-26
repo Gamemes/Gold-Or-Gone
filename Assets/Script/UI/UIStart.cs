@@ -9,12 +9,15 @@ public class UIStart : MonoBehaviour
 
     [SerializeField] public GameObject UIBase;
     [SerializeField] public GameObject UISetting;
+    [SerializeField] public GameObject UIMaker;
 
     private void Awake()
     {
         UIBase = GameObject.Find("UI/Base");
         UISetting = GameObject.Find("UI/Setting");
+        UIMaker = GameObject.Find("UI/Maker");
         UISetting.SetActive(false);
+        UIMaker.SetActive(false);
     }
     public void StartGame()                //开始游戏
     {
@@ -25,6 +28,7 @@ public class UIStart : MonoBehaviour
     {
         UIBase.SetActive(false);
         UISetting.SetActive(true);
+        UIMaker.SetActive(false);
     }
 
     public void UIButtonQuit()             //退出游戏
@@ -37,5 +41,13 @@ public class UIStart : MonoBehaviour
     {
         UIBase.SetActive(true);
         UISetting.SetActive(false);
+        UIMaker.SetActive(false);
+    }
+
+    public void UIButtonMaker()         //制作者名单
+    {
+        UIBase.SetActive(false);
+        UISetting.SetActive(false);
+        UIMaker.SetActive(true);
     }
 }
