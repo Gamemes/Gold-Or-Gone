@@ -828,51 +828,11 @@ MonoBehaviour:
     m_ActionName: God/GrivateDown[/Keyboard/enter,/Keyboard/s]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: dd927c7a-74c6-4ad1-b159-20368920e7cd
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f6790c5d-bfda-4d95-ac83-2fd75b3818c1
-    m_ActionName: UI/Submit[/Keyboard/enter]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f61df0cf-cb27-41e0-95db-057fd26ffa0a
-    m_ActionName: UI/Cancel[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6c7dc3bd-7cf4-44a0-a07b-cb710c8a1ed1
-    m_ActionName: UI/Point
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: cb3e0384-00ab-4fc0-b2d8-a340c38d0db7
-    m_ActionName: UI/Click
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 33416dbf-0c23-4973-8aff-f45380d25544
-    m_ActionName: UI/ScrollWheel
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f36b8255-d9a1-4c8b-a16b-b0a9c5382e62
-    m_ActionName: UI/MiddleClick
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 094e3038-dd92-4a20-937a-0bae9f9ebf27
-    m_ActionName: UI/RightClick
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: a5d2b04b-d60f-4c66-a5c0-46b8fd4899f4
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d56fa837-1f05-4581-b703-59c62e434c9f
-    m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f490b62a-cfe3-407d-9775-586024908f8a
-    m_ActionName: UI/ESC[/Keyboard/escape]
+    m_ActionId: 839874f3-9c67-4b56-9041-3c5f7f764690
+    m_ActionName: God/Flip[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: UI
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &2865590277701938339

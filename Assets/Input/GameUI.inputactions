@@ -11,7 +11,7 @@
                     "id": "ea802868-3ec5-4def-91de-8783b673b494",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -536,7 +536,7 @@
                     "name": "",
                     "id": "eb23a418-a52a-4817-b34f-373d3dbbb45e",
                     "path": "<Keyboard>/escape",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "OnEsc",
@@ -547,7 +547,7 @@
                     "name": "",
                     "id": "2ea9727b-5f19-4f7e-a982-101b63ae9695",
                     "path": "<Gamepad>/start",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "OnEsc",

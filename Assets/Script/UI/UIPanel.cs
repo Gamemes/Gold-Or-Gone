@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 /// <summary>
 /// UI面板脚本
@@ -22,6 +25,7 @@ public class UIPanel : MonoBehaviour
         UIChild = GameObject.Find("ESCCanvas/Panel/UI");
         UIChildBase = GameObject.Find("ESCCanvas/Panel/UI/Base");
         UIChildSetting = GameObject.Find("ESCCanvas/Panel/UI/Setting");
+        UIChild.SetActive(false);
     }
     IEnumerator ShowPanel()
     {
@@ -39,7 +43,7 @@ public class UIPanel : MonoBehaviour
         float timer = 0;                //初始化计时器
         while (panelImage.alpha > 0)
         {
-            panelImage.alpha = showCurve.Evaluate(timer);
+            panelImage.alpha = hideCurve.Evaluate(timer);
             timer += Time.deltaTime * animationSpeed;
             if (panelImage.alpha == 0)
             {
@@ -48,20 +52,34 @@ public class UIPanel : MonoBehaviour
             yield return null;
         }
     }
-    public void OnESC()
+    public void OnESC(InputAction.CallbackContext context)
     {
-        if (isShow == false)
+        switch (context.phase)
         {
-            UIChild.SetActive(true);
-            StopAllCoroutines();            //停止当前动画
-            StartCoroutine(ShowPanel());    //开始弹出动画
-            isShow = true;
-        }
-        else if (isShow == true)
-        {
-            StopAllCoroutines();            //停止当前动画
-            StartCoroutine(HidePanel());    //开始关闭动画
-            isShow = false;
+            case InputActionPhase.Performed:
+                if (context.interaction is PressInteraction)
+                {
+                    if (isShow == false)
+                    {
+                        isShow = true;
+                        UIChild.SetActive(true);
+                        StopAllCoroutines();            //停止当前动画
+                        StartCoroutine(ShowPanel());    //开始弹出动画
+                    }
+                    else if (isShow == true)
+                    {
+                        isShow = false;
+                        StopAllCoroutines();            //停止当前动画
+                        StartCoroutine(HidePanel());    //开始关闭动画
+                    }
+                    UIChildBase.SetActive(true);
+                    UIChildSetting.SetActive(false);
+                }
+                break;
+            case InputActionPhase.Started:
+                break;
+            case InputActionPhase.Canceled:
+                break;
         }
     }
 
@@ -89,7 +107,7 @@ public class UIPanel : MonoBehaviour
 
     public void MainMenu()      //退出按钮
     {
-        Application.Quit();
-        //SceneManager.LoadScene("Start")
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
+
 }
