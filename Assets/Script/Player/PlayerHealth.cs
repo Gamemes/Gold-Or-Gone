@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using Utils;
 
 namespace Player
 {
@@ -20,7 +21,23 @@ namespace Player
         /// <summary>
         /// 免伤
         /// </summary>
-        public bool injuryFree = false;
+        public bool injuryFree
+        {
+            get => _injuryFree;
+            set
+            {
+                if (value == injuryFree)
+                    return;
+                _injuryFree = value;
+                if (value)
+                    spriteRenderer.color = injuryFreeColor;
+                else
+                    spriteRenderer.color = _color;
+            }
+        }
+        private bool _injuryFree = false;
+        public float injuryFreeTime = 2f;
+        public Color injuryFreeColor = Color.green;
         private int _blood;
         /// <summary>
         /// 玩家的当前血量.
@@ -92,9 +109,6 @@ namespace Player
         }
         private int _energy = 0;
         #endregion
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
         private void Awake()
         {
             playerAttribute = GetComponent<PlayerAttribute>();
@@ -107,9 +121,7 @@ namespace Player
             this.gameObject.tag = "Player";
             spriteRenderer = GetComponent<SpriteRenderer>();
             _color = spriteRenderer.color;
-            //damageAction += CauseDamage;
-            // Manager.MyGameManager.CurrentStageManager().onGameStart += () => { onPlayerBloodChange?.Invoke(blood); };
-            // Manager.MyGameManager.CurrentStageManager().onGameStart += () => onEneryChange?.Invoke(energy);
+            damageAction += this.InjuryFreeAfterDamage;
         }
 
         public void CauseDamage(int hurtValue)
@@ -121,7 +133,8 @@ namespace Player
         {
             spriteRenderer.color = Color.red;
             yield return new WaitForSeconds(0.2f);
-            spriteRenderer.color = _color;
+            if (!injuryFree)
+                spriteRenderer.color = _color;
         }
         public void addBlood(int addValue)
         {
@@ -133,6 +146,11 @@ namespace Player
             maxBlood = 3;
             this.blood = maxBlood;
             this.energy = 0;
+        }
+        public void InjuryFreeAfterDamage(int val)
+        {
+            injuryFree = true;
+            this.DelayInvoke(() => { this.injuryFree = false; }, injuryFreeTime);
         }
         private void Update()
         {

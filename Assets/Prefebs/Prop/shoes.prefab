@@ -4939,6 +4939,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c52a09d5f95944c9cc9e56f8a726b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objPicked: {fileID: 0}
+  showInfo: "\u4E60\u5F97\u51B2\u523A"
 --- !u!210 &-7106944254142583960
 SortingGroup:
   m_ObjectHideFlags: 0

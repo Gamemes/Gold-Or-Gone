@@ -109,7 +109,8 @@ namespace GameEvent
             if (fromLastInvoke >= eventInvokeInterval - 10f)
             {
                 nextEvent = gameEvents[UnityEngine.Random.Range(0, gameEvents.Count - 1)];
-                gameEventUI.ShowDetail(nextEvent.eventName, nextEvent.detailInfo);
+                gameEventUI.ShowDetail(nextEvent.eventName, nextEvent.detailInfo, -1);
+                stageManager.stageInfo.ShowInfo($"10s后开启下一个事件\n{nextEvent.eventName}");
                 this.DelayInvoke(() =>
                 {
                     InvokeGameEvent(nextEvent);

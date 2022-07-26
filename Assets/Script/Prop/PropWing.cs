@@ -9,6 +9,7 @@ namespace Prop
     {
         public override void onPlayerEnter(PlayerAttribute playerAttribute)
         {
+            base.onPlayerEnter(playerAttribute);
             playerAttribute.playerController.activeGliding = true;
         }
     }

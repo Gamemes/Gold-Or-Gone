@@ -17,6 +17,8 @@ namespace Prop
         protected bool active = true;
         public static Action<PropBase, GameObject> onPropPicked;
         public GameObject objPicked = null;
+        [Header("拾取后提示, 默认为空")]
+        public string showInfo = "";
         public virtual void Start()
         {
             Manager.StageManager.CurrentStageManager().onReGame += () =>
@@ -31,7 +33,14 @@ namespace Prop
         /// <param name="playerAttribute">走进的玩家属性</param>
         public virtual void onPlayerEnter(Player.PlayerAttribute playerAttribute)
         {
-
+            if (touchParticle != null)
+            {
+                touchParticle.Play();
+            }
+            if (showInfo != "")
+            {
+                Manager.StageManager.currentStageManager.stageInfo.ShowInfo($"{playerAttribute.playerName}\n{showInfo}");
+            }
         }
         private void Enable()
         {
@@ -60,10 +69,6 @@ namespace Prop
                     throw err;
                 }
                 onPlayerEnter(attribute);
-                if (touchParticle != null)
-                {
-                    touchParticle.Play();
-                }
                 if (autoDelete)
                 {
                     Disable();

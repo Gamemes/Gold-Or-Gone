@@ -13,10 +13,11 @@ namespace Prop
         [SerializeField] float speedUpTime;           //加速的时间（在外边手动输入）
         public override void onPlayerEnter(Player.PlayerAttribute playerAttribute)
         {
+            base.onPlayerEnter(playerAttribute);
             Debug.Log("Player speed is up");
             Destroy(gameObject);
         }
-        
+
     }
 
 }

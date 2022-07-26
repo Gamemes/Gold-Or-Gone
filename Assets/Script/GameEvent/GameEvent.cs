@@ -68,6 +68,7 @@ namespace GameEvent
             if (!gameEventManager.hasEvent)
                 return;
             gameEventManager.gameEventUI.CloseSpecialInfo();
+            gameEventManager.gameEventUI.CloseDetail();
             gameEventManager.StopCurrentEvent();
             ReleaseEvent();
             switch (this.Judge())

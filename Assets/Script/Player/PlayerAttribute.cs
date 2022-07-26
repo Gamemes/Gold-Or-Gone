@@ -126,6 +126,7 @@ namespace Player
             ChangeToHuman();
             this.transform.position = new Vector3(0, 0, 0);
             this.playerHealth.ReSetHealth();
+            this.playerController.ReSetController();
             playerAnimation.changeState(PlayerAnimationController.PlayerState.Idle);
         }
     }

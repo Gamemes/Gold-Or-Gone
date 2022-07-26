@@ -387,6 +387,7 @@ namespace Manager
             //2s后重新游戏
             StartCoroutine(Utils.Utils.DelayInvoke(() => { ReGame(); }, 2f));
         }
+        public static StageManager currentStageManager => Manager.MyGameManager.CurrentStageManager();
         public static StageManager CurrentStageManager()
         {
             return Manager.MyGameManager.CurrentStageManager();

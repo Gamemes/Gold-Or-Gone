@@ -19,6 +19,7 @@ namespace Prop
         }
         public override void onPlayerEnter(Player.PlayerAttribute playerAttribute)
         {
+            base.onPlayerEnter(playerAttribute);
             if (playerAttribute.playerHealth.blood < playerAttribute.playerHealth.MaxBlood)
             {
                 playerAttribute.playerHealth.addBlood(addBloodVal);

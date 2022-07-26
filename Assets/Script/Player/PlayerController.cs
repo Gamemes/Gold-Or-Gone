@@ -454,6 +454,7 @@ namespace Player
         {
             activeClimb = false;
             activeSprint = false;
+            activeGliding = false;
             maxJumpTime = 1;
         }
         public void OnEnable()
