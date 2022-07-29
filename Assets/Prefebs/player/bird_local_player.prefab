@@ -14724,8 +14724,8 @@ MonoBehaviour:
   speedPreFrame: {x: 0, y: 0}
   _activate: 1
   walkSpeed: 20
-  acceleration: 90
-  deAcceleration: 100
+  acceleration: 110
+  deAcceleration: 200
   fallMultiplier: 6
   lowJumpMultiplier: 8
   jumpSpeed: 35
@@ -14733,7 +14733,7 @@ MonoBehaviour:
   glidingFallSpeed: 5
   maxJumpTime: 2
   activeGliding: 0
-  activeClimb: 1
+  activeClimb: 0
   maxClimbTime: 2
   climbMoveSpeed: 5
   climbJumpSpeed: 25
@@ -14746,7 +14746,6 @@ MonoBehaviour:
   sprintDurition: 0.1
   sprintThisFrame: 0
   sprintCoolTime: 3
-  fromLastSprintTime: 0
   activeGrivate: 1
   gravityScale: 0.5
   _freeColliderIterations: 40
@@ -14782,7 +14781,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxBlood: 3
-  injuryFree: 0
+  injuryFreeTime: 2
+  injuryFreeColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &8258579443823930181
 MonoBehaviour:
   m_ObjectHideFlags: 0

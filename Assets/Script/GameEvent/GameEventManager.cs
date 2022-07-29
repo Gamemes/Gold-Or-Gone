@@ -51,6 +51,7 @@ namespace GameEvent
         /// </summary>
         public GameEvent nextEvent = null;
         public GameUI.GameEventUI gameEventUI { get; private set; }
+        public static GameEventManager currentGameEventManager => Manager.StageManager.currentStageManager.gameEventManager;
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
@@ -60,21 +61,25 @@ namespace GameEvent
         }
         private void Start()
         {
-            gameEvents.AddRange(GameObject.FindObjectsOfType<GameEvent>());
+            gameEvents.AddRange(GetComponentsInChildren<GameEvent>());
             Prop.PropBase.onPropPicked += this.ReSetPickProp;
             stageManager.onGameStart += () => { activeAutoInvoke = true; };
+            stageManager.onGameOver += () => this.StopCurrentEvent();
             Debug.Log($"find {gameEvents.Count} events");
         }
-        public void InvokeGameEvent(GameEvent gameEvent)
+        public void InvokeGameEvent(GameEvent gameEvent, bool force = false)
         {
             if (hasEvent)
-                return;
+            {
+                if (!force)
+                    return;
+                StopCurrentEvent();
+            }
             gameEvent.enabled = true;
             this.currentGameEvent = gameEvent;
             onGameEventInvoke?.Invoke(gameEvent);
             Debug.Log($"{gameEvent.eventName} start");
             stageManager.stageInfo.ShowInfo($"{gameEvent.eventName} 事件开始!", Color.red, Color.black);
-            stageManager.onGameOver += () => this.StopCurrentEvent();
         }
         public void InvokeGameEvent(int eventIdx)
         {

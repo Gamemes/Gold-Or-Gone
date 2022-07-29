@@ -26,11 +26,15 @@ namespace Trap
 
         }
 
+        public virtual void onPlayerExit(Player.PlayerAttribute playerAttribute)
+        {
+
+        }
         protected virtual void OnTriggerEnter2D(Collider2D other)
         {
             if (other.tag.CompareTo("Player") == 0)
             {
-                var attribute = other.GetComponent<Player.PlayerAttribute>();
+                var attribute = Manager.StageManager.CurrentStageManager().stagePlayerAttributes[other.gameObject];
                 if (attribute == null)
                 {
                     var err = new UnityException($"{other.gameObject} has no PlayerAttribute");
@@ -50,6 +54,19 @@ namespace Trap
                     throw err;
                 }
                 onPlayerStay(attribute);
+            }
+        }
+        protected virtual void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.tag.CompareTo("Player") == 0)
+            {
+                var attribute = Manager.StageManager.CurrentStageManager().stagePlayerAttributes[other.gameObject];
+                if (attribute == null)
+                {
+                    var err = new UnityException($"{other.gameObject} has no PlayerAttribute");
+                    throw err;
+                }
+                onPlayerExit(attribute);
             }
         }
     }

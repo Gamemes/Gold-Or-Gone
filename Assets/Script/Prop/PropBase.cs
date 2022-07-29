@@ -19,6 +19,7 @@ namespace Prop
         public GameObject objPicked = null;
         [Header("拾取后提示, 默认为空")]
         public string showInfo = "";
+        public Action<Player.PlayerAttribute> playerEnterAction = null;
         public virtual void Start()
         {
             Manager.StageManager.CurrentStageManager().onReGame += () =>
@@ -41,14 +42,15 @@ namespace Prop
             {
                 Manager.StageManager.currentStageManager.stageInfo.ShowInfo($"{playerAttribute.playerName}\n{showInfo}");
             }
+            playerEnterAction?.Invoke(playerAttribute);
         }
-        private void Enable()
+        public void Enable()
         {
             active = true;
             objPicked = null;
             this.gameObject.SetActive(true);
         }
-        private void Disable()
+        public void Disable()
         {
             active = false;
             onPropPicked?.Invoke(this, objPicked);

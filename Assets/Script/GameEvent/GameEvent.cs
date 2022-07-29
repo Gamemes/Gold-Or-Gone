@@ -26,6 +26,8 @@ namespace GameEvent
         public string godWinInfo = "";
         [TextArea]
         public string humanWinInfo = "";
+        [TextArea]
+        public string bothWinInfo = "";
         public bool invokeOnAwake = false;
         [Header("持续时间")]
         public float duration = 90f;
@@ -40,8 +42,10 @@ namespace GameEvent
         }
         protected virtual void OnEnable()
         {
+            gameEventManager.gameEventUI.ShowDetail(eventName, detailInfo, -1);
             EnterEvent();
-            gameEventManager.eventTimer.startTiming(duration, this.TimeUp);
+            if (duration > 0f)
+                gameEventManager.eventTimer.startTiming(duration, this.TimeUp);
         }
         protected virtual void InitEvent()
         {
@@ -83,7 +87,7 @@ namespace GameEvent
                     break;
                 case EventResult.both:
                     Debug.Log("双方胜利");
-                    stageManager.stageInfo.ShowInfo($"玩家胜利\n{humanWinInfo}\n{godWinInfo}");
+                    stageManager.stageInfo.ShowInfo($"玩家胜利\n{bothWinInfo}");
                     break;
                 default:
                     Debug.Log($"玩家失败");

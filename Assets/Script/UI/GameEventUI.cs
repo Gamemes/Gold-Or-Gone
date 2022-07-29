@@ -25,10 +25,11 @@ namespace GameUI
         IEnumerator _EnterAnim(bool reverse = false)
         {
             float time = 0;
+            float _y = infoObj.transform.localPosition.y;
             while (time < enterDuration)
             {
                 float k = reverse ? enterAnimation.Evaluate(time / enterDuration) : enterAnimation.Evaluate(1f - time / enterDuration);
-                this.infoObj.transform.localPosition = new Vector2(0, 144 * k);
+                this.infoObj.transform.localPosition = new Vector2(0, _y + 120 * k);
                 time += Time.deltaTime;
                 yield return null;
             }
@@ -38,10 +39,13 @@ namespace GameUI
         }
         public void ShowDetail(string name, string info, float duration = 10f)
         {
-            infoObj.SetActive(true);
+            if (!infoObj.activeInHierarchy)
+            {
+                infoObj.SetActive(true);
+                StartCoroutine(_EnterAnim());
+            }
             nameInfo.text = name;
             detailInfo.text = info;
-            StartCoroutine(_EnterAnim());
             if (duration > 0f)
                 this.DelayInvoke(() => { infoObj.SetActive(false); }, duration);
         }
