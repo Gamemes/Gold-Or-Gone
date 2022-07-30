@@ -182,7 +182,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 4d58818bacd0ff749bb76af72bcdacb9, type: 3}
+    m_Font: {fileID: 12800000, guid: c7d5706426d8d2045ae24a2a9220a9df, type: 3}
     m_FontSize: 31
     m_FontStyle: 0
     m_BestFit: 0
@@ -194,16 +194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'XXX
-
-
-    XXX
-
-
-    XXX
-
-
-    XXX'
+  m_Text: "wsxar\n\nN0I0C0K     LZ_mc\n\n71     \u6696     \u767D\u591C\n\n\u5C0F\u6797"
 --- !u!222 &22553209
 CanvasRenderer:
   m_ObjectHideFlags: 0
