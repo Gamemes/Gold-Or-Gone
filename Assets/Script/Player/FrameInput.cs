@@ -20,6 +20,7 @@ namespace Player
         public bool Climb;
         public bool Sprint;
         public PlayerInput _input;
+        public InputDevice device;
         private void Awake()
         {
             _input = new PlayerInput();
@@ -38,7 +39,7 @@ namespace Player
         public void setDevice(InputDevice inputDevice)
         {
             _input.devices = new InputDevice[] { inputDevice };
-
+            device = inputDevice;
         }
         public void Update()
         {

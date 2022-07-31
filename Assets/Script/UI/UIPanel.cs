@@ -54,6 +54,7 @@ public class UIPanel : MonoBehaviour
     }
     public void OnESC(InputAction.CallbackContext context)
     {
+        Debug.Log($"test");
         switch (context.phase)
         {
             case InputActionPhase.Performed:

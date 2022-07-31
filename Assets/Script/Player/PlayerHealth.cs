@@ -63,7 +63,6 @@ namespace Player
                 }
                 if (value == 0)
                 {
-                    Manager.MyGameManager.ShowInfoInCurrentStage($"{playerAttribute.playerName} 死亡! \n 游戏重置!");
                     onPlayerDead?.Invoke();
                 }
                 _blood = value;

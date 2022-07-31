@@ -38,6 +38,11 @@ namespace GameEvent
                     onTacitValueChange?.Invoke(value);
                     _tacitValue = value;
                 }
+                if (value == 100)
+                {
+                    stageManager.stageInfo.ShowInfo("恭喜达成合作通关成就!\n (虽然也没什么奖励..");
+                    stageManager.GameOver();
+                }
             }
         }
         private int _tacitValue = 0;
@@ -65,6 +70,7 @@ namespace GameEvent
             Prop.PropBase.onPropPicked += this.ReSetPickProp;
             stageManager.onGameStart += () => { activeAutoInvoke = true; };
             stageManager.onGameOver += () => this.StopCurrentEvent();
+            stageManager.onReGame += () => { this.fromLastInvoke = this.eventInvokeInterval - 40f; };
             Debug.Log($"find {gameEvents.Count} events");
         }
         public void InvokeGameEvent(GameEvent gameEvent, bool force = false)

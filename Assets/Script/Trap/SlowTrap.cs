@@ -19,7 +19,7 @@ namespace Trap
         private void Awake()                    //初始化，随便给个值
         {
             isSpeedDown = false;
-            if(speedDownVal == 0f)
+            if (speedDownVal == 0f)
                 speedDownVal = 0.5f;
             if (jumpDownaVal == 0f)
                 jumpDownaVal = 0.5f;
@@ -39,10 +39,9 @@ namespace Trap
                 playerAttribute.playerController.jumpSpeed = playerAttribute.playerController.jumpSpeed * jumpDownaVal;             //跳跃减速
             }
         }
-        private void OnTriggerExit2D(Collider2D other)              //离开减速方块时
+        protected override void OnTriggerExit2D(Collider2D other)              //离开减速方块时
         {
-
-            if(other.tag == "Player")
+            if (other.tag == "Player")
             {
                 var attribute = other.GetComponent<Player.PlayerAttribute>();
                 if (attribute == null)

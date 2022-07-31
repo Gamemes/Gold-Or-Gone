@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Linq;
+using Utils;
+using TMPro;
+
 namespace GameUI
 {
     public class UIPrepare : MonoBehaviour
     {
         // Start is called before the first frame update
+        public TextMeshProUGUI specialText;
         public GameObject playerPrepareUI;
         public List<UIPlayerPrepare> playerPrepares;
+        public GameObject story;
         private bool isStart = false;
         void Awake()
         {
@@ -31,7 +36,8 @@ namespace GameUI
         void OnAddPlayer(GameObject player)
         {
             GameObject playerui = Instantiate(playerPrepareUI, this.transform);
-            playerui.transform.localPosition = new Vector3(-300 + 200 * this.playerPrepares.Count, 0, 0);
+            int _l = this.playerPrepares.Count == 0 ? -1 : 1;
+            playerui.transform.localPosition = new Vector3(_l * 50, 0, 0);
             var tplayer = playerui.GetComponent<UIPlayerPrepare>();
             tplayer.setPlayer(player.GetComponent<Player.PlayerAttribute>());
             playerPrepares.Add(tplayer);
@@ -50,8 +56,25 @@ namespace GameUI
                 {
                     //所有人都准备完毕.
                     Debug.Log($"game start");
-                    Manager.MyGameManager.CurrentStageManager().StartGame();
-                    Destroy(this.gameObject);
+                    playerPrepares.ForEach((ui) => ui.activeBar = true);
+                    specialText.text = "快速点击按键争夺God:";
+                    this.DelayInvoke(() =>
+                    {
+                        playerPrepares.ForEach((ui) => ui.activeBar = false);
+                        playerPrepares.Sort((a, b) => { return b.barImage.rectTransform.rect.width.CompareTo(a.barImage.rectTransform.rect.width); });
+                        var god = playerPrepares[0];
+                        var human = playerPrepares[1];
+                        Debug.Log(god.target.playerName);
+                        god.transform.localPosition = new Vector3(260, 0, 0);
+                        human.transform.localPosition = new Vector3(-260, 0, 0);
+                        story.SetActive(true);
+                        this.DelayInvoke(() =>
+                        {
+                            Manager.MyGameManager.CurrentStageManager().StartGame(god.target.gameObject);
+                            Destroy(this.gameObject);
+                        }, 3);
+                    }, 3);
+
                     isStart = true;
                 }
             }

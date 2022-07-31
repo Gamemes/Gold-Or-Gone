@@ -362,6 +362,11 @@ namespace Manager
             ChangeGloadPlayer(stagePlayers[UnityEngine.Random.Range(0, stagePlayers.Count)]);
             onGameStart?.Invoke();
         }
+        public void StartGame(GameObject godPlayer)
+        {
+            ChangeGloadPlayer(godPlayer);
+            onGameStart?.Invoke();
+        }
         /// <summary>
         /// 重新游戏
         /// </summary>
@@ -375,6 +380,7 @@ namespace Manager
             else
             {
                 onReGame?.Invoke();
+                stageInfo.ShowInfo("游戏重置!");
             }
             StartCoroutine(Utils.Utils.DelayInvoke(() =>
             {

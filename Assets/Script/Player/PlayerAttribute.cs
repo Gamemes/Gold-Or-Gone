@@ -114,6 +114,7 @@ namespace Player
             this.playerController.enabled = false;
             this.godController.enabled = false;
             playerAnimation.changeState(PlayerAnimationController.PlayerState.Death);
+            stageManager.stageInfo.ShowInfo("上帝玩家胜利!");
             stageManager.GameOver();
         }
         // Update is called once per frame
